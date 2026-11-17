@@ -15,10 +15,10 @@ window.SITE = {
   footerNote: "Based in Bologna, available in Europe",
 
   // Homepage text (bottom of the first page)
-  tagline: "Photographer and videomaker based in Bologna. Specialized in couples, elopements, editorial and music videos.\nFilm and digital.",
+  tagline: "I'm Deniz! Photographer and videomaker based in Bologna. I specialized in couples, elopements, editorial and music videos.\nFilm and digital.",
 
   // About page
-  about: "DenizKreative is a photographer and videomaker based in Bologna, Italy. Working across couples, elopements, editorial and music videos, with a love for honest moments, natural light and movement. Available across Italy and abroad.",
+  about: "Hello! I’m Deniz, a photographer and videomaker based in Bologna. I work with couples, brands and artists, chasing honest moments, natural light and a little bit of movement. Film and digital. Bologna, Italy and beyond.",
 
   // Text shown on each portfolio page
   categories: {
