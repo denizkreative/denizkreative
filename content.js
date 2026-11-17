@@ -11,7 +11,7 @@ window.SITE = {
   email: "denizkreative@gmail.com",                          // e.g. "hello@denizkreative.com" — leave "" to show Instagram instead
   instagram: "denizkreative",         // your Instagram username, without @
   basedIn: "Based in Bologna",
-hero: "couples/06.jpg",
+  hero: "editorial/05.jpg",
   footerNote: "Based in Bologna, available in Europe",
 
   // Homepage text (bottom of the first page)
