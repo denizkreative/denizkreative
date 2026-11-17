@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DenizKreative - Photographer and Videomaker</title>
+<meta name="description" content="DenizKreative is a photographer and videomaker based in Bologna. Couples, elopements, editorial and music videos.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0a0a0a; --white:#fafafa; --white-50:#ffffff80; --pink:#e98aa6;
+  --font:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --m:20px; --g:20px; --cols:10;
+  --col:calc((100vw - 2*var(--m) - (var(--cols) - 1)*var(--g)) / var(--cols));
+  --gap-xs:5px; --gap-s:10px;
+  --big:clamp(30px,3vw,40px);
+  --small:13px;
+  --ease:cubic-bezier(.19,1,.22,1);
+}
+@media (max-width:900px){ :root{ --cols:4; --big:28px; --small:15px; } }
+@media (max-width:420px){ :root{ --m:10px; --g:10px; } }
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+html,body{font-family:var(--font);font-weight:500;text-transform:uppercase;font-size:16px;line-height:1;
+  background:var(--white);color:var(--black);overflow-x:clip;scrollbar-width:none}
+h1,h2{font:inherit}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
+html.lock,html.lock body{height:100%;overflow:hidden}
+a,button{color:inherit;text-decoration:none;cursor:pointer;font:inherit;letter-spacing:inherit;text-transform:inherit;background:none;border:0}
+img,video{display:block}
+ul{list-style:none}
+::selection{background:var(--pink);color:var(--black)}
+
+/* link roll */
+.link{position:relative;display:inline-block;overflow:hidden;pointer-events:auto;vertical-align:top}
+.link span{display:inline-block;transition:transform .5s var(--ease)}
+.link span::after{content:attr(data-t);position:absolute;left:0;top:100%}
+@media (hover:hover){ .link:hover span{transform:translateY(-100%)} }
+
+/* logo */
+.logo{position:fixed;top:10px;left:calc(var(--m) - 4px);z-index:41;height:46px;pointer-events:auto}
+.logo img{height:100%;width:auto;filter:drop-shadow(0 1px 6px rgba(0,0,0,.12))}
+
+/* header */
+.header{position:fixed;top:0;left:0;z-index:40;width:100%;padding:var(--m);display:flex;gap:var(--g);
+  mix-blend-mode:difference;color:var(--white);pointer-events:none;user-select:none;font-size:var(--small)}
+.home-link{width:calc(var(--col)*2 + var(--g));padding-left:34px}
+.works{width:calc(var(--col)*3 + var(--g)*2);font-size:var(--big);line-height:.9;display:flex;flex-direction:column;gap:var(--gap-xs)}
+.works button{pointer-events:auto;width:fit-content;text-align:left;line-height:.9}
+.menu-text{overflow:hidden}
+.menu-text span{display:block;transform:translateY(105%);transition:transform .8s var(--ease)}
+.menu-text.show span{transform:none}
+.infos{width:calc(var(--col)*5 + var(--g)*4);display:flex;justify-content:space-between;height:fit-content}
+@media (max-width:900px){
+  .home-link,.infos,.menu-text{display:none}
+  .header{justify-content:flex-end}
+  .works{width:fit-content}
+  .logo{height:40px}
+}
+
+/* works menu */
+.menu{position:fixed;inset:0;z-index:50;padding:var(--m);display:flex;flex-direction:column;gap:var(--gap-xs);
+  visibility:hidden;pointer-events:none;overflow:auto}
+.menu.open{visibility:visible;pointer-events:auto}
+.menu-image{position:fixed;inset:0;background:var(--white);opacity:0;transition:opacity .6s var(--ease)}
+.menu.open .menu-image{opacity:1}
+.menu-image img,.menu-image video{width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.menu-image::after{content:"";position:absolute;inset:0;background:var(--white-50);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.menu .close{position:relative;z-index:2;font-size:var(--big);line-height:.9;width:fit-content;
+  margin-left:calc(var(--col)*2 + var(--g)*2);mix-blend-mode:difference;color:var(--white)}
+.menu-group{position:relative;z-index:2;display:flex;flex-direction:column;gap:var(--gap-xs);font-size:var(--big);line-height:.9;
+  mix-blend-mode:difference;color:var(--white)}
+.menu-group + .menu-group{margin-top:calc(var(--big)*1.2)}
+.menu-group .label{position:absolute;left:0;top:0;font-size:var(--small)}
+.menu-group a{padding-left:calc(var(--col)*2 + var(--g)*2);width:fit-content;transform:translateY(120%);opacity:0;
+  transition:transform .9s var(--ease),opacity .5s}
+.menu.open .menu-group a{transform:none;opacity:1}
+@media (hover:hover){ .menu-group a:hover{opacity:.5!important} }
+@media (max-width:900px){
+  .menu{align-items:flex-end}
+  .menu .close{margin-left:0}
+  .menu-group{align-items:flex-end;text-align:right}
+  .menu-group .label{display:none}
+  .menu-group a{padding-left:0}
+}
+
+/* cursor label */
+.cursor{position:fixed;top:0;left:0;z-index:95;pointer-events:none;background:var(--black);color:var(--white);
+  padding:5px 10px;font-size:var(--small);white-space:nowrap;clip-path:inset(0 100% 0 0);transition:clip-path .45s var(--ease)}
+.cursor.show{clip-path:inset(0 0 0 0)}
+@media (hover:none){ .cursor{display:none} }
+
+/* page transition */
+.overlay{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;pointer-events:none}
+.overlay i{flex:1;background:var(--black);outline:1px solid var(--black);transform:scaleY(1);transform-origin:50% 100%}
+.overlay .intro-logo{position:fixed;top:50%;left:50%;height:150px;transform:translate(-50%,-50%);opacity:0;transition:opacity .5s}
+.overlay .intro-logo.show{opacity:1}
+
+/* home */
+.home{width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.top{position:relative;flex:1 1 auto;min-height:0;background:var(--black)}
+.hero-media{width:calc(var(--col)*6 + var(--g)*5.5 + var(--m));height:100%;object-fit:cover;cursor:pointer}
+.carousel{position:absolute;top:0;right:0;height:100%;width:calc(var(--col)*4 + var(--g)*3.5 + var(--m))}
+.description{flex-shrink:0;padding:var(--m);color:var(--white);mix-blend-mode:difference;pointer-events:none;position:relative;z-index:3}
+.description .text{width:calc(var(--col)*8 + var(--g)*7);font-size:var(--big)}
+.mobile-title{display:none;position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-size:var(--big)!important;
+  color:var(--white);mix-blend-mode:difference;pointer-events:none;white-space:nowrap;z-index:3}
+@media (max-width:900px){
+  .home{height:auto;overflow:visible}
+  .top{height:auto}
+  .hero-media{width:100%;height:100vh;height:100svh}
+  .carousel{display:none}
+  .description{position:fixed;bottom:0;width:100%}
+  .description .text{width:100%}
+  .mobile-title{display:block}
+}
+
+/* project card */
+.project-card{position:relative;display:flex;align-items:flex-end;overflow:hidden;cursor:pointer;background:var(--black)}
+.project-card .image,.project-card .hover-images{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.project-card .image{object-fit:cover;transform-origin:50% 50%;will-change:transform}
+.project-card .hover-images{display:flex}
+.hover-images div{flex:1;overflow:hidden;background:var(--black);transform:scaleX(0);transform-origin:100% 50%;transition:transform .2s ease-out}
+.hover-images img{width:200%;height:100%;object-fit:cover}
+.project-card .title{position:relative;z-index:1;width:100%;padding:calc(var(--g)*.5);color:#fff;mix-blend-mode:difference;
+  opacity:0;transition:opacity .2s;user-select:none}
+.project-card.big-title{justify-content:center;align-items:center}
+.project-card.big-title .title{opacity:1;text-align:center;font-size:var(--big)}
+.project-card .count{position:absolute;left:calc(var(--g)*.5);bottom:calc(var(--g)*.5);z-index:1;font-size:var(--small);color:#fff;mix-blend-mode:difference}
+@media (hover:hover) and (pointer:fine){
+  .project-card:hover .title{opacity:1}
+  .project-card:hover .hover-images div{transform:scaleX(1);transform-origin:0 50%}
+}
+.project-card.card{position:absolute;top:0;left:0;width:100%;will-change:transform}
+
+/* works index */
+.works-index{padding:calc(var(--m)*2 + var(--big) + 40px) var(--m) var(--m);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--g);min-height:100vh}
+.works-index .project-card{height:calc(100vh - var(--m)*3 - var(--big) - 40px);min-height:360px}
+@media (max-width:900px){ .works-index{grid-template-columns:1fr} .works-index .project-card{height:70vh} }
+
+/* category page */
+.wrapper{position:relative;z-index:10;background:var(--white);display:flex;flex-direction:column;width:100%}
+.cover-wrap{position:relative}
+.thumbnail{width:100%;height:100vh;height:100dvh;object-fit:cover}
+.gallery{width:calc(var(--col)*5 + var(--g)*4.5 + var(--m));margin-left:auto;columns:2;column-gap:var(--gap-s);padding-top:var(--gap-s);min-height:50vh}
+.tile{position:relative;break-inside:avoid;margin-bottom:var(--gap-s);cursor:zoom-in;background:#eee}
+.tile img,.tile video{width:100%;height:auto}
+.tile .cap{position:absolute;left:8px;bottom:8px;right:8px;font-size:var(--small);color:#fff;mix-blend-mode:difference;pointer-events:none}
+.p-desc{position:sticky;bottom:0;margin-left:calc(var(--col)*2 + var(--g)*2 + var(--m));
+  width:calc(var(--col)*3 + var(--g)*2);padding-bottom:var(--m);margin-top:calc(var(--dh,200px)*-1 - var(--m));
+  color:var(--white);mix-blend-mode:difference;font-size:var(--small);z-index:2;display:flex;flex-direction:column;gap:var(--gap-s)}
+.p-desc .title{display:none;font-size:var(--big)}
+@media (max-width:900px){
+  .gallery{width:100%;padding:var(--gap-s) var(--m) 0;columns:2}
+  .cover-wrap{order:0} .gallery{order:2}
+  .p-desc{position:relative;margin:var(--m);width:auto;order:1;color:var(--black);mix-blend-mode:normal}
+  .p-desc .title{display:block}
+}
+.next-project{position:relative;z-index:10;display:block;width:100%;height:100vh;height:100dvh;background:var(--black);cursor:pointer;isolation:isolate;overflow:hidden}
+.next-project .bg{position:absolute;inset:0}
+.next-project .bg img,.next-project .bg video{width:100%;height:100%;object-fit:cover;object-position:25% center}
+.next-project .bg::after{content:"";position:absolute;inset:0;background:var(--white-50);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.next-project .text{position:absolute;inset:0;padding:var(--m);display:flex;justify-content:space-between;align-items:center;
+  font-size:var(--big);color:var(--white);mix-blend-mode:difference;pointer-events:none}
+@media (max-width:900px){ .next-project .text{flex-direction:column;justify-content:center;text-align:center} }
+
+/* footer */
+.footer{position:sticky;bottom:0;z-index:0;width:100%;height:100vh;height:100dvh;padding:var(--m);display:flex;
+  justify-content:space-between;align-items:flex-end;gap:var(--g);overflow:hidden}
+.footer .mail{font-size:clamp(60px,6vw,85px);line-height:.7;pointer-events:auto;white-space:nowrap}
+.footer .note{font-size:var(--small);text-align:right;flex-shrink:1}
+.bounce{position:absolute;top:0;left:0;z-index:-1;width:128px;height:128px;overflow:hidden;pointer-events:none;will-change:transform}
+.bounce img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){
+  .footer{flex-direction:column-reverse;justify-content:flex-start;align-items:flex-start;gap:var(--gap-xs)}
+  .footer .mail{font-size:32px;line-height:.9;white-space:normal;overflow-wrap:anywhere}
+  .footer .note{text-align:left}
+  .bounce{width:90px;height:90px}
+}
+
+/* about + services shared */
+.about{position:relative;z-index:10;background:var(--white);display:flex;flex-direction:column;gap:90px;width:100%}
+.about-first{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:var(--m)}
+.paragraphs{position:absolute;top:48px;margin:0 var(--m);padding-left:calc(var(--col)*5 + var(--g)*5);
+  color:var(--white);mix-blend-mode:difference;z-index:20}
+.paragraphs p{width:calc(var(--col)*3 + var(--g)*2);font-size:var(--small)}
+.about-image{position:fixed;top:50%;left:50%;width:145px;height:145px;transform:translate(-50%,-50%);z-index:10;pointer-events:none;overflow:hidden}
+.about-image img{width:100%;height:100%;object-fit:cover}
+.info-row{position:relative;z-index:20;display:flex;gap:var(--g);margin-inline:var(--m);
+  padding-left:calc(var(--col)*2 + var(--g)*2);color:var(--white);mix-blend-mode:difference}
+.info-row .sub-title{width:calc(var(--col)*3 + var(--g)*2);font-size:var(--small);flex-shrink:0}
+.info-row ul{font-size:var(--big);display:flex;flex-direction:column;width:calc(var(--col)*5 + var(--g)*4);text-wrap:balance}
+.info-row.contacts ul{gap:var(--gap-s);line-height:.8}
+.about-discover{position:relative;display:block;width:100%;height:100vh;height:100dvh;background:var(--black);cursor:pointer}
+.about-discover img,.about-discover video{width:100%;height:100%;object-fit:cover;object-position:25% center}
+.about-discover::after{content:"";position:absolute;inset:0;background:var(--white-50);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);pointer-events:none}
+.about-discover .label{display:none;position:absolute;left:var(--m);bottom:var(--m);z-index:5;font-size:var(--big);color:var(--white);mix-blend-mode:difference}
+@media (max-width:900px){
+  .paragraphs{position:relative;top:0;margin-top:calc(var(--m)*2 + 40px);padding:0;width:calc(var(--col)*4 + var(--g)*3)}
+  .paragraphs p{width:100%}
+  .about-first{justify-content:space-between}
+  .info-row{flex-direction:column;padding:0}
+  .info-row ul{width:100%}
+  .about-discover .label{display:block}
+}
+
+/* services */
+.services{padding-top:42vh}
+.svc-list{display:flex;flex-direction:column}
+.svc{position:relative;z-index:20;display:flex;gap:var(--g);padding:var(--m);padding-left:calc(var(--col)*2 + var(--g)*2 + var(--m));
+  border-top:1px solid currentColor;color:var(--white);mix-blend-mode:difference;cursor:pointer}
+.svc:last-child{border-bottom:1px solid currentColor}
+.svc .num{width:calc(var(--col)*3 + var(--g)*2);flex-shrink:0;font-size:var(--small);display:flex;flex-direction:column;gap:var(--gap-xs)}
+.svc .body{display:flex;flex-direction:column;gap:var(--gap-s);width:calc(var(--col)*5 + var(--g)*4)}
+.svc h2{font-size:var(--big)}
+.svc .text{font-size:var(--small);max-width:calc(var(--col)*3 + var(--g)*2)}
+.svc .details{font-size:var(--small);opacity:.6}
+@media (hover:hover){ .svc:hover h2{transform:translateX(12px)} .svc h2{transition:transform .6s var(--ease)} }
+.svc-preview{position:fixed;top:0;left:0;z-index:15;width:200px;height:250px;overflow:hidden;pointer-events:none;
+  clip-path:inset(100% 0 0 0);transition:clip-path .5s var(--ease)}
+.svc-preview.show{clip-path:inset(0)}
+.svc-preview img,.svc-preview video{width:100%;height:100%;object-fit:cover}
+.svc-cta{position:relative;z-index:20;margin:0 var(--m);padding-left:calc(var(--col)*5 + var(--g)*5);color:var(--white);mix-blend-mode:difference}
+.svc-cta p{font-size:var(--small);width:calc(var(--col)*3 + var(--g)*2);margin-bottom:var(--gap-s)}
+@media (max-width:900px){
+  .services{padding-top:0}
+  .svc{flex-direction:column;padding-left:var(--m)}
+  .svc .num{flex-direction:row;gap:var(--g)}
+  .svc .body,.svc .text{width:100%;max-width:none}
+  .svc-preview{display:none}
+  .svc-cta{padding-left:0}
+  .svc-cta p{width:100%}
+}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:70;background:var(--black);color:var(--white);display:none}
+.lightbox.open{display:block}
+.lb-stage{position:absolute;inset:calc(var(--m)*2 + var(--big)) var(--m) calc(var(--m)*2 + 20px)}
+.lb-stage img,.lb-stage video{width:100%;height:100%;object-fit:contain}
+.lb-close{position:absolute;top:var(--m);left:calc(var(--m) + var(--col)*2 + var(--g)*2);font-size:var(--big);line-height:.9;color:var(--white);z-index:3}
+.lb-prev,.lb-next{position:absolute;top:0;bottom:0;width:50%;z-index:2}
+.lb-prev{left:0;cursor:w-resize}.lb-next{right:0;cursor:e-resize}
+.lb-count{position:absolute;left:var(--m);bottom:var(--m);font-size:var(--small);z-index:3}
+.lb-cap{position:absolute;right:var(--m);bottom:var(--m);font-size:var(--small);z-index:3;text-align:right}
+.lb-cap a{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:900px){ .lb-close{left:auto;right:var(--m)} }
+
+/* ---------- edit mode ---------- */
+.editbar{position:fixed;right:var(--m);bottom:var(--m);z-index:96;display:none;align-items:center;gap:8px;font-size:12px;text-transform:none}
+.editbar.on{display:flex}
+.editbar button,.ed-btn{background:var(--black);color:var(--white);padding:9px 14px;border-radius:999px;font-size:12px;text-transform:none;letter-spacing:.02em}
+.editbar .toast{background:var(--white);color:var(--black);padding:9px 14px;border-radius:999px;box-shadow:0 2px 14px rgba(0,0,0,.15);display:none;max-width:60vw}
+.editbar .toast.show{display:block}
+.edit-only{display:none!important}
+html.editing .edit-only{display:revert!important}
+html.editing [data-edit]{white-space:pre-wrap;pointer-events:auto;outline:1px dashed currentColor;outline-offset:4px;cursor:text;min-width:40px}
+html.editing [data-edit]:focus{outline-style:solid}
+.hero-change{position:absolute;left:var(--m);bottom:var(--m);z-index:5}
+.cover-note{position:absolute;right:var(--m);bottom:var(--m);z-index:5;font-size:12px;text-transform:none;background:var(--white);color:var(--black);padding:8px 12px;border-radius:999px}
+.dropzone{break-inside:avoid;margin-bottom:var(--gap-s);border:1px dashed var(--black);height:220px;display:flex!important;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;cursor:pointer;font-size:var(--small);text-align:center;padding:10px;background:var(--white)}
+html:not(.editing) .dropzone{display:none!important}
+.dropzone.drag{background:#f3dbe2}
+.dropzone small{font-size:11px;text-transform:none;opacity:.6}
+.tools{position:absolute;top:6px;left:6px;right:6px;display:none;gap:4px;flex-wrap:wrap;z-index:3}
+html.editing .tools{display:flex}
+html.editing .tile{cursor:default}
+.tools button{background:var(--white);color:var(--black);font-size:11px;padding:5px 8px;border-radius:999px;text-transform:none;box-shadow:0 1px 6px rgba(0,0,0,.2)}
+.tools button.on{background:var(--black);color:var(--white)}
+.tools button.danger.armed{background:#c53030;color:#fff}
+.mv-fields{display:none;flex-direction:column;gap:4px;padding:6px;background:var(--white)}
+html.editing .mv-fields{display:flex}
+.mv-fields input{font:inherit;font-size:12px;text-transform:none;padding:6px;border:1px solid #ccc;width:100%}
+</style>
+</head>
+<body>
+
+<a href="#" class="logo" aria-label="DenizKreative home"><img src="logo.png" alt="DenizKreative"></a>
+
+<header class="header">
+  <div class="home-link"><a href="#" class="link"><span data-t="DenizKreative">DenizKreative</span></a></div>
+  <div class="works">
+    <button id="worksBtn">Works,</button>
+    <p class="menu-text" id="menuText"><span></span></p>
+  </div>
+  <div class="infos">
+    <a href="#services" class="link"><span data-t="Services">Services</span></a>
+    <a href="#about" class="link"><span data-t="About">About</span></a>
+    <a href="#" class="link" id="hIg" target="_blank" rel="noopener noreferrer"><span data-t="IG">IG</span></a>
+  </div>
+</header>
+
+<div class="menu" id="menu">
+  <div class="menu-image" id="menuImage"></div>
+  <button class="close" id="closeBtn">Close,</button>
+  <div class="menu-group" id="menuWorks"></div>
+  <div class="menu-group" id="menuInfo"></div>
+</div>
+
+<div class="lightbox" id="lb">
+  <button class="lb-close" id="lbClose">Close,</button>
+  <div class="lb-stage" id="lbStage"></div>
+  <div class="lb-prev" id="lbPrev" data-cursor="Prev"></div>
+  <div class="lb-next" id="lbNext" data-cursor="Next"></div>
+  <p class="lb-count" id="lbCount"></p>
+  <p class="lb-cap" id="lbCap"></p>
+</div>
+
+<div class="svc-preview" id="svcPreview"></div>
+<div class="cursor" id="cursor"></div>
+<div class="overlay" id="overlay"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><img class="intro-logo show" id="introLogo" src="logo.png" alt=""></div>
+
+
+<div id="app"></div>
+
+<script src="content.js"></script>
+<script src="photos.js"></script>
+<script>
+/* =================================================================
+   DEFAULT CONTENT
+   Every text below can also be changed directly on the page:
+   press "Edit site" (bottom right, visible to you only) and click any text.
+   ================================================================= */
+const DEFAULTS = {
+  name: "DenizKreative",
+  role: "Photographer and Videomaker",
+  tagline: "Photographer and videomaker based in Bologna. Specialized in couples, elopements, editorial and music videos.\nFilm and digital.",
+  email: "hello@denizkreative.com",
+  instagram: "denizkreative",
+  basedIn: "Based in Bologna",
+  footerNote: "Based in Bologna, available worldwide",
+  about: "DenizKreative is a photographer and videomaker based in Bologna, Italy. Working across couples, elopements, editorial and music videos, with a love for honest moments, natural light and movement. Available across Italy and abroad.",
+  servicesIntro: "Photography and film for couples, brands and artists. Based in Bologna, available across Italy and abroad. Every project starts with a conversation: tell me what you have in mind.",
+  servicesCta: "Dates, ideas, questions: write me and I will reply within two days."
+};
+
+const CATS = [
+  { slug: "couples",      title: "Couples & Elopements", desc: "Engagements, anniversaries and intimate elopements. Honest, unposed images of two people, in Bologna and wherever the story takes us." },
+  { slug: "editorial",    title: "Editorial",            desc: "Fashion, beauty and portrait stories for magazines, brands and designers. From concept and moodboard to the final edit." },
+  { slug: "music-videos", title: "Music Videos",         desc: "Music videos and visual content for artists: concept, direction, shooting and edit. Stills and clips from recent productions." }
+];
+
+const SERVICES = [
+  { title: "Couples",      kind: "Photo",          cat: "couples",      text: "Portrait sessions for two: engagements, anniversaries or just because. Relaxed, guided and natural.", details: "1 to 2 hours · Bologna & Emilia-Romagna" },
+  { title: "Elopements",   kind: "Photo & Film",   cat: "couples",      text: "Intimate weddings and elopements, from the vows to the quiet moments after. Help with locations across Italy included.", details: "Half or full day · Italy & abroad" },
+  { title: "Editorial",    kind: "Photo",          cat: "editorial",    text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location · Creative direction" },
+  { title: "Music Videos", kind: "Direction & Film", cat: "music-videos", text: "Music videos and visuals for artists and labels: concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
+];
+
+/* ---------- state ---------- */
+const S = { photos: [], settings: { hero: null, covers: {} }, text: {}, urls: {}, loaded: false };
+const CAN_EDIT = false;
+(function(){
+  const C = window.SITE || {};
+  const put = (k, v) => { if(typeof v === "string") S.text[k] = v; };
+  ["email","instagram","basedIn","footerNote","tagline","about","servicesIntro","servicesCta"].forEach(k => put(k, C[k]));
+  if(C.categories) for(const k in C.categories) put("cat." + k, C.categories[k]);
+  (C.services || []).forEach((sv, i) => {
+    if(!SERVICES[i]) SERVICES[i] = { title: "", kind: "", text: "", details: "", cat: "couples" };
+    ["title","kind","text","details"].forEach(f => put(`svc.${i}.${f}`, sv[f]));
+  });
+  if(C.services) SERVICES.length = C.services.length;
+})();
+
+const T = (k, d) => (S.text[k] != null && S.text[k] !== "") ? S.text[k] : d;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = s => esc(s).replace(/\n/g, "<br>");
+const ed = (key, def, tag = "p", cls = "") => `<${tag} ${cls ? `class="${cls}"` : ""} data-edit="${key}">${fmt(T(key, def))}</${tag}>`;
+const linkHTML = t => `<span data-t="${esc(t)}">${esc(t)}</span>`;
+const isMobile = () => matchMedia("(max-width:900px)").matches;
+const email = () => { const e = (S.text.email ?? DEFAULTS.email).trim(); return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e) ? e : ""; };
+const igHandle = () => T("instagram", DEFAULTS.instagram).trim().replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/$/, "");
+const igUrl = () => "https://instagram.com/" + igHandle();
+const srcOf = id => S.urls[id] || ("/_blob/" + id);
+
+/* ---------- placeholder photos ---------- */
+const PALETTE = [["#f3dde3","#c97f95"],["#e7ddd6","#8a6f63"],["#d3d6cc","#5d6656"],["#ebe5d9","#97896f"],["#c4ccd4","#3c4855"],
+  ["#efdcc6","#ad7240"],["#dcd6e5","#6a5d86"],["#d4ddd6","#466356"],["#2e2c2b","#76706b"],["#f1ece4","#b9ae9e"],["#e4c9bd","#7a4b3e"],["#cdd5dc","#55606b"]];
+function rng(seed){ return () => (seed = (seed*16807) % 2147483647) / 2147483647; }
+function placeholder(seed, label, w=1200, h=1500){
+  const [a,b] = PALETTE[seed % PALETTE.length], r = rng(seed*97+13);
+  let blobs = "";
+  for(let i=0;i<4;i++) blobs += `<circle cx="${(r()*w)|0}" cy="${(r()*h)|0}" r="${(w*(.18+r()*.3))|0}" fill="${i%2?a:b}" opacity="${(.35+r()*.4).toFixed(2)}"/>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient><filter id="f"><feGaussianBlur stdDeviation="${w/9}"/></filter></defs><rect width="100%" height="100%" fill="url(#g)"/><g filter="url(#f)">${blobs}</g><text x="${w*.04}" y="${h-w*.04}" font-family="Helvetica, Arial, sans-serif" font-size="${w/60}" letter-spacing="1" fill="#fff" fill-opacity=".8">${label}</text></svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+const PH = {};
+CATS.forEach((c, ci) => {
+  PH[c.slug] = Array.from({length: 6}, (_, j) => ({ ph: true, kind: "image", title: "", link: "",
+    src: placeholder(ci*7 + j + 1, `${c.title.toUpperCase()} · SAMPLE`, 1200, j % 3 === 1 ? 900 : 1500) }));
+});
+const PH_HERO = { ph: true, kind: "image", src: placeholder(0, "HERO PHOTO", 1600, 1200) };
+
+/* ---------- data helpers ---------- */
+const realPhotos = cat => S.photos.filter(p => p.cat === cat);
+const itemsOf = cat => { const r = realPhotos(cat); return r.length ? r : PH[cat]; };
+function coverOf(cat){
+  const c = realPhotos(cat).find(p => /cover/i.test(p.name));
+  if(c) return c;
+  const items = itemsOf(cat);
+  return items.find(i => i.kind === "image") || items[0];
+}
+function heroOf(){
+  const h = S.photos.find(p => /hero/i.test(p.name));
+  if(h) return h;
+  const r = realPhotos("couples").concat(realPhotos("editorial")).find(p => p.kind === "image");
+  return r || PH_HERO;
+}
+function allImages(){
+  const r = S.photos.filter(p => p.kind === "image").map(p => p.src);
+  return r.length ? r : CATS.map(c => coverOf(c.slug).src);
+}
+function media(item, cls = "", extra = ""){
+  if(item.kind === "video")
+    return `<video class="${cls}" src="${esc(item.src)}" muted loop playsinline autoplay preload="metadata" ${extra}></video>`;
+  return `<img class="${cls}" src="${esc(item.src)}" alt="" ${extra}>`;
+}
+
+/* ---------- chrome ---------- */
+function updateChrome(){
+  $("#hIg").href = igUrl();
+  const cover = heroOf();
+  $("#menuImage").innerHTML = media(cover, "", 'id="menuImg"');
+  const works = [{ href: "#works", label: "View all", item: cover }]
+    .concat(CATS.map(c => ({ href: "#" + c.slug, label: c.title, item: coverOf(c.slug) })));
+  $("#menuWorks").innerHTML = `<span class="label">Portfolio</span>` +
+    works.map(w => `<a href="${w.href}" data-src="${esc(w.item.src)}" data-kind="${w.item.kind}">${esc(w.label)}</a>`).join("");
+  $("#menuInfo").innerHTML = `<span class="label">Info</span>
+    <a href="#services">Services</a><a href="#about">About</a>
+    <a href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">Instagram</a>`;
+  document.querySelectorAll(".menu-group a").forEach(a => {
+    a.addEventListener("mouseenter", () => { if(a.dataset.src) $("#menuImage").innerHTML = media({ src: a.dataset.src, kind: a.dataset.kind }); });
+    a.addEventListener("click", closeMenu);
+  });
+}
+const menu = $("#menu");
+function openMenu(){ menu.classList.add("open"); [...menu.querySelectorAll(".menu-group a")].forEach((a,i)=>a.style.transitionDelay = (i*35)+"ms"); }
+function closeMenu(){ menu.classList.remove("open"); [...menu.querySelectorAll(".menu-group a")].forEach(a=>a.style.transitionDelay = "0ms"); }
+$("#worksBtn").onclick = openMenu;
+$("#closeBtn").onclick = closeMenu;
+
+/* ---------- cursor label + service preview ---------- */
+const cursor = $("#cursor"), preview = $("#svcPreview");
+addEventListener("mousemove", e => {
+  cursor.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0) translate(-50%,-50%)`;
+  preview.style.transform = `translate3d(${e.clientX + 24}px,${e.clientY - 125}px,0)`;
+  const t = e.target.closest && e.target.closest("[data-cursor]");
+  if(t && !document.documentElement.classList.contains("editing")){ cursor.textContent = t.dataset.cursor; cursor.classList.add("show"); }
+  else cursor.classList.remove("show");
+});
+
+/* ---------- lightbox ---------- */
+const LB = { items: [], i: 0 };
+function openLB(items, i){ LB.items = items; LB.i = i; $("#lb").classList.add("open"); showLB(); }
+function closeLB(){ $("#lb").classList.remove("open"); $("#lbStage").innerHTML = ""; }
+function showLB(){
+  const it = LB.items[LB.i];
+  $("#lbStage").innerHTML = it.kind === "video"
+    ? `<video src="${esc(it.src)}" autoplay loop playsinline controls></video>` : `<img src="${esc(it.src)}" alt="">`;
+  $("#lbCount").textContent = String(LB.i + 1).padStart(2, "0") + " / " + String(LB.items.length).padStart(2, "0");
+  $("#lbCap").innerHTML = (it.title ? esc(it.title) : "") +
+    (it.link ? `${it.title ? " · " : ""}<a href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">Watch</a>` : "");
+}
+const stepLB = d => { LB.i = (LB.i + d + LB.items.length) % LB.items.length; showLB(); };
+$("#lbClose").onclick = closeLB;
+$("#lbPrev").onclick = () => stepLB(-1);
+$("#lbNext").onclick = () => stepLB(1);
+addEventListener("keydown", e => {
+  if(e.target.closest && e.target.closest("[data-edit],input")) return;
+  if($("#lb").classList.contains("open")){
+    if(e.key === "Escape") closeLB(); if(e.key === "ArrowLeft") stepLB(-1); if(e.key === "ArrowRight") stepLB(1);
+  } else if(e.key === "Escape") closeMenu();
+});
+
+/* ---------- page transition ---------- */
+const bars = [...document.querySelectorAll("#overlay i")];
+function barsAnim(from, to, origin){
+  return Promise.all(bars.map((b,i) => {
+    b.style.transformOrigin = origin;
+    return b.animate([{transform:`scaleY(${from})`},{transform:`scaleY(${to})`}],
+      {duration:600, delay:i*35, easing:"cubic-bezier(.65,0,.35,1)", fill:"forwards"}).finished;
+  }));
+}
+
+/* ---------- pages ---------- */
+let loopId = 0;
+
+function cardHTML(cat, big){
+  const items = itemsOf(cat.slug), cov = coverOf(cat.slug);
+  const hov = items.find(i => i.kind === "image" && i.src !== cov.src);
+  const strips = hov ? Array.from({length:9}, (_,k) =>
+    `<div style="transition-delay:${k*20}ms"><img src="${esc(hov.src)}" style="object-position:${k*12.5}% center" alt=""></div>`).join("") : "";
+  const n = realPhotos(cat.slug).length;
+  return `<a href="#${cat.slug}" class="project-card ${big ? "big-title card" : "big-title"}">
+    ${media(cov, "image")}
+    <p class="title">${esc(cat.title)}</p>
+    ${!big && n ? `<p class="count">${n} ${n === 1 ? "item" : "items"}</p>` : ""}
+    <div class="hover-images">${strips}</div></a>`;
+}
+
+function pageHome(){
+  return `<main class="home">
+    <div class="top">
+      ${media(heroOf(), "hero-media", 'id="hero" data-cursor="Works"')}
+      ${CAN_EDIT ? `<button class="ed-btn hero-change edit-only" id="heroChange">Change hero photo</button>` : ""}
+      <div class="carousel" id="carousel">${CATS.map(c => cardHTML(c, true)).join("")}</div>
+    </div>
+    <h1 class="mobile-title">${esc(DEFAULTS.name)}</h1>
+    <div class="description"><div class="text">${ed("tagline", DEFAULTS.tagline)}</div></div>
+  </main>`;
+}
+
+function pageWorks(){
+  return `<main class="works-index">${CATS.map(c => cardHTML(c, false)).join("")}</main>`;
+}
+
+function footerHTML(){
+  return `<footer class="footer">
+    <div class="bounce" id="bounce"><img src="${esc(allImages()[0])}" alt=""></div>
+    ${email() ? `<a class="mail" href="mailto:${esc(email())}">${esc(email())}</a>`
+              : `<a class="mail" href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">@${esc(igHandle())}</a>`}
+    ${ed("footerNote", DEFAULTS.footerNote, "p", "note")}
+  </footer>`;
+}
+
+function tileHTML(it, idx, cat){
+  const isMV = cat.slug === "music-videos";
+  const tools = it.ph || !CAN_EDIT ? "" : `<div class="tools">
+      <button data-act="cover" class="${coverOf(cat.slug).src === it.src ? "on" : ""}">Cover</button>
+      <button data-act="hero">Hero</button>
+      <button data-act="left" title="Move earlier">←</button>
+      <button data-act="right" title="Move later">→</button>
+      <button data-act="del" class="danger">Delete</button></div>`;
+  const fields = isMV && !it.ph && CAN_EDIT ? `<div class="mv-fields">
+      <input data-field="title" placeholder="Title, e.g. Artist — Song" value="${esc(it.title)}">
+      <input data-field="link" placeholder="Link to the video (YouTube, Vimeo…)" value="${esc(it.link)}"></div>` : "";
+  const cap = isMV && it.title ? `<p class="cap">${esc(it.title)}</p>` : "";
+  return `<figure class="tile" data-idx="${idx}" ${it.id ? `data-id="${it.id}"` : ""} data-cursor="View">
+    ${media(it, "", 'loading="lazy"')}${cap}${tools}${fields}</figure>`;
+}
+
+function pageCategory(cat){
+  const i = CATS.indexOf(cat), next = CATS[i + 1];
+  const items = itemsOf(cat.slug), real = realPhotos(cat.slug).length;
+  const nextBlock = next
+    ? `<a class="next-project" href="#${next.slug}" data-cursor="Next"><div class="bg">${media(coverOf(next.slug))}</div>
+        <div class="text"><p>Next</p><p>${esc(next.title)}</p></div></a>`
+    : `<a class="next-project" href="#services" data-cursor="Services"><div class="bg">${media(heroOf())}</div>
+        <div class="text"><p>Work with me</p><p>Services</p></div></a>`;
+  const accept = "image/*,video/mp4,video/webm";
+  return `<div class="wrapper">
+      <div class="cover-wrap">${media(coverOf(cat.slug), "thumbnail")}
+        ${CAN_EDIT && !real ? `<p class="cover-note edit-only">Add photos below. The first one becomes the cover.</p>` : ""}</div>
+      <div class="gallery" id="gallery">
+        ${CAN_EDIT ? `<label class="dropzone" id="drop">+ Add photos${cat.slug === "music-videos" ? " or clips" : ""}
+          <small>Click or drop files here · JPG, PNG, WebP${cat.slug === "music-videos" ? " · MP4 up to 20 MB" : ""}</small>
+          <input type="file" id="fileInput" multiple accept="${accept}" hidden></label>` : ""}
+        ${items.map((it, k) => tileHTML(it, k, cat)).join("")}
+      </div>
+      <div class="p-desc" id="pdesc"><p class="title">${esc(cat.title)}</p>${ed("cat." + cat.slug, cat.desc)}
+        <p>${real ? `${real} ${real === 1 ? "item" : "items"}` : ""}</p></div>
+    </div>
+    ${nextBlock}
+    ${footerHTML()}`;
+}
+
+function pageAbout(){
+  const contact = `
+    <li><a class="link" href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">${linkHTML("Instagram")}</a> <span class="edit-only" style="font-size:13px">@</span>${CAN_EDIT ? `<span class="edit-only" style="font-size:13px" data-edit="instagram">${esc(igHandle())}</span>` : ""}</li>
+    ${email() ? `<li><a class="link" href="mailto:${esc(email())}">${linkHTML(email())}</a></li>` : `<li>@${esc(igHandle())}</li>`}
+    <li>${ed("basedIn", DEFAULTS.basedIn, "span")}</li>`;
+  return `<div class="about">
+      <div class="paragraphs">${ed("about", DEFAULTS.about)}</div>
+      <div class="about-image"><img id="aboutImg" src="${esc(allImages()[0])}" alt=""></div>
+      <div class="about-first">
+        <div class="info-row contacts"><p class="sub-title">Contact</p><ul>${contact}</ul></div>
+      </div>
+      <div class="info-row"><p class="sub-title">Portfolio</p><ul>${CATS.map(c => `<li><a class="link" href="#${c.slug}">${linkHTML(c.title)}</a></li>`).join("")}</ul></div>
+      <div class="info-row"><p class="sub-title">Services</p><ul>${SERVICES.map((s, k) => `<li><a class="link" href="#services">${linkHTML(T("svc." + k + ".title", s.title))}</a></li>`).join("")}</ul></div>
+      <a class="about-discover" href="#works" data-cursor="Discover works">${media(heroOf())}<p class="label">Discover works</p></a>
+    </div>
+    ${footerHTML()}`;
+}
+
+function pageServices(){
+  const rows = SERVICES.map((s, k) => `
+    <div class="svc" data-svc="${k}" data-cursor="Enquire">
+      <div class="num"><span>${String(k + 1).padStart(2, "0")}</span>${ed("svc." + k + ".kind", s.kind, "span")}</div>
+      <div class="body">${ed("svc." + k + ".title", s.title, "h2")}${ed("svc." + k + ".text", s.text, "p", "text")}${ed("svc." + k + ".details", s.details, "p", "details")}</div>
+    </div>`).join("");
+  return `<div class="about">
+      <div class="paragraphs">${ed("servicesIntro", DEFAULTS.servicesIntro)}</div>
+      <div class="services"><div class="svc-list">${rows}</div></div>
+      <div class="svc-cta">${ed("servicesCta", DEFAULTS.servicesCta)}</div>
+      <a class="about-discover" href="#works" data-cursor="See the work">${media(coverOf("couples"))}<p class="label">See the work</p></a>
+    </div>
+    ${footerHTML()}`;
+}
+
+/* ---------- behaviours ---------- */
+function initCarousel(id){
+  const top = $(".top"), cards = [...document.querySelectorAll("#carousel .card")];
+  const imgs = cards.map(c => c.querySelector(".image"));
+  const N = cards.length;
+  let H = top.clientHeight, target = 0, cur = 0, touchY = null;
+  const size = () => { H = top.clientHeight; cards.forEach(c => c.style.height = H + "px"); };
+  size(); addEventListener("resize", size);
+  const ro = new ResizeObserver(size); ro.observe(top);
+  const onWheel = e => { if(!$("#lb").classList.contains("open") && !menu.classList.contains("open")) target += e.deltaY; };
+  const onTS = e => { touchY = e.touches[0].clientY; };
+  const onTM = e => { if(touchY != null){ target += (touchY - e.touches[0].clientY) * 1.5; touchY = e.touches[0].clientY; } };
+  addEventListener("wheel", onWheel, {passive:true});
+  addEventListener("touchstart", onTS, {passive:true});
+  addEventListener("touchmove", onTM, {passive:true});
+  $("#hero").onclick = () => { if(!document.documentElement.classList.contains("editing")) openMenu(); };
+  (function tick(){
+    if(id !== loopId){ removeEventListener("wheel", onWheel); removeEventListener("touchstart", onTS);
+      removeEventListener("touchmove", onTM); removeEventListener("resize", size); ro.disconnect(); return; }
+    target += 0.35;
+    cur += (target - cur) * 0.08;
+    const total = N * H;
+    cards.forEach((c, i) => {
+      let y = ((i * H - cur) % total + total) % total;
+      if(y > (N - 1) * H) y -= total;
+      c.style.transform = `translate3d(0,${y.toFixed(2)}px,0)`;
+      const p = Math.max(-1, Math.min(1, y / H));
+      imgs[i].style.transform = `translate3d(0,${(-p * 12).toFixed(2)}%,0) scale(1.2)`;
+    });
+    requestAnimationFrame(tick);
+  })();
+}
+
+function initBounce(id){
+  const b = $("#bounce"), f = $(".footer");
+  if(!b) return;
+  const img = b.querySelector("img"), pics = allImages();
+  let x = 40, y = 40, vx = 1.6, vy = 1.3, k = 0;
+  const swap = () => { k = (k + 1) % pics.length; img.src = pics[k]; };
+  (function tick(){
+    if(id !== loopId) return;
+    const W = f.clientWidth - b.offsetWidth, Hh = f.clientHeight - b.offsetHeight;
+    x += vx; y += vy;
+    if(x <= 0 || x >= W){ vx *= -1; x = Math.max(0, Math.min(W, x)); swap(); }
+    if(y <= 0 || y >= Hh){ vy *= -1; y = Math.max(0, Math.min(Hh, y)); swap(); }
+    b.style.transform = `translate3d(${x}px,${y}px,0)`;
+    requestAnimationFrame(tick);
+  })();
+}
+
+function initAbout(id){
+  const img = $("#aboutImg"), pics = allImages();
+  let last = -1;
+  (function tick(){
+    if(id !== loopId) return;
+    const k = Math.floor(scrollY / 140) % pics.length;
+    if(k !== last){ img.src = pics[k]; last = k; }
+    requestAnimationFrame(tick);
+  })();
+}
+
+function initServices(){
+  document.querySelectorAll(".svc").forEach(row => {
+    const s = SERVICES[+row.dataset.svc];
+    row.addEventListener("mouseenter", () => { preview.innerHTML = media(coverOf(s.cat)); preview.classList.add("show"); });
+    row.addEventListener("mouseleave", () => preview.classList.remove("show"));
+    row.addEventListener("click", e => {
+      if(document.documentElement.classList.contains("editing")) return;
+      const subj = encodeURIComponent("Enquiry: " + T("svc." + row.dataset.svc + ".title", s.title));
+      if(email()) location.href = `mailto:${email()}?subject=${subj}`;
+      else window.open(igUrl(), "_blank", "noopener");
+    });
+  });
+}
+
+function initCategory(cat){
+  const d = $("#pdesc");
+  const set = () => d.style.setProperty("--dh", d.offsetHeight + "px");
+  set(); addEventListener("resize", set);
+  const items = itemsOf(cat.slug);
+  $("#gallery").addEventListener("click", e => {
+    const tile = e.target.closest(".tile");
+    if(!tile) return;
+    const btn = e.target.closest("[data-act]");
+    if(btn){ e.stopPropagation(); tileAction(btn, tile, cat); return; }
+    if(document.documentElement.classList.contains("editing")) return;
+    openLB(items, +tile.dataset.idx);
+  });
+  if(CAN_EDIT){
+    const fi = $("#fileInput"), dz = $("#drop");
+    fi.onchange = () => { uploadFiles([...fi.files], cat.slug); fi.value = ""; };
+    ["dragenter","dragover"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add("drag"); }));
+    ["dragleave","drop"].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove("drag"); }));
+    dz.addEventListener("drop", e => uploadFiles([...e.dataTransfer.files], cat.slug));
+    document.querySelectorAll(".mv-fields input").forEach(inp => inp.addEventListener("change", () => {
+      const id = inp.closest(".tile").dataset.id, p = S.photos.find(x => x.id === id);
+      if(!p) return;
+      const v = inp.value.trim();
+      if(inp.dataset.field === "link" && v && !/^https?:\/\//i.test(v)){ toast("Links must start with https://"); return; }
+      p[inp.dataset.field] = v;
+      persist(() => DB.collection("photos").doc(id).update({ [inp.dataset.field]: v }), "Saved");
+    }));
+  }
+}
+
+/* ---------- router ---------- */
+function setMenuText(t){
+  const el = $("#menuText");
+  if(t){ el.querySelector("span").textContent = t; requestAnimationFrame(() => el.classList.add("show")); }
+  else el.classList.remove("show");
+}
+
+function render(keepScroll){
+  const y = scrollY;
+  const h = location.hash.slice(1);
+  const id = ++loopId;
+  const cat = CATS.find(c => c.slug === h);
+  const app = $("#app");
+  preview.classList.remove("show");
+  updateChrome();
+  document.documentElement.classList.toggle("lock", !h && !isMobile());
+  setMenuText(cat ? cat.title : h === "services" ? "Services" : "");
+  if(cat){
+    app.innerHTML = pageCategory(cat); initCategory(cat); initBounce(id);
+    document.title = `${cat.title} - ${DEFAULTS.name}`;
+  } else if(h === "about"){
+    app.innerHTML = pageAbout(); initAbout(id); initBounce(id);
+    document.title = `About - ${DEFAULTS.name}`;
+  } else if(h === "services"){
+    app.innerHTML = pageServices(); initServices(); initBounce(id);
+    document.title = `Services - ${DEFAULTS.name}`;
+  } else if(h === "works"){
+    app.innerHTML = pageWorks();
+    document.title = `Works - ${DEFAULTS.name}`;
+  } else {
+    app.innerHTML = pageHome(); initCarousel(id);
+    if(CAN_EDIT) $("#heroChange").onclick = e => { e.stopPropagation(); $("#heroInput").click(); };
+    document.title = `${DEFAULTS.name} - ${DEFAULTS.role}`;
+  }
+  scrollTo(0, keepScroll ? y : 0);
+}
+
+let busy = false, first = true;
+async function go(){
+  closeLB(); closeMenu();
+  if(first){
+    first = false; render();
+    await new Promise(r => setTimeout(r, 700));
+    $("#introLogo").classList.remove("show");
+    await barsAnim(1, 0, "50% 0%");
+    return;
+  }
+  if(busy){ render(); return; }
+  busy = true;
+  await barsAnim(0, 1, "50% 100%");
+  render();
+  await barsAnim(1, 0, "50% 0%");
+  busy = false;
+}
+addEventListener("hashchange", go);
+addEventListener("resize", () => document.documentElement.classList.toggle("lock", !location.hash.slice(1) && !isMobile()));
+
+/* =================================================================
+   PHOTOS: read straight from the photos/ folders of the GitHub repository.
+   Falls back to photos.js when GitHub can't be asked (e.g. opened from disk).
+   ================================================================= */
+const MEDIA_RE = /\.(jpe?g|png|webp|gif|avif|mp4|webm|mov)$/i;
+function titleFromName(n){
+  return n.replace(/\.[^.]+$/, "").replace(/^\d+[\s._-]*/, "").replace(/[_]+/g, " ").replace(/\b(cover|hero)\b/ig, "").replace(/\s{2,}/g, " ").replace(/^[\s-]+|[\s-]+$/g, "");
+}
+function makeItems(list){
+  const links = (window.SITE && window.SITE.musicVideoLinks) || {};
+  return list.filter(f => MEDIA_RE.test(f.name)).map(f => ({
+    cat: f.cat, name: f.name, src: "photos/" + f.cat + "/" + encodeURIComponent(f.name),
+    kind: /\.(mp4|webm|mov)$/i.test(f.name) ? "video" : "image",
+    title: f.cat === "music-videos" ? titleFromName(f.name) : "",
+    link: links[f.name] || ""
+  })).sort((a, b) => a.cat === b.cat ? a.name.localeCompare(b.name, undefined, { numeric: true }) : 0);
+}
+function repoInfo(){
+  const g = (window.SITE && window.SITE.github) || {};
+  if(g.owner && g.repo) return g;
+  const host = location.hostname;
+  if(!host.endsWith(".github.io")) return null;
+  const owner = host.split(".")[0];
+  const first = location.pathname.split("/").filter(Boolean)[0];
+  return { owner, repo: first || host };
+}
+async function fromGitHub(){
+  const r = repoInfo();
+  if(!r) throw new Error("not on GitHub");
+  const key = "dk-photos-" + r.owner + "/" + r.repo;
+  try{ const c = JSON.parse(sessionStorage.getItem(key) || "null"); if(c && Date.now() - c.t < 5 * 60e3) return c.list; }catch(_){}
+  const list = [];
+  for(const cat of CATS.map(c => c.slug)){
+    const res = await fetch(`https://api.github.com/repos/${r.owner}/${r.repo}/contents/photos/${cat}`);
+    if(res.status === 404) continue;
+    if(!res.ok) throw new Error("GitHub " + res.status);
+    (await res.json()).forEach(f => { if(f.type === "file") list.push({ cat, name: f.name }); });
+  }
+  try{ sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), list })); }catch(_){}
+  return list;
+}
+async function loadPhotos(){
+  let list;
+  try{
+    list = await Promise.race([fromGitHub(), new Promise((_, no) => setTimeout(() => no(new Error("timeout")), 5000))]);
+  }catch(_){ list = window.PHOTOS || []; }
+  S.photos = makeItems(list);
+}
+
+loadPhotos().finally(go);
+
+</script>
+</body>
+</html>

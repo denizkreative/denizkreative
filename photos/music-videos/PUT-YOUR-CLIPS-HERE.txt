@@ -1,0 +1,5 @@
+Upload your music video clips (MP4) into this folder.
+The file name becomes the title shown on the site, e.g.
+  01 PRISMA - LIVIDI.mp4   ->  shows "PRISMA - LIVIDI"
+The number at the start sets the order.
+You can delete this text file.
