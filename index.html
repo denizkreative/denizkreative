@@ -450,6 +450,8 @@ function coverOf(cat){
   return items.find(i => i.kind === "image") || items[0];
 }
 function heroOf(){
+  const set = window.SITE && typeof window.SITE.hero === "string" && window.SITE.hero.trim();
+  if(set){ const want = set.replace(/^\/+/, "").replace(/^photos\//, ""); const m = S.photos.find(p => (p.cat + "/" + p.name) === want || p.name === want); if(m) return m; }
   const h = S.photos.find(p => /hero/i.test(p.name));
   if(h) return h;
   const r = realPhotos("couples").concat(realPhotos("editorial")).find(p => p.kind === "image");
