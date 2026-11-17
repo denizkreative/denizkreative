@@ -31,10 +31,10 @@ window.SITE = {
   servicesIntro: "Photography and film for couples, brands and artists. I'm based in Bologna and available across Italy and abroad. Tell me what you have in mind.",
   servicesCta: "Ideas, questions, write me and I will reply within same day.",
   services: [
-    { title: "Couples",      kind: "Photo",            text: "Portrait sessions for couples! Engagements, anniversaries or just because. Fun, guided and romantic.", details: "1 to 2 hours · Bologna & Emilia-Romagna" },
-    { title: "Elopements",   kind: "Photo & Film",     text: "Intimate weddings and elopements, from the vows to the quiet moments after. Help with locations across Italy included.", details: "Half or full day · Italy & abroad" },
-    { title: "Editorial",    kind: "Photo",            text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location · Creative direction" },
-    { title: "Music Videos", kind: "Direction & Film", text: "Music videos and visuals for artists and labels: concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
+    { title: "Couples",      kind: "Photo",            text: "Couple sessions! Engagements, anniversaries or just because :) Fun, guided and romantic.", details: "Bologna & Emilia-Romagna" },
+    { title: "Elopements",   kind: "Photo & Film",     text: "Intimate weddings and elopements. I will help you with locations in Italy.", details: "Half or full day · Italy & abroad" },
+    { title: "Editorial",    kind: "Photo",            text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location" },
+    { title: "Music Videos", kind: "Direction & Film", text: "Music videos and visuals for artists. Concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
   ],
 
   // Music videos: the title shown is the file name (e.g. "01 PRISMA - LIVIDI.mp4" shows "PRISMA - LIVIDI").
