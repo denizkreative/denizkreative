@@ -235,6 +235,40 @@ ul{list-style:none}
   .svc-cta p{width:100%}
 }
 
+/* ---------- spring blossoms ---------- */
+#app{position:relative}
+.deco{position:absolute;top:0;left:0;width:100%;height:100vh;height:100svh;pointer-events:none;z-index:35;overflow:hidden}
+.branch{position:absolute;pointer-events:none;will-change:transform}
+.branch .sway{width:100%;height:100%;animation:sway 7s ease-in-out infinite alternate}
+.branch .flutter{width:100%;height:100%;animation:flutter 2.6s ease-in-out infinite alternate}
+.branch img{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 14px rgba(0,0,0,.12))}
+.branch.tr{top:30px;right:-4vw;width:min(34vw,540px)}
+.about-page .branch.tr{width:min(25vw,400px);top:70px}
+.home .branch.tr{width:min(19vw,290px);top:34px;right:-2vw}
+.branch.tr .sway,.branch.tr .flutter{transform-origin:100% 0}
+.branch.bl{bottom:-3vh;left:-2.5vw;width:min(17vw,270px)}
+.branch.bl .sway,.branch.bl .flutter{transform-origin:0 100%}
+.footer .branch.tr{z-index:-1;width:min(28vw,440px)}
+.branch{opacity:0;transition:opacity 1.6s ease .3s}
+.branch.in{opacity:1}
+@keyframes sway{0%{transform:rotate(-1.6deg)}100%{transform:rotate(1.8deg)}}
+@keyframes flutter{0%{transform:rotate(-.5deg) skewX(.4deg)}100%{transform:rotate(.6deg) skewX(-.5deg)}}
+.petals{position:fixed;inset:0;pointer-events:none;z-index:36;overflow:hidden}
+.petal{position:absolute;top:0;left:0;width:26px;height:26px;will-change:transform,opacity}
+.petal img{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.18))}
+@media (max-width:900px){
+  .branch.tr{top:30px;right:-6vw;width:52vw}
+  .branch.bl{width:30vw;bottom:auto;top:62svh}
+  .about-page{display:none}
+  .home .branch.tr{width:34vw;top:40px;right:-4vw}
+  .footer .branch.tr{width:50vw;top:56px}
+  .petal{width:20px;height:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .branch .sway,.branch .flutter{animation:none}
+  .petals{display:none}
+}
+
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:var(--black);color:var(--white);display:none}
 .lightbox.open{display:block}
@@ -706,6 +740,59 @@ function initCategory(cat){
   }
 }
 
+
+/* ---------- spring blossoms ---------- */
+const FLOWERS = Array.from({length: 12}, (_, i) => `decor/flowers/f${String(i + 1).padStart(2, "0")}.webp`);
+FLOWERS.forEach(src => { const im = new Image(); im.src = src; });
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function branchHTML(pos, src){
+  return `<div class="branch ${pos}"><div class="sway"><div class="flutter"><img src="${src}" alt="" loading="eager" onload="this.closest('.branch').classList.add('in')"></div></div></div>`;
+}
+function addBlossoms(page){
+  const app = $("#app");
+  if(page === "about" || page === "services"){
+    const d = document.createElement("div");
+    d.className = "deco " + (page === "home" ? "home" : "about-page");
+    d.innerHTML = branchHTML("tr", "decor/branch-a.webp") + (page === "about" ? branchHTML("bl", "decor/branch-b.webp") : "");
+    app.appendChild(d);
+  }
+  const f = ["about","services","couples"].includes(page) && app.querySelector(".footer");
+  if(f) f.insertAdjacentHTML("afterbegin", branchHTML("tr", "decor/branch-a.webp"));
+  if(!["about","services","couples"].includes(page) && petals.list.length){ petals.list.forEach(p => p.el.remove()); petals.list = []; }
+  petals.active = ["about","services","couples"].includes(page);
+}
+const petals = { active: false, list: [], box: null, last: 0 };
+function petalLoop(t){
+  requestAnimationFrame(petalLoop);
+  if(reduceMotion || document.hidden) return;
+  if(!petals.box){ petals.box = document.createElement("div"); petals.box.className = "petals"; document.body.appendChild(petals.box); }
+  const max = isMobile() ? 5 : 9;
+  const firstScreen = location.hash.slice(1) === "couples" || scrollY < innerHeight * .8;
+  if(petals.active && firstScreen && petals.list.length < max && t - petals.last > (isMobile() ? 2200 : 1300)){
+    petals.last = t;
+    const el = document.createElement("div"); el.className = "petal";
+    el.innerHTML = `<img src="${FLOWERS[Math.floor(Math.random() * FLOWERS.length)]}" alt="">`;
+    petals.box.appendChild(el);
+    const W = innerWidth;
+    petals.list.push({ el, x: W * (0.62 + Math.random() * 0.36), y: -20 + Math.random() * innerHeight * 0.25,
+      vx: -(0.25 + Math.random() * 0.45), vy: 0.35 + Math.random() * 0.4, rot: Math.random() * 360,
+      vr: (Math.random() - .5) * 2.4, ph: Math.random() * 6.28, amp: 18 + Math.random() * 26,
+      s: 0.6 + Math.random() * 0.55, born: t });
+  }
+  const wind = Math.sin(t / 2600) * 0.25;
+  petals.list = petals.list.filter(p => {
+    p.x += p.vx + wind; p.y += p.vy; p.rot += p.vr; p.ph += 0.018;
+    const age = (t - p.born) / 1000;
+    const op = Math.min(1, age / 0.8) * (p.y > innerHeight * .85 ? Math.max(0, 1 - (p.y - innerHeight * .85) / (innerHeight * .15)) : 1);
+    const flip = Math.cos(p.ph * 1.7);
+    p.el.style.opacity = op.toFixed(3);
+    p.el.style.transform = `translate3d(${(p.x + Math.sin(p.ph) * p.amp).toFixed(1)}px,${p.y.toFixed(1)}px,0) rotate(${p.rot.toFixed(1)}deg) scale(${p.s.toFixed(2)},${(p.s * (0.75 + 0.25 * Math.abs(flip))).toFixed(2)})`;
+    if(p.y > innerHeight + 30 || p.x < -60 || op <= 0 && age > 2){ p.el.remove(); return false; }
+    return true;
+  });
+}
+requestAnimationFrame(petalLoop);
+
 /* ---------- router ---------- */
 function setMenuText(t){
   const el = $("#menuText");
@@ -724,19 +811,19 @@ function render(keepScroll){
   document.documentElement.classList.toggle("lock", !h && !isMobile());
   setMenuText(cat ? cat.title : h === "services" ? "Services" : "");
   if(cat){
-    app.innerHTML = pageCategory(cat); initCategory(cat); initBounce(id);
+    app.innerHTML = pageCategory(cat); initCategory(cat); initBounce(id); addBlossoms(cat.slug === "couples" ? "couples" : "none");
     document.title = `${cat.title} - ${DEFAULTS.name}`;
   } else if(h === "about"){
-    app.innerHTML = pageAbout(); initAbout(id); initBounce(id);
+    app.innerHTML = pageAbout(); initAbout(id); initBounce(id); addBlossoms("about");
     document.title = `About - ${DEFAULTS.name}`;
   } else if(h === "services"){
-    app.innerHTML = pageServices(); initServices(); initBounce(id);
+    app.innerHTML = pageServices(); initServices(); initBounce(id); addBlossoms("services");
     document.title = `Services - ${DEFAULTS.name}`;
   } else if(h === "works"){
-    app.innerHTML = pageWorks();
+    app.innerHTML = pageWorks(); addBlossoms("none");
     document.title = `Works - ${DEFAULTS.name}`;
   } else {
-    app.innerHTML = pageHome(); initCarousel(id);
+    app.innerHTML = pageHome(); initCarousel(id); addBlossoms("home");
     if(CAN_EDIT) $("#heroChange").onclick = e => { e.stopPropagation(); $("#heroInput").click(); };
     document.title = `${DEFAULTS.name} - ${DEFAULTS.role}`;
   }
