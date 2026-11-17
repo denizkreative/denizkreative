@@ -21,16 +21,16 @@ window.SITE = {
 
   // Text shown on each portfolio page
   categories: {
-    "couples":      "Engagements, anniversaries and intimate elopements. Honest, unposed images of two people, in Bologna and wherever the story takes us.",
-    "editorial":    "Fashion, Music and portrait stories For brands and designers. From concept and moodboard to the final edit.",
-    "music-videos": "Music videos and visual content for artists: concept, direction, shooting and edit. Stills and clips from recent productions."
+    "couples":      "Very fun, romantic, cinematic photoshoot through charming streets, bookstores, cozy coffee shops or wherever you choose. With an authentic, editorial style, I’ll capture natural moments.",
+    "editorial":    "Fashion, Music and portrait stories For brands and designers.",
+    "music-videos": "Music videos and visual content for artists: concept, direction, shooting and edit."
   },
 
   // Services page
-  servicesIntro: "Photography and film for couples, brands and artists. Based in Bologna, available across Italy and abroad. Every project starts with a conversation: tell me what you have in mind.",
-  servicesCta: "Dates, ideas, questions: write me and I will reply within two days.",
+  servicesIntro: "Photography and film for couples, brands and artists. I'm based in Bologna and available across Italy and abroad. Tell me what you have in mind.",
+  servicesCta: "Ideas, questions, write me and I will reply within same day.",
   services: [
-    { title: "Couples",      kind: "Photo",            text: "Portrait sessions for two: engagements, anniversaries or just because. Relaxed, guided and natural.", details: "1 to 2 hours · Bologna & Emilia-Romagna" },
+    { title: "Couples",      kind: "Photo",            text: "Portrait sessions for couples! Engagements, anniversaries or just because. Fun, guided and romantic.", details: "1 to 2 hours · Bologna & Emilia-Romagna" },
     { title: "Elopements",   kind: "Photo & Film",     text: "Intimate weddings and elopements, from the vows to the quiet moments after. Help with locations across Italy included.", details: "Half or full day · Italy & abroad" },
     { title: "Editorial",    kind: "Photo",            text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location · Creative direction" },
     { title: "Music Videos", kind: "Direction & Film", text: "Music videos and visuals for artists and labels: concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
