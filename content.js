@@ -8,10 +8,10 @@
 window.SITE = {
 
   // Contact
-  email: "",                          // e.g. "hello@denizkreative.com" — leave "" to show Instagram instead
+  email: "denizkreative@gmail.com",                          // e.g. "hello@denizkreative.com" — leave "" to show Instagram instead
   instagram: "denizkreative",         // your Instagram username, without @
   basedIn: "Based in Bologna",
-  footerNote: "Based in Bologna, available worldwide",
+  footerNote: "Based in Bologna, available in Europe",
 
   // Homepage text (bottom of the first page)
   tagline: "Photographer and videomaker based in Bologna. Specialized in couples, elopements, editorial and music videos.\nFilm and digital.",
