@@ -96,8 +96,19 @@ ul{list-style:none}
 /* page transition */
 .overlay{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;pointer-events:none}
 .overlay i{flex:1;background:var(--black);outline:1px solid var(--black);transform:scaleY(1);transform-origin:50% 100%}
-.overlay .intro-logo{position:fixed;top:50%;left:50%;height:150px;transform:translate(-50%,-50%);opacity:0;transition:opacity .5s}
-.overlay .intro-logo.show{opacity:1}
+.intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;color:var(--white);transition:opacity .55s ease}
+.intro.hide{opacity:0}
+.overlay.light i{background:var(--white);outline-color:var(--white)}
+.overlay.light .intro{color:var(--black)}
+.overlay.light .intro-flowers img{filter:drop-shadow(0 1px 2px rgba(0,0,0,.18))}
+.intro-logo{height:140px;width:auto;position:relative;z-index:2;animation:introIn 1s var(--ease) both}
+.intro-name{position:relative;z-index:2;font-size:12px;letter-spacing:.32em;padding-left:.32em;opacity:.85;overflow:hidden}
+.intro-name span{display:block;animation:introUp 1.1s var(--ease) .35s both}
+.intro-flowers{position:absolute;inset:0;pointer-events:none;z-index:1}
+.intro-flowers img{position:absolute;left:50%;top:calc(50% - 20px);width:22px;height:22px;margin:-11px 0 0 -11px;opacity:0;will-change:transform,opacity}
+@keyframes introIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes introUp{from{transform:translateY(105%)}to{transform:none}}
+@media (max-width:900px){ .intro-logo{height:110px} .intro-flowers img{width:18px;height:18px;margin:-9px 0 0 -9px} }
 
 /* home */
 .home{width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
@@ -317,7 +328,7 @@ html.editing .mv-fields{display:flex}
 <header class="header">
   <div class="home-link"><a href="#" class="link"><span data-t="DenizKreative">DenizKreative</span></a></div>
   <div class="works">
-    <button id="worksBtn">Works,</button>
+    <button id="worksBtn">Archive,</button>
     <p class="menu-text" id="menuText"><span></span></p>
   </div>
   <div class="infos">
@@ -345,7 +356,7 @@ html.editing .mv-fields{display:flex}
 
 <div class="svc-preview" id="svcPreview"></div>
 <div class="cursor" id="cursor"></div>
-<div class="overlay" id="overlay"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><img class="intro-logo show" id="introLogo" src="logo.png" alt=""></div>
+<div class="overlay light" id="overlay"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><div class="intro" id="intro"><div class="intro-flowers" id="introFlowers"></div><img class="intro-logo" src="logo.png" alt=""><p class="intro-name"><span>DenizKreative</span></p></div></div>
 
 
 <div id="app"></div>
@@ -539,7 +550,7 @@ function cardHTML(cat, big){
 function pageHome(){
   return `<main class="home">
     <div class="top">
-      ${media(heroOf(), "hero-media", 'id="hero" data-cursor="Works"')}
+      ${media(heroOf(), "hero-media", 'id="hero" data-cursor="Archive"')}
       ${CAN_EDIT ? `<button class="ed-btn hero-change edit-only" id="heroChange">Change hero photo</button>` : ""}
       <div class="carousel" id="carousel">${CATS.map(c => cardHTML(c, true)).join("")}</div>
     </div>
@@ -615,7 +626,7 @@ function pageAbout(){
       </div>
       <div class="info-row"><p class="sub-title">Portfolio</p><ul>${CATS.map(c => `<li><a class="link" href="#${c.slug}">${linkHTML(c.title)}</a></li>`).join("")}</ul></div>
       <div class="info-row"><p class="sub-title">Services</p><ul>${SERVICES.map((s, k) => `<li><a class="link" href="#services">${linkHTML(T("svc." + k + ".title", s.title))}</a></li>`).join("")}</ul></div>
-      <a class="about-discover" href="#works" data-cursor="Discover works">${media(heroOf())}<p class="label">Discover works</p></a>
+      <a class="about-discover" href="#works" data-cursor="Discover the archive">${media(heroOf())}<p class="label">Discover the archive</p></a>
     </div>
     ${footerHTML()}`;
 }
@@ -821,7 +832,7 @@ function render(keepScroll){
     document.title = `Services - ${DEFAULTS.name}`;
   } else if(h === "works"){
     app.innerHTML = pageWorks(); addBlossoms("none");
-    document.title = `Works - ${DEFAULTS.name}`;
+    document.title = `Archive - ${DEFAULTS.name}`;
   } else {
     app.innerHTML = pageHome(); initCarousel(id); addBlossoms("home");
     if(CAN_EDIT) $("#heroChange").onclick = e => { e.stopPropagation(); $("#heroInput").click(); };
@@ -835,9 +846,13 @@ async function go(){
   closeLB(); closeMenu();
   if(first){
     first = false; render();
-    await new Promise(r => setTimeout(r, 700));
-    $("#introLogo").classList.remove("show");
+    const wait = Math.max(0, INTRO_START + 3000 - performance.now());
+    await new Promise(r => setTimeout(r, wait));
+    $("#intro").classList.add("hide");
+    await new Promise(r => setTimeout(r, 450));
     await barsAnim(1, 0, "50% 0%");
+    $("#intro").remove();
+    $("#overlay").classList.remove("light");
     return;
   }
   if(busy){ render(); return; }
@@ -898,6 +913,28 @@ async function loadPhotos(){
   }catch(_){ list = window.PHOTOS || []; }
   S.photos = makeItems(list);
 }
+
+/* ---------- opening screen: flowers flying around the logo ---------- */
+const INTRO_START = performance.now();
+(function introFlowers(){
+  if(reduceMotion) return;
+  const box = $("#introFlowers"), n = isMobile() ? 18 : 30;
+  const R = Math.min(innerWidth, innerHeight);
+  for(let i = 0; i < n; i++){
+    const img = new Image(); img.src = FLOWERS[i % FLOWERS.length]; img.alt = "";
+    box.appendChild(img);
+    const a0 = Math.random() * Math.PI * 2, dir = Math.random() < .5 ? 1 : -1;
+    const r0 = 70 + Math.random() * 50, r1 = R * (0.2 + Math.random() * 0.2);
+    const sc = 0.7 + Math.random() * 0.7, spin = dir * (40 + Math.random() * 80);
+    const pt = (t) => { const a = a0 + dir * t * 0.6, r = r0 + (r1 - r0) * t; return `translate(${(Math.cos(a) * r).toFixed(1)}px,${(Math.sin(a) * r * 0.8).toFixed(1)}px)`; };
+    img.animate([
+      { transform: `${pt(0)} rotate(0deg) scale(${sc * .4})`, opacity: 0 },
+      { transform: `${pt(.3)} rotate(${spin * .3}deg) scale(${sc})`, opacity: 1, offset: .25 },
+      { transform: `${pt(.75)} rotate(${spin * .75}deg) scale(${sc})`, opacity: 1, offset: .75 },
+      { transform: `${pt(1)} rotate(${spin}deg) scale(${sc * .9})`, opacity: 0 }
+    ], { duration: 3800 + Math.random() * 1600, delay: Math.random() * 700, easing: "ease-in-out", fill: "both" });
+  }
+})();
 
 loadPhotos().finally(go);
 
