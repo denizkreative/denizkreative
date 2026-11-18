@@ -397,7 +397,7 @@ ul{list-style:none}
 .svc .price{font-size:var(--small);opacity:.6}
 .svc-cta .cta-btn,.reviews .cta-btn{display:inline-block;margin-top:8px;background:var(--white);color:var(--black);padding:12px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em;pointer-events:auto}
 /* reviews */
-.reviews{position:relative;z-index:10;background:var(--white);padding:110px var(--m);display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
+.reviews{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 80px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
 .reviews .label{font-size:var(--small);opacity:.5}
 .review{max-width:760px;display:flex;flex-direction:column;align-items:center;gap:18px}
 .rv-title{font-size:clamp(24px,2.4vw,36px);line-height:1.1}
@@ -405,7 +405,7 @@ ul{list-style:none}
 .review cite{display:flex;flex-direction:column;gap:4px;font-style:normal;font-size:var(--small)}
 .review cite span{opacity:.55;font-size:11px}
 .reviews .cta-btn{background:var(--black);color:var(--white)}
-@media (max-width:900px){ .reviews{padding:70px var(--m)} .rv-title{font-size:22px} .review blockquote{font-size:15px} }
+@media (max-width:900px){ .reviews{padding:24px var(--m) 50px} .rv-title{font-size:22px} .review blockquote{font-size:15px} }
 /* description over photos: readable */
 .p-desc.lt{color:#fff;mix-blend-mode:normal;text-shadow:0 1px 10px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
 .p-desc.dk{color:var(--black);mix-blend-mode:normal}
@@ -945,7 +945,6 @@ function pageServices(){
       <div class="services"><div class="svc-list">${rows}</div></div>
       <div class="svc-cta">${ed("servicesCta", DEFAULTS.servicesCta)}<button class="cta-btn" data-contact="">${L("contactMe").toUpperCase()}</button></div>
       ${reviewsHTML()}
-      <a class="about-discover" href="#works" data-cursor="${L("seeWork")}">${media(coverOf("couples"))}<p class="label">${L("seeWork")}</p></a>
     </div>
     ${footerHTML()}`;
 }
