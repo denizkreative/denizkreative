@@ -18,8 +18,7 @@ window.SITE = {
   tagline: "Photographer and videomaker based in Bologna. Specialized in couples, elopements, editorial and music videos.\nFilm and digital.",
 
   // About page
-  about: "Hello! I’m Deniz, a photographer and videomaker based in Bologna. I work with couples, brands and artists, chasing honest moments, natural light and a little bit of movement. Film and digital. Bologna, Italy and beyond.",
-
+  about: "Hi, I’m Deniz, a photographer and videomaker based in Bologna, Italy.\nI’ve always been drawn to observing people and the little details that often go unnoticed. I work with couples, brands and artists, creating photos and videos that feel natural, personal and a little different.\nI shoot film and digital, playing with light, colour and movement. For me, it’s not just about a beautiful picture, but about capturing something with a feeling behind it.",
   // Text shown on each portfolio page
   categories: {
     "couples":      "Very fun, romantic, cinematic photoshoot through charming streets, bookstores, cozy coffee shops or wherever you choose. With an authentic, editorial style, I’ll capture natural moments.",
