@@ -98,19 +98,30 @@ ul{list-style:none}
 /* page transition */
 .overlay{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;pointer-events:none}
 .overlay i{flex:1;background:var(--black);outline:1px solid var(--black);transform:scaleY(1);transform-origin:50% 100%}
-.intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;color:var(--white);transition:opacity .55s ease}
+.intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:24vh;gap:14px;color:var(--white);transition:opacity .55s ease}
 .intro.hide{opacity:0}
 .overlay.light i{background:var(--white);outline-color:var(--white)}
 .overlay.light .intro{color:var(--black)}
-.overlay.light .intro-flowers img{filter:drop-shadow(0 1px 2px rgba(0,0,0,.18))}
-.intro-logo{height:140px;width:auto;position:relative;z-index:2;animation:introIn 1s var(--ease) both}
-.intro-name{position:relative;z-index:2;font-size:12px;letter-spacing:.32em;padding-left:.32em;opacity:.85;overflow:hidden}
+
+.intro-logo{height:72px;width:auto;position:relative;z-index:2;animation:introIn 1.2s var(--ease) .15s both}
+.intro-name{position:relative;z-index:2;font-size:11px;letter-spacing:.32em;padding-left:.32em;opacity:.85;overflow:hidden}
 .intro-name span{display:block;animation:introUp 1.1s var(--ease) .35s both}
 .intro-flowers{position:absolute;inset:0;pointer-events:none;z-index:1}
-.intro-flowers img{position:absolute;left:50%;top:calc(50% - 20px);width:22px;height:22px;margin:-11px 0 0 -11px;opacity:0;will-change:transform,opacity}
+.intro-flowers canvas{position:absolute;left:0;bottom:0;width:100%;height:100%;display:block}
+/* camera moment */
+.cam{position:absolute;left:50%;top:20vh;width:240px;margin-left:-120px;z-index:4;opacity:0;pointer-events:none}
+.cam svg{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 18px rgba(0,0,0,.22))}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:5;pointer-events:none}
+.print{position:absolute;left:50%;top:50%;z-index:6;background:#fbfaf6;padding:12px 12px 40px;box-shadow:0 18px 40px rgba(0,0,0,.25);
+  transform:translate(-50%,-50%);opacity:0;pointer-events:none}
+.print img{display:block;width:100%;height:100%;object-fit:cover;filter:sepia(.18) contrast(1.06) saturate(1.1) brightness(1.02)}
+.print .grain{position:absolute;inset:12px 12px 40px;background-image:radial-gradient(rgba(0,0,0,.08) 1px,transparent 1px);background-size:3px 3px;mix-blend-mode:multiply;opacity:.5}
+.print p{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:11px;letter-spacing:.3em;color:#2a2a2a}
+@media (max-width:900px){ .cam{width:140px;margin-left:-70px;top:20vh} .print{padding:8px 8px 30px} .print p{bottom:9px;font-size:9px} .print .grain{inset:8px 8px 30px} }
+
 @keyframes introIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 @keyframes introUp{from{transform:translateY(105%)}to{transform:none}}
-@media (max-width:900px){ .intro-logo{height:110px} .intro-flowers img{width:18px;height:18px;margin:-9px 0 0 -9px} }
+@media (max-width:900px){ .intro-logo{height:58px} .intro{padding-top:22vh} }
 
 /* home */
 .home{width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
@@ -133,6 +144,14 @@ ul{list-style:none}
     background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent)}
   .description .text{width:100%}
   .mobile-title{display:block;mix-blend-mode:normal;color:#fff;letter-spacing:.06em;text-shadow:0 1px 14px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
+}
+
+/* homepage without hero photo */
+.home.no-hero .top{background:var(--white)}
+.home.no-hero .hero-empty{cursor:default;background:var(--white)}
+@media (max-width:900px){
+  .home.no-hero .top::after,.home.no-hero .top::before{display:none}
+  .home.no-hero .description,.home.no-hero .mobile-title{color:var(--black);text-shadow:none}
 }
 
 /* project card */
@@ -222,6 +241,20 @@ ul{list-style:none}
   .info-row{flex-direction:column;padding:0}
   .info-row ul{width:100%}
   .about-discover .label{display:block}
+}
+
+/* simple one-screen About */
+.about-simple{position:relative;z-index:10;width:100%;height:100vh;height:100svh;padding:calc(var(--m) * 2 + 40px) var(--m) var(--m);
+  display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.about-bio{width:calc(var(--col)*6 + var(--g)*5);margin-left:calc(var(--col)*2 + var(--g)*2);font-size:clamp(28px,2.6vw,44px);line-height:1.08;text-wrap:pretty}
+.about-bio p + p{margin-top:.55em}
+.about-contact{position:absolute;left:calc(var(--m) + var(--col)*2 + var(--g)*2);bottom:var(--m);display:flex;gap:calc(var(--g)*1.5);align-items:baseline;font-size:var(--small);flex-wrap:wrap}
+.about-contact .sub-title{width:auto;opacity:.5}
+@media (max-width:900px){
+  .about-simple{justify-content:center;padding:90px var(--m) 130px}
+  .about-bio{width:100%;margin-left:0;font-size:26px;line-height:1.1}
+  .about-simple{justify-content:flex-start;padding-top:84px}
+  .about-contact{left:var(--m);right:var(--m);flex-direction:column;gap:6px;align-items:flex-start}
 }
 
 /* services */
@@ -334,7 +367,7 @@ html.editing .mv-fields{display:flex}
 <header class="header">
   <div class="home-link"><a href="#" class="link"><span data-t="DenizKreative">DenizKreative</span></a></div>
   <div class="works">
-    <button id="worksBtn">Archive,</button>
+    <button id="worksBtn">Menu,</button>
     <p class="menu-text" id="menuText"><span></span></p>
   </div>
   <div class="infos">
@@ -455,6 +488,7 @@ function coverOf(cat){
   const items = itemsOf(cat);
   return items.find(i => i.kind === "image") || items[0];
 }
+const noHero = () => !!(window.SITE && typeof window.SITE.hero === "string" && /^(none|empty|no)$/i.test(window.SITE.hero.trim()));
 function heroOf(){
   const set = window.SITE && typeof window.SITE.hero === "string" && window.SITE.hero.trim();
   if(set){ const want = set.replace(/^\/+/, "").replace(/^photos\//, ""); const m = S.photos.find(p => (p.cat + "/" + p.name) === want || p.name === want); if(m) return m; }
@@ -556,9 +590,9 @@ function cardHTML(cat, big){
 }
 
 function pageHome(){
-  return `<main class="home">
+  return `<main class="home${noHero() ? " no-hero" : ""}">
     <div class="top">
-      ${media(heroOf(), "hero-media", 'id="hero" data-cursor="Archive"')}
+      ${noHero() ? `<div class="hero-media hero-empty" id="hero"></div>` : media(heroOf(), "hero-media", 'id="hero" data-cursor="Menu"')}
       ${CAN_EDIT ? `<button class="ed-btn hero-change edit-only" id="heroChange">Change hero photo</button>` : ""}
       <div class="carousel" id="carousel">${CATS.map(c => cardHTML(c, true)).join("")}</div>
     </div>
@@ -621,22 +655,26 @@ function pageCategory(cat){
     ${footerHTML()}`;
 }
 
+function fitAbout(){
+  const box = $(".about-simple"), bio = $(".about-bio"), contact = $(".about-contact");
+  if(!box || !bio) return;
+  bio.style.fontSize = "";
+  const room = () => box.clientHeight - (isMobile() ? contact.offsetHeight + 120 : 150);
+  let px = parseFloat(getComputedStyle(bio).fontSize);
+  while(bio.scrollHeight > room() && px > 11){ px -= 1; bio.style.fontSize = px + "px"; }
+}
 function pageAbout(){
-  const contact = `
-    <li><a class="link" href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">${linkHTML("Instagram")}</a> <span class="edit-only" style="font-size:13px">@</span>${CAN_EDIT ? `<span class="edit-only" style="font-size:13px" data-edit="instagram">${esc(igHandle())}</span>` : ""}</li>
-    ${email() ? `<li><a class="link" href="mailto:${esc(email())}">${linkHTML(email())}</a></li>` : `<li>@${esc(igHandle())}</li>`}
-    <li>${ed("basedIn", DEFAULTS.basedIn, "span")}</li>`;
-  return `<div class="about">
-      <div class="paragraphs">${ed("about", DEFAULTS.about)}</div>
-      <div class="about-image"><img id="aboutImg" src="${esc(allImages()[0])}" alt=""></div>
-      <div class="about-first">
-        <div class="info-row contacts"><p class="sub-title">Contact</p><ul>${contact}</ul></div>
+  const ig = `<a class="link" href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">${linkHTML("Instagram @" + igHandle())}</a>`;
+  const mail = email() ? `<a class="link" href="mailto:${esc(email())}">${linkHTML(email())}</a>` : "";
+  return `<main class="about-simple">
+      <div class="about-bio">${String(T("about", DEFAULTS.about)).split(/\n+/).map(t => t.trim()).filter(Boolean).map(t => `<p>${esc(t)}</p>`).join("")}</div>
+      <div class="about-contact">
+        <p class="sub-title">Contact</p>
+        <p>${ig}</p>
+        ${mail ? `<p>${mail}</p>` : ""}
+        <p>${esc(T("basedIn", DEFAULTS.basedIn))}</p>
       </div>
-      <div class="info-row"><p class="sub-title">Portfolio</p><ul>${CATS.map(c => `<li><a class="link" href="#${c.slug}">${linkHTML(c.title)}</a></li>`).join("")}</ul></div>
-      <div class="info-row"><p class="sub-title">Services</p><ul>${SERVICES.map((s, k) => `<li><a class="link" href="#services">${linkHTML(T("svc." + k + ".title", s.title))}</a></li>`).join("")}</ul></div>
-      <a class="about-discover" href="#works" data-cursor="Discover the archive">${media(heroOf())}<p class="label">Discover the archive</p></a>
-    </div>
-    ${footerHTML()}`;
+    </main>`;
 }
 
 function pageServices(){
@@ -785,9 +823,9 @@ function petalLoop(t){
   requestAnimationFrame(petalLoop);
   if(reduceMotion || document.hidden) return;
   if(!petals.box){ petals.box = document.createElement("div"); petals.box.className = "petals"; document.body.appendChild(petals.box); }
-  const max = isMobile() ? 5 : 9;
+  const max = isMobile() ? 10 : 18;
   const firstScreen = location.hash.slice(1) === "couples" || scrollY < innerHeight * .8;
-  if(petals.active && firstScreen && petals.list.length < max && t - petals.last > (isMobile() ? 2200 : 1300)){
+  if(petals.active && firstScreen && petals.list.length < max && t - petals.last > (isMobile() ? 1100 : 650)){
     petals.last = t;
     const el = document.createElement("div"); el.className = "petal";
     el.innerHTML = `<img src="${FLOWERS[Math.floor(Math.random() * FLOWERS.length)]}" alt="">`;
@@ -842,6 +880,7 @@ let toneQueued = false;
 const queueTone = () => { if(toneQueued) return; toneQueued = true; requestAnimationFrame(() => { toneQueued = false; headerTone(); }); };
 addEventListener("scroll", queueTone, { passive: true });
 addEventListener("resize", queueTone);
+addEventListener("resize", () => { if(location.hash === "#about") fitAbout(); });
 setInterval(headerTone, 400);
 
 /* ---------- router ---------- */
@@ -865,14 +904,14 @@ function render(keepScroll){
     app.innerHTML = pageCategory(cat); initCategory(cat); initBounce(id); addBlossoms(cat.slug === "couples" ? "couples" : "none");
     document.title = `${cat.title} - ${DEFAULTS.name}`;
   } else if(h === "about"){
-    app.innerHTML = pageAbout(); initAbout(id); initBounce(id); addBlossoms("about");
+    app.innerHTML = pageAbout(); addBlossoms("about"); fitAbout(); document.fonts && document.fonts.ready.then(fitAbout);
     document.title = `About - ${DEFAULTS.name}`;
   } else if(h === "services"){
     app.innerHTML = pageServices(); initServices(); initBounce(id); addBlossoms("services");
     document.title = `Services - ${DEFAULTS.name}`;
   } else if(h === "works"){
     app.innerHTML = pageWorks(); addBlossoms("none");
-    document.title = `Archive - ${DEFAULTS.name}`;
+    document.title = `Portfolio - ${DEFAULTS.name}`;
   } else {
     app.innerHTML = pageHome(); initCarousel(id); addBlossoms("home");
     if(CAN_EDIT) $("#heroChange").onclick = e => { e.stopPropagation(); $("#heroInput").click(); };
@@ -887,10 +926,9 @@ async function go(){
   closeLB(); closeMenu();
   if(first){
     first = false; render();
-    const wait = Math.max(0, INTRO_START + 3000 - performance.now());
-    await new Promise(r => setTimeout(r, wait));
-    $("#intro").classList.add("hide");
-    await new Promise(r => setTimeout(r, 450));
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    await sleep(Math.max(0, INTRO_START + 2700 - performance.now()));
+    await takePicture();
     await barsAnim(1, 0, "50% 0%");
     $("#intro").remove();
     $("#overlay").classList.remove("light");
@@ -955,27 +993,170 @@ async function loadPhotos(){
   S.photos = makeItems(list);
 }
 
-/* ---------- opening screen: flowers flying around the logo ---------- */
+/* ---------- opening screen: grass and flowers grow up from the bottom of the page ---------- */
 const INTRO_START = performance.now();
-(function introFlowers(){
-  if(reduceMotion) return;
-  const box = $("#introFlowers"), n = isMobile() ? 18 : 30;
-  const R = Math.min(innerWidth, innerHeight);
-  for(let i = 0; i < n; i++){
-    const img = new Image(); img.src = FLOWERS[i % FLOWERS.length]; img.alt = "";
-    box.appendChild(img);
-    const a0 = Math.random() * Math.PI * 2, dir = Math.random() < .5 ? 1 : -1;
-    const r0 = 70 + Math.random() * 50, r1 = R * (0.2 + Math.random() * 0.2);
-    const sc = 0.7 + Math.random() * 0.7, spin = dir * (40 + Math.random() * 80);
-    const pt = (t) => { const a = a0 + dir * t * 0.6, r = r0 + (r1 - r0) * t; return `translate(${(Math.cos(a) * r).toFixed(1)}px,${(Math.sin(a) * r * 0.8).toFixed(1)}px)`; };
-    img.animate([
-      { transform: `${pt(0)} rotate(0deg) scale(${sc * .4})`, opacity: 0 },
-      { transform: `${pt(.3)} rotate(${spin * .3}deg) scale(${sc})`, opacity: 1, offset: .25 },
-      { transform: `${pt(.75)} rotate(${spin * .75}deg) scale(${sc})`, opacity: 1, offset: .75 },
-      { transform: `${pt(1)} rotate(${spin}deg) scale(${sc * .9})`, opacity: 0 }
-    ], { duration: 3800 + Math.random() * 1600, delay: Math.random() * 700, easing: "ease-in-out", fill: "both" });
+const meadow = { exit: 0 };
+(function growMeadow(){
+  const box = $("#introFlowers");
+  const cv = document.createElement("canvas"); box.appendChild(cv);
+  const ctx = cv.getContext("2d"), dpr = Math.min(2, devicePixelRatio || 1);
+  const W = innerWidth, H = innerHeight, mob = isMobile();
+  cv.width = W * dpr; cv.height = H * dpr; ctx.scale(dpr, dpr);
+  const heads = FLOWERS.map(src => { const i = new Image(); i.src = src; return i; });
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const greens = ["#6f8f3a", "#86a646", "#5d7d33", "#9cb35a", "#7a9a3e", "#4f6f2c"];
+  // grass blades
+  const blades = Array.from({ length: Math.round(W / (mob ? 3.2 : 3.6)) }, () => ({
+    x: rnd(-10, W + 10), h: H * rnd(mob ? .06 : .05, mob ? .16 : .14), w: rnd(1.6, 3.6),
+    lean: rnd(-.35, .35), c: greens[Math.floor(Math.random() * greens.length)],
+    d: rnd(0, .55), ph: rnd(0, 6.28), sp: rnd(.9, 1.6)
+  }));
+  // flowers on stems
+  const maxStem = H * (mob ? .58 : .52);
+  const flowers = Array.from({ length: Math.round(W / (mob ? 26 : 34)) }, (_, k) => {
+    const h = rnd(H * .16, maxStem) * (0.6 + 0.4 * Math.random());
+    return { x: (k + rnd(.1, .9)) / Math.round(W / (mob ? 26 : 34)) * W, h, lean: rnd(-.18, .18),
+      size: (mob ? 15 : 20) + (h / maxStem) * (mob ? 14 : 20) + rnd(-3, 3),
+      img: heads[k % heads.length], d: rnd(.25, 1.05), grow: rnd(.9, 1.3), ph: rnd(0, 6.28), sp: rnd(.7, 1.2),
+      leaf: Math.random() < .7 ? rnd(.25, .55) : 0, leafSide: Math.random() < .5 ? -1 : 1, rot: rnd(-.3, .3) };
+  });
+  flowers.sort((a, b) => a.h - b.h);   // short ones behind? draw tall first so short are in front
+  flowers.reverse();
+  const ease = t => 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3);
+  const pop = t => { t = Math.min(1, Math.max(0, t)); return t < .7 ? (t / .7) * 1.15 : 1.15 - .15 * ((t - .7) / .3); };
+  function stemPath(x0, y0, len, lean, sway){
+    const tx = x0 + lean * len + sway, ty = y0 - len;
+    const cx = x0 + lean * len * .2 + sway * .3, cy = y0 - len * .55;
+    return { tx, ty, cx, cy };
   }
+  function frame(now){
+    if(!document.getElementById("intro") || meadow.frozen) return;
+    const t = (now - INTRO_START) / 1000;
+    const gust = meadow.exit ? Math.min(1, (now - meadow.exit) / 700) : 0;
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.translate(0, gust * gust * H * .5);
+    ctx.globalAlpha = 1 - gust;
+    const wind = Math.sin(t * .9) * .5 + .5;
+    // flowers (behind the front grass)
+    for(const f of flowers){
+      const g = reduceMotion ? 1 : ease((t - f.d) / f.grow);
+      if(g <= 0) continue;
+      const len = f.h * g, sway = (Math.sin(t * f.sp + f.ph) * 6 + wind * 5) * (len / maxStem) * 1.4;
+      const p = stemPath(f.x, H + 4, len, f.lean, sway);
+      ctx.strokeStyle = "#5f8232"; ctx.lineWidth = mob ? 1.5 : 1.8; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.moveTo(f.x, H + 4); ctx.quadraticCurveTo(p.cx, p.cy, p.tx, p.ty); ctx.stroke();
+      if(f.leaf && g > f.leaf){
+        const lt = f.leaf, lx = f.x + (p.cx - f.x) * lt * 1.6, ly = H - len * lt;
+        const ls = Math.min(1, (g - f.leaf) * 4) * (mob ? 9 : 12);
+        ctx.fillStyle = "#6f9439";
+        ctx.beginPath(); ctx.ellipse(lx + f.leafSide * ls * .7, ly - ls * .25, ls, ls * .32, f.leafSide * -.6, 0, 6.29); ctx.fill();
+      }
+      const b = reduceMotion ? 1 : pop((t - f.d - f.grow * .82) / .45);
+      if(b > 0 && f.img.complete && f.img.naturalWidth){
+        const sz = f.size * b;
+        ctx.save(); ctx.translate(p.tx, p.ty); ctx.rotate(f.rot + sway * .01);
+        ctx.shadowColor = "rgba(0,0,0,.15)"; ctx.shadowBlur = 3; ctx.shadowOffsetY = 1;
+        ctx.drawImage(f.img, -sz / 2, -sz / 2, sz, sz); ctx.restore();
+      }
+    }
+    // grass in front
+    for(const bl of blades){
+      const g = reduceMotion ? 1 : ease((t - bl.d) / .8);
+      if(g <= 0) continue;
+      const h = bl.h * g, sway = (Math.sin(t * bl.sp + bl.ph) * 3 + wind * 4) * (h / (H * .15));
+      const tx = bl.x + bl.lean * h + sway, ty = H - h;
+      ctx.fillStyle = bl.c;
+      ctx.beginPath(); ctx.moveTo(bl.x - bl.w, H + 2);
+      ctx.quadraticCurveTo(bl.x + bl.lean * h * .3 - bl.w * .5, H - h * .5, tx, ty);
+      ctx.quadraticCurveTo(bl.x + bl.lean * h * .3 + bl.w * .5, H - h * .5, bl.x + bl.w, H + 2);
+      ctx.fill();
+    }
+    ctx.restore();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  meadow.canvas = cv;
 })();
+
+const CAMERA_SVG = `<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <linearGradient id="cr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f4f2"/><stop offset=".5" stop-color="#c9c9c6"/><stop offset="1" stop-color="#9d9d9a"/></linearGradient>
+ <linearGradient id="cr2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#bdbdba"/><stop offset=".45" stop-color="#f6f6f4"/><stop offset="1" stop-color="#a9a9a6"/></linearGradient>
+ <pattern id="lea" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="#1b1b1b"/><circle cx="1" cy="1" r=".7" fill="#262626"/><circle cx="3" cy="3" r=".6" fill="#121212"/></pattern>
+ <radialGradient id="gl" cx="40%" cy="35%" r="65%"><stop offset="0" stop-color="#6d7f99"/><stop offset=".35" stop-color="#26344a"/><stop offset=".75" stop-color="#0b0f17"/><stop offset="1" stop-color="#05070b"/></radialGradient>
+</defs>
+<path d="M92 22 L104 6 H136 L148 22 Z" fill="url(#cr)" stroke="#7d7d7a" stroke-width="1"/>
+<rect x="111" y="10" width="18" height="8" rx="1.5" fill="#222"/>
+<rect x="18" y="20" width="204" height="30" rx="5" fill="url(#cr)" stroke="#8a8a87"/>
+<rect x="34" y="12" width="26" height="10" rx="3" fill="url(#cr2)" stroke="#8a8a87"/>
+<rect x="38" y="6" width="18" height="7" rx="2" fill="url(#cr2)" stroke="#8a8a87"/>
+<rect x="176" y="13" width="22" height="9" rx="3" fill="url(#cr2)" stroke="#8a8a87"/>
+<circle cx="168" cy="15" r="4.5" fill="url(#cr2)" stroke="#8a8a87"/>
+<path d="M186 14 L226 8" stroke="#bdbdba" stroke-width="4" stroke-linecap="round"/>
+<rect x="14" y="46" width="212" height="86" rx="10" fill="url(#lea)" stroke="#0d0d0d"/>
+<rect x="14" y="46" width="212" height="9" fill="url(#cr)"/>
+<rect x="14" y="124" width="212" height="8" rx="4" fill="url(#cr)"/>
+<circle cx="120" cy="92" r="46" fill="url(#cr2)" stroke="#7d7d7a"/>
+<circle cx="120" cy="92" r="40" fill="#151515"/>
+<g stroke="#2e2e2e" stroke-width="2">${Array.from({length: 36}, (_, i) => { const a = i * 10 * Math.PI / 180; return `<line x1="${(120 + Math.cos(a) * 34).toFixed(1)}" y1="${(92 + Math.sin(a) * 34).toFixed(1)}" x2="${(120 + Math.cos(a) * 39).toFixed(1)}" y2="${(92 + Math.sin(a) * 39).toFixed(1)}"/>`; }).join("")}</g>
+<circle cx="120" cy="92" r="31" fill="#0e0e0e" stroke="#3a3a3a"/>
+<circle cx="120" cy="92" r="24" fill="url(#gl)"/>
+<circle cx="120" cy="92" r="16" fill="none" stroke="#3c5a86" stroke-opacity=".35" stroke-width="2"/>
+<ellipse cx="111" cy="83" rx="7" ry="4" fill="#fff" opacity=".55" transform="rotate(-30 111 83)"/>
+<circle cx="129" cy="101" r="2" fill="#fff" opacity=".35"/>
+<rect x="190" y="60" width="16" height="11" rx="2" fill="#2a2a2a" stroke="#3a3a3a"/>
+<circle cx="36" cy="66" r="5" fill="url(#cr2)" stroke="#7d7d7a"/>
+</svg>`;
+
+/* the camera slides in, takes the picture, and the meadow becomes a film print */
+async function takePicture(){
+  const intro = $("#intro"), sleep = ms => new Promise(r => setTimeout(r, ms));
+  if(!intro) return;
+  $(".intro-logo").animate([{ opacity: 1 }, { opacity: 0, transform: "translateY(-10px)" }], { duration: 400, fill: "forwards" });
+  $(".intro-name").animate([{ opacity: .85 }, { opacity: 0 }], { duration: 350, fill: "forwards" });
+  if(reduceMotion){ await sleep(400); return; }
+  const cam = document.createElement("div"); cam.className = "cam"; cam.innerHTML = CAMERA_SVG; intro.appendChild(cam);
+  const flash = document.createElement("div"); flash.className = "flash"; intro.appendChild(flash);
+  // 1. camera comes down into view
+  await cam.animate([{ opacity: 0, transform: "translateY(-40px) rotate(-4deg)" }, { opacity: 1, transform: "translateY(0) rotate(0)" }],
+    { duration: 650, easing: "cubic-bezier(.2,.8,.25,1)", fill: "forwards" }).finished;
+  await sleep(250);
+  // 2. click: small press + flash, meadow freezes
+  cam.animate([{ transform: "translateY(0)" }, { transform: "translateY(3px) scale(.985)" }, { transform: "translateY(0)" }], { duration: 180, fill: "forwards" });
+  meadow.frozen = true;
+  let shot = "";
+  try{
+    const c = meadow.canvas, out = document.createElement("canvas");
+    const top = Math.round(c.height * (isMobile() ? .36 : .42));          // frame the flowers, not the empty sky
+    out.width = c.width; out.height = c.height - top;
+    const g = out.getContext("2d"); g.fillStyle = "#fafafa"; g.fillRect(0, 0, out.width, out.height); g.drawImage(c, 0, top, c.width, out.height, 0, 0, out.width, out.height);
+    meadow.shotRatio = out.height / out.width;
+    shot = out.toDataURL("image/jpeg", .85);
+  }catch(_){}
+  await flash.animate([{ opacity: 0 }, { opacity: 1, offset: .25 }, { opacity: 0 }], { duration: 420, easing: "ease-out", fill: "forwards" }).finished;
+  // 3. the meadow turns into a printed photo
+  cam.animate([{ opacity: 1 }, { opacity: 0, transform: "translateY(-20px)" }], { duration: 350, fill: "forwards" });
+  if(shot){
+    const W = innerWidth, H = innerHeight, pw = Math.min(W * (isMobile() ? .78 : .42), 600), ph = pw * meadow.shotRatio;
+    const pr = document.createElement("div"); pr.className = "print";
+    pr.style.width = pw + "px"; pr.style.height = (ph + (isMobile() ? 38 : 52)) + "px";
+    pr.innerHTML = `<img src="${shot}" alt=""><span class="grain"></span><p>DENIZKREATIVE</p>`;
+    pr.querySelector("img").style.height = ph + "px";
+    intro.appendChild(pr);
+    meadow.canvas.style.opacity = "0";
+    await pr.animate([
+      { opacity: 1, transform: `translate(-50%,${(H / 2 - ph * (W / pw) / 2 - 20).toFixed(0)}px) scale(${(W / pw).toFixed(3)}) rotate(0deg)` },
+      { opacity: 1, transform: "translate(-50%,-50%) scale(1) rotate(-4deg)" }
+    ], { duration: 750, easing: "cubic-bezier(.25,.8,.25,1)", fill: "forwards" }).finished;
+    await sleep(650);
+    pr.animate([
+      { transform: "translate(-50%,-50%) scale(1) rotate(-4deg)", opacity: 1 },
+      { transform: "translate(-30%,40%) scale(.9) rotate(8deg)", opacity: 0 }
+    ], { duration: 700, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" });
+    await sleep(200);
+  }
+}
 
 loadPhotos().finally(go);
 
