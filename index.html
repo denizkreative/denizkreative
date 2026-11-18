@@ -285,11 +285,14 @@ ul{list-style:none}
 .about-bio p + p{margin-top:.55em}
 .about-contact{position:absolute;left:calc(var(--m) + var(--col)*2 + var(--g)*2);bottom:var(--m);display:flex;gap:calc(var(--g)*1.5);align-items:baseline;font-size:var(--small);flex-wrap:wrap}
 .about-contact .sub-title{width:auto;opacity:.5}
+.about-cta{background:var(--black);color:var(--white);padding:11px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em;margin-left:8px}
+@media (hover:hover){ .about-cta:hover{background:#333} }
 @media (max-width:900px){
   .about-simple{justify-content:center;padding:90px var(--m) 130px}
   .about-bio{width:100%;margin-left:0;font-size:26px;line-height:1.1}
   .about-simple{justify-content:flex-start;padding-top:84px}
   .about-contact{left:var(--m);right:var(--m);flex-direction:column;gap:6px;align-items:flex-start}
+  .about-cta{margin:8px 0 0}
 }
 
 /* services */
@@ -399,10 +402,11 @@ ul{list-style:none}
 .gallery.mv .watch{position:absolute;right:12px;bottom:14px;z-index:2;background:var(--white);color:var(--black);padding:8px 12px;border-radius:999px;font-size:11px;letter-spacing:.1em}
 
 /* simple "next" line at the end of each section */
-.more-work{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 60px;text-align:center}
+.more-work{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 60px;display:flex;justify-content:space-between;align-items:baseline;gap:20px}
 .more-work a{font-size:clamp(18px,1.6vw,24px);display:inline-flex;align-items:baseline;gap:14px;transition:opacity .2s}
 .more-work .mw-label{font-size:var(--small);opacity:.5}
 @media (hover:hover){ .more-work a:hover{opacity:.55} }
+@media (max-width:900px){ .more-work{padding:32px var(--m) 50px} .more-work a{font-size:15px;gap:8px;flex-direction:column;align-items:flex-start} .more-work .mw-next{align-items:flex-end;text-align:right} .more-work .mw-back{flex-direction:column-reverse} }
 
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:var(--black);color:var(--white);display:none}
@@ -545,7 +549,7 @@ const UI = {
         contactMe: "Contact me", talkTitle: "Let’s talk", talkText: "Tell me about your idea, your date or your project. I usually reply the same day.",
         priceNote: "Every project is different, so prices are on request. Write me and I’ll send you a tailored quote.",
         priceShort: "Price on request", whatsapp: "WhatsApp", igDm: "Instagram message", emailMe: "Email", copy: "Copy", copied: "Copied!",
-        kind: "Kind words", moreWork: "More work" },
+        kind: "Kind words", moreWork: "More work", back: "Back" },
   it: { works: "I miei lavori", services: "Servizi", about: "Chi sono", close: "Chiudi", portfolio: "Portfolio", info: "Info",
         viewAll: "Vedi tutto", contact: "Contatti", next: "Avanti", prev: "Indietro", view: "Guarda", workWithMe: "Lavoriamo insieme",
         watch: "Guarda il video", enquire: "Scrivimi", seeWork: "Guarda i lavori", item: "foto", items: "foto",
@@ -554,7 +558,7 @@ const UI = {
         contactMe: "Contattami", talkTitle: "Parliamone", talkText: "Raccontami la tua idea, la data o il progetto. Di solito rispondo in giornata.",
         priceNote: "Ogni progetto è diverso, quindi il prezzo è su richiesta. Scrivimi e ti mando un preventivo su misura.",
         priceShort: "Prezzo su richiesta", whatsapp: "WhatsApp", igDm: "Messaggio Instagram", emailMe: "Email", copy: "Copia", copied: "Copiato!",
-        kind: "Dicono di me", moreWork: "Altri lavori" }
+        kind: "Dicono di me", moreWork: "Altri lavori", back: "Indietro" }
 };
 let LANG = (() => {
   try{ const s = localStorage.getItem("dk-language"); if(LANGS.includes(s)) return s; }catch(_){}
@@ -816,7 +820,8 @@ function pageCategory(cat){
   const i = CATS.indexOf(cat), next = CATS[i + 1];
   const items = itemsOf(cat.slug), real = realPhotos(cat.slug).length;
   const nx = CATS[(CATS.indexOf(cat) + 1) % CATS.length];
-  const nextBlock = `<nav class="more-work"><a href="#${nx.slug}"><span class="mw-label">${L("next")}</span>${esc(nx.title)} →</a></nav>`;
+  const ci = CATS.indexOf(cat), pv = CATS[ci - 1], nn = CATS[ci + 1];
+  const nextBlock = `<nav class="more-work">${pv ? `<a class="mw-back" href="#${pv.slug}">← ${esc(pv.title)}<span class="mw-label">${L("back")}</span></a>` : "<span></span>"}${nn ? `<a class="mw-next" href="#${nn.slug}"><span class="mw-label">${L("next")}</span>${esc(nn.title)} →</a>` : "<span></span>"}</nav>`;
   const accept = "image/*,video/mp4,video/webm";
   return `<div class="wrapper">
       <div class="cover-wrap">${media(coverOf(cat.slug), "thumbnail")}
@@ -853,6 +858,7 @@ function pageAbout(){
         <p>${ig}</p>
         ${mail ? `<p>${mail}</p>` : ""}
         <p>${esc(T("basedIn", DEFAULTS.basedIn))}</p>
+        <button class="about-cta" data-contact="">${L("contactMe").toUpperCase()}</button>
       </div>
     </main>`;
 }
