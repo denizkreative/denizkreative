@@ -47,7 +47,7 @@ ul{list-style:none}
 /* header */
 .header{position:fixed;top:0;left:0;z-index:40;width:100%;padding:var(--m);display:flex;gap:var(--g);
   color:var(--black);pointer-events:none;user-select:none;font-size:var(--small)}
-.header .home-link a,.header .works button,.header .menu-text,.header .infos a{transition:color .35s ease,text-shadow .35s ease}
+.header .home-link a,.header .works button,.header .menu-text,.header .infos a,.header .lang-switch{transition:color .35s ease,text-shadow .35s ease}
 .header .lt{color:var(--white)!important;text-shadow:0 1px 10px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.35)}
 .home-link{width:calc(var(--col)*2 + var(--g));padding-left:34px}
 .works{width:calc(var(--col)*3 + var(--g)*2);font-size:var(--big);line-height:.9;display:flex;flex-direction:column;gap:var(--gap-xs)}
@@ -62,6 +62,18 @@ ul{list-style:none}
   .works{width:fit-content}
   .logo{height:40px}
 }
+
+/* language switch */
+.langs{display:flex;align-items:baseline;gap:22px}
+.lang-switch{display:inline-flex;gap:4px;align-items:baseline;pointer-events:auto}
+.lang-btn{opacity:.45;transition:opacity .2s;padding:0}
+.lang-btn.on{opacity:1;text-decoration:underline;text-underline-offset:3px}
+@media (hover:hover){ .lang-btn:hover{opacity:1} }
+.lang-sep{opacity:.4}
+.menu-langs{display:flex;gap:10px;align-items:baseline;margin-top:calc(var(--big)*.6);padding-left:calc(var(--col)*2 + var(--g)*2);pointer-events:auto}
+.menu-langs .lang-sep{display:none}
+@media (min-width:901px){ .menu-langs{display:none} }
+@media (max-width:900px){ .menu-langs{padding-left:0;justify-content:flex-end} }
 
 /* works menu */
 .menu{position:fixed;inset:0;z-index:50;padding:var(--m);display:flex;flex-direction:column;gap:var(--gap-xs);
@@ -367,13 +379,14 @@ html.editing .mv-fields{display:flex}
 <header class="header">
   <div class="home-link"><a href="#" class="link"><span data-t="DenizKreative">DenizKreative</span></a></div>
   <div class="works">
-    <button id="worksBtn">Menu,</button>
+    <button id="worksBtn">My works,</button>
     <p class="menu-text" id="menuText"><span></span></p>
   </div>
   <div class="infos">
-    <a href="#services" class="link"><span data-t="Services">Services</span></a>
-    <a href="#about" class="link"><span data-t="About">About</span></a>
-    <a href="#" class="link" id="hIg" target="_blank" rel="noopener noreferrer"><span data-t="IG">IG</span></a>
+    <a href="#services" class="link" id="hSvc"><span data-t="Services">Services</span></a>
+    <a href="#about" class="link" id="hAbout"><span data-t="About">About</span></a>
+    <span class="langs"><a href="#" class="link" id="hIg" target="_blank" rel="noopener noreferrer"><span data-t="IG">IG</span></a>
+      <span class="lang-switch" id="langSwitch"></span></span>
   </div>
 </header>
 
@@ -422,9 +435,9 @@ const DEFAULTS = {
 };
 
 const CATS = [
-  { slug: "couples",      title: "Couples & Elopements", desc: "Engagements, anniversaries and intimate elopements. Honest, unposed images of two people, in Bologna and wherever the story takes us." },
-  { slug: "editorial",    title: "Editorial",            desc: "Fashion, beauty and portrait stories for magazines, brands and designers. From concept and moodboard to the final edit." },
-  { slug: "music-videos", title: "Music Videos",         desc: "Music videos and visual content for artists: concept, direction, shooting and edit. Stills and clips from recent productions." }
+  { slug: "couples",      get title(){ return L("cat.couples"); }, desc: "Engagements, anniversaries and intimate elopements. Honest, unposed images of two people, in Bologna and wherever the story takes us." },
+  { slug: "editorial",    get title(){ return L("cat.editorial"); }, desc: "Fashion, beauty and portrait stories for magazines, brands and designers. From concept and moodboard to the final edit." },
+  { slug: "music-videos", get title(){ return L("cat.music-videos"); }, desc: "Music videos and visual content for artists: concept, direction, shooting and edit. Stills and clips from recent productions." }
 ];
 
 const SERVICES = [
@@ -437,17 +450,54 @@ const SERVICES = [
 /* ---------- state ---------- */
 const S = { photos: [], settings: { hero: null, covers: {} }, text: {}, urls: {}, loaded: false };
 const CAN_EDIT = false;
-(function(){
-  const C = window.SITE || {};
-  const put = (k, v) => { if(typeof v === "string") S.text[k] = v; };
-  ["email","instagram","basedIn","footerNote","tagline","about","servicesIntro","servicesCta"].forEach(k => put(k, C[k]));
-  if(C.categories) for(const k in C.categories) put("cat." + k, C.categories[k]);
-  (C.services || []).forEach((sv, i) => {
-    if(!SERVICES[i]) SERVICES[i] = { title: "", kind: "", text: "", details: "", cat: "couples" };
-    ["title","kind","text","details"].forEach(f => put(`svc.${i}.${f}`, sv[f]));
-  });
-  if(C.services) SERVICES.length = C.services.length;
+
+/* ---------- languages ---------- */
+const LANGS = ["en", "it"];
+const UI = {
+  en: { works: "My works", services: "Services", about: "About", close: "Close", portfolio: "Portfolio", info: "Info",
+        viewAll: "View all", contact: "Contact", next: "Next", prev: "Prev", view: "View", workWithMe: "Work with me",
+        watch: "Watch", enquire: "Enquire", seeWork: "See the work", item: "item", items: "items",
+        "cat.couples": "Couples & Elopements", "cat.editorial": "Editorial", "cat.music-videos": "Music Videos",
+        role: "Photographer and Videomaker", enquiry: "Enquiry" },
+  it: { works: "I miei lavori", services: "Servizi", about: "Chi sono", close: "Chiudi", portfolio: "Portfolio", info: "Info",
+        viewAll: "Vedi tutto", contact: "Contatti", next: "Avanti", prev: "Indietro", view: "Guarda", workWithMe: "Lavoriamo insieme",
+        watch: "Guarda il video", enquire: "Scrivimi", seeWork: "Guarda i lavori", item: "foto", items: "foto",
+        "cat.couples": "Coppie & Elopement", "cat.editorial": "Editoriale", "cat.music-videos": "Videoclip",
+        role: "Fotografa e Videomaker", enquiry: "Richiesta" }
+};
+let LANG = (() => {
+  try{ const s = localStorage.getItem("dk-lang"); if(LANGS.includes(s)) return s; }catch(_){}
+  return /^it\b/i.test(navigator.language || "") ? "it" : "en";
 })();
+const L = k => (UI[LANG] && UI[LANG][k]) || UI.en[k] || k;
+const BASE_SERVICES = SERVICES.map(sv => ({ ...sv }));
+function loadContent(){
+  const C = window.SITE || {};
+  const X = (LANG === "it" && C.italian) || {};
+  S.text = {};
+  const put = (k, v) => { if(typeof v === "string") S.text[k] = v; };
+  ["email","instagram","hero"].forEach(k => put(k, C[k]));
+  ["basedIn","footerNote","tagline","about","servicesIntro","servicesCta"].forEach(k => put(k, typeof X[k] === "string" && X[k].trim() ? X[k] : C[k]));
+  const cats = { ...(C.categories || {}) };
+  if(X.categories) for(const k in X.categories) if(X.categories[k]) cats[k] = X.categories[k];
+  for(const k in cats) put("cat." + k, cats[k]);
+  SERVICES.length = 0; BASE_SERVICES.forEach(sv => SERVICES.push({ ...sv }));
+  const list = C.services || [];
+  list.forEach((sv, i) => {
+    if(!SERVICES[i]) SERVICES[i] = { title: "", kind: "", text: "", details: "", cat: "couples" };
+    const tr = (X.services && X.services[i]) || {};
+    ["title","kind","text","details"].forEach(f => put(`svc.${i}.${f}`, typeof tr[f] === "string" && tr[f].trim() ? tr[f] : sv[f]));
+  });
+  if(C.services) SERVICES.length = list.length;
+}
+loadContent();
+function setLang(l){
+  if(!LANGS.includes(l) || l === LANG) return;
+  LANG = l;
+  try{ localStorage.setItem("dk-lang", l); }catch(_){}
+  loadContent();
+  render(true);
+}
 
 const T = (k, d) => (S.text[k] != null && S.text[k] !== "") ? S.text[k] : d;
 const $ = s => document.querySelector(s);
@@ -508,17 +558,28 @@ function media(item, cls = "", extra = ""){
 }
 
 /* ---------- chrome ---------- */
+function langSwitchHTML(){
+  return LANGS.map(l => `<button class="lang-btn${l === LANG ? " on" : ""}" data-lang="${l}">${l.toUpperCase()}</button>`).join(`<span class="lang-sep">/</span>`);
+}
 function updateChrome(){
+  document.documentElement.lang = LANG;
   $("#hIg").href = igUrl();
+  $("#worksBtn").textContent = L("works") + ",";
+  $("#closeBtn").textContent = L("close") + ",";
+  $("#lbClose").textContent = L("close") + ",";
+  $("#lbPrev").dataset.cursor = L("prev"); $("#lbNext").dataset.cursor = L("next");
+  $("#hSvc").innerHTML = linkHTML(L("services")); $("#hAbout").innerHTML = linkHTML(L("about"));
+  $("#langSwitch").innerHTML = langSwitchHTML();
   const cover = heroOf();
   $("#menuImage").innerHTML = media(cover, "", 'id="menuImg"');
-  const works = [{ href: "#works", label: "View all", item: cover }]
+  const works = [{ href: "#works", label: L("viewAll"), item: cover }]
     .concat(CATS.map(c => ({ href: "#" + c.slug, label: c.title, item: coverOf(c.slug) })));
-  $("#menuWorks").innerHTML = `<span class="label">Portfolio</span>` +
+  $("#menuWorks").innerHTML = `<span class="label">${L("portfolio")}</span>` +
     works.map(w => `<a href="${w.href}" data-src="${esc(w.item.src)}" data-kind="${w.item.kind}">${esc(w.label)}</a>`).join("");
-  $("#menuInfo").innerHTML = `<span class="label">Info</span>
-    <a href="#services">Services</a><a href="#about">About</a>
-    <a href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">Instagram</a>`;
+  $("#menuInfo").innerHTML = `<span class="label">${L("info")}</span>
+    <a href="#services">${L("services")}</a><a href="#about">${L("about")}</a>
+    <a href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <span class="menu-langs">${langSwitchHTML()}</span>`;
   document.querySelectorAll(".menu-group a").forEach(a => {
     a.addEventListener("mouseenter", () => { if(a.dataset.src) $("#menuImage").innerHTML = media({ src: a.dataset.src, kind: a.dataset.kind }); });
     a.addEventListener("click", closeMenu);
@@ -528,6 +589,13 @@ const menu = $("#menu");
 function openMenu(){ menu.classList.add("open"); [...menu.querySelectorAll(".menu-group a")].forEach((a,i)=>a.style.transitionDelay = (i*35)+"ms"); }
 function closeMenu(){ menu.classList.remove("open"); [...menu.querySelectorAll(".menu-group a")].forEach(a=>a.style.transitionDelay = "0ms"); }
 $("#worksBtn").onclick = openMenu;
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest(".lang-btn");
+  if(!b) return;
+  e.preventDefault(); e.stopPropagation();
+  setLang(b.dataset.lang);
+  if(menu.classList.contains("open")){ menu.querySelectorAll(".lang-btn").forEach(x => x.classList.toggle("on", x.dataset.lang === LANG)); }
+}, true);
 $("#closeBtn").onclick = closeMenu;
 
 /* ---------- cursor label + service preview ---------- */
@@ -550,7 +618,7 @@ function showLB(){
     ? `<video src="${esc(it.src)}" autoplay loop playsinline controls></video>` : `<img src="${esc(it.src)}" alt="">`;
   $("#lbCount").textContent = String(LB.i + 1).padStart(2, "0") + " / " + String(LB.items.length).padStart(2, "0");
   $("#lbCap").innerHTML = (it.title ? esc(it.title) : "") +
-    (it.link ? `${it.title ? " · " : ""}<a href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">Watch</a>` : "");
+    (it.link ? `${it.title ? " · " : ""}<a href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">${L("watch")}</a>` : "");
 }
 const stepLB = d => { LB.i = (LB.i + d + LB.items.length) % LB.items.length; showLB(); };
 $("#lbClose").onclick = closeLB;
@@ -585,14 +653,14 @@ function cardHTML(cat, big){
   return `<a href="#${cat.slug}" class="project-card ${big ? "big-title card" : "big-title"}">
     ${media(cov, "image")}
     <p class="title">${esc(cat.title)}</p>
-    ${!big && n ? `<p class="count">${n} ${n === 1 ? "item" : "items"}</p>` : ""}
+    ${!big && n ? `<p class="count">${n} ${n === 1 ? L("item") : L("items")}</p>` : ""}
     <div class="hover-images">${strips}</div></a>`;
 }
 
 function pageHome(){
   return `<main class="home${noHero() ? " no-hero" : ""}">
     <div class="top">
-      ${noHero() ? `<div class="hero-media hero-empty" id="hero"></div>` : media(heroOf(), "hero-media", 'id="hero" data-cursor="Menu"')}
+      ${noHero() ? `<div class="hero-media hero-empty" id="hero"></div>` : media(heroOf(), "hero-media", 'id="hero" data-cursor="${L("works")}"')}
       ${CAN_EDIT ? `<button class="ed-btn hero-change edit-only" id="heroChange">Change hero photo</button>` : ""}
       <div class="carousel" id="carousel">${CATS.map(c => cardHTML(c, true)).join("")}</div>
     </div>
@@ -626,7 +694,7 @@ function tileHTML(it, idx, cat){
       <input data-field="title" placeholder="Title, e.g. Artist — Song" value="${esc(it.title)}">
       <input data-field="link" placeholder="Link to the video (YouTube, Vimeo…)" value="${esc(it.link)}"></div>` : "";
   const cap = isMV && it.title ? `<p class="cap">${esc(it.title)}</p>` : "";
-  return `<figure class="tile" data-idx="${idx}" ${it.id ? `data-id="${it.id}"` : ""} data-cursor="View">
+  return `<figure class="tile" data-idx="${idx}" ${it.id ? `data-id="${it.id}"` : ""} data-cursor="${L("view")}">
     ${media(it, "", 'loading="lazy"')}${cap}${tools}${fields}</figure>`;
 }
 
@@ -634,10 +702,9 @@ function pageCategory(cat){
   const i = CATS.indexOf(cat), next = CATS[i + 1];
   const items = itemsOf(cat.slug), real = realPhotos(cat.slug).length;
   const nextBlock = next
-    ? `<a class="next-project" href="#${next.slug}" data-cursor="Next"><div class="bg">${media(coverOf(next.slug))}</div>
-        <div class="text"><p>Next</p><p>${esc(next.title)}</p></div></a>`
-    : `<a class="next-project" href="#services" data-cursor="Services"><div class="bg">${media(heroOf())}</div>
-        <div class="text"><p>Work with me</p><p>Services</p></div></a>`;
+    ? `<a class="next-project" href="#${next.slug}" data-cursor="${L("next")}"><div class="bg">${media(coverOf(next.slug))}</div>
+        <div class="text"><p>${L("next")}</p><p>${esc(next.title)}</p></div></a>`
+    : "";
   const accept = "image/*,video/mp4,video/webm";
   return `<div class="wrapper">
       <div class="cover-wrap">${media(coverOf(cat.slug), "thumbnail")}
@@ -649,7 +716,7 @@ function pageCategory(cat){
         ${items.map((it, k) => tileHTML(it, k, cat)).join("")}
       </div>
       <div class="p-desc" id="pdesc"><p class="title">${esc(cat.title)}</p>${ed("cat." + cat.slug, cat.desc)}
-        <p>${real ? `${real} ${real === 1 ? "item" : "items"}` : ""}</p></div>
+        <p>${real ? `${real} ${real === 1 ? L("item") : L("items")}` : ""}</p></div>
     </div>
     ${nextBlock}
     ${footerHTML()}`;
@@ -669,7 +736,7 @@ function pageAbout(){
   return `<main class="about-simple">
       <div class="about-bio">${String(T("about", DEFAULTS.about)).split(/\n+/).map(t => t.trim()).filter(Boolean).map(t => `<p>${esc(t)}</p>`).join("")}</div>
       <div class="about-contact">
-        <p class="sub-title">Contact</p>
+        <p class="sub-title">${L("contact")}</p>
         <p>${ig}</p>
         ${mail ? `<p>${mail}</p>` : ""}
         <p>${esc(T("basedIn", DEFAULTS.basedIn))}</p>
@@ -679,7 +746,7 @@ function pageAbout(){
 
 function pageServices(){
   const rows = SERVICES.map((s, k) => `
-    <div class="svc" data-svc="${k}" data-cursor="Enquire">
+    <div class="svc" data-svc="${k}" data-cursor="${L("enquire")}">
       <div class="num"><span>${String(k + 1).padStart(2, "0")}</span>${ed("svc." + k + ".kind", s.kind, "span")}</div>
       <div class="body">${ed("svc." + k + ".title", s.title, "h2")}${ed("svc." + k + ".text", s.text, "p", "text")}${ed("svc." + k + ".details", s.details, "p", "details")}</div>
     </div>`).join("");
@@ -687,7 +754,7 @@ function pageServices(){
       <div class="paragraphs">${ed("servicesIntro", DEFAULTS.servicesIntro)}</div>
       <div class="services"><div class="svc-list">${rows}</div></div>
       <div class="svc-cta">${ed("servicesCta", DEFAULTS.servicesCta)}</div>
-      <a class="about-discover" href="#works" data-cursor="See the work">${media(coverOf("couples"))}<p class="label">See the work</p></a>
+      <a class="about-discover" href="#works" data-cursor="${L("seeWork")}">${media(coverOf("couples"))}<p class="label">${L("seeWork")}</p></a>
     </div>
     ${footerHTML()}`;
 }
@@ -760,7 +827,7 @@ function initServices(){
     row.addEventListener("mouseleave", () => preview.classList.remove("show"));
     row.addEventListener("click", e => {
       if(document.documentElement.classList.contains("editing")) return;
-      const subj = encodeURIComponent("Enquiry: " + T("svc." + row.dataset.svc + ".title", s.title));
+      const subj = encodeURIComponent(L("enquiry") + ": " + T("svc." + row.dataset.svc + ".title", s.title));
       if(email()) location.href = `mailto:${email()}?subject=${subj}`;
       else window.open(igUrl(), "_blank", "noopener");
     });
@@ -852,7 +919,7 @@ requestAnimationFrame(petalLoop);
 
 
 /* ---------- readable menu: white over photos, black over white ---------- */
-const HDR_ITEMS = () => [...document.querySelectorAll(".header .home-link a, .header .works button, .header .menu-text, .header .infos a")];
+const HDR_ITEMS = () => [...document.querySelectorAll(".header .home-link a, .header .works button, .header .menu-text, .header .infos > a, .header .langs > a, .header .lang-switch")];
 const SKIP = ".header, .overlay, .cursor, .deco, .petals, .logo, .svc-preview, .menu";
 function bgIsDark(x, y){
   for(const el of document.elementsFromPoint(x, y)){
@@ -899,23 +966,23 @@ function render(keepScroll){
   preview.classList.remove("show");
   updateChrome();
   document.documentElement.classList.toggle("lock", !h && !isMobile());
-  setMenuText(cat ? cat.title : h === "services" ? "Services" : "");
+  setMenuText(cat ? cat.title : h === "services" ? L("services") : "");
   if(cat){
     app.innerHTML = pageCategory(cat); initCategory(cat); initBounce(id); addBlossoms(cat.slug === "couples" ? "couples" : "none");
     document.title = `${cat.title} - ${DEFAULTS.name}`;
   } else if(h === "about"){
     app.innerHTML = pageAbout(); addBlossoms("about"); fitAbout(); document.fonts && document.fonts.ready.then(fitAbout);
-    document.title = `About - ${DEFAULTS.name}`;
+    document.title = `${L("about")} - ${DEFAULTS.name}`;
   } else if(h === "services"){
     app.innerHTML = pageServices(); initServices(); initBounce(id); addBlossoms("services");
-    document.title = `Services - ${DEFAULTS.name}`;
+    document.title = `${L("services")} - ${DEFAULTS.name}`;
   } else if(h === "works"){
     app.innerHTML = pageWorks(); addBlossoms("none");
     document.title = `Portfolio - ${DEFAULTS.name}`;
   } else {
     app.innerHTML = pageHome(); initCarousel(id); addBlossoms("home");
     if(CAN_EDIT) $("#heroChange").onclick = e => { e.stopPropagation(); $("#heroInput").click(); };
-    document.title = `${DEFAULTS.name} - ${DEFAULTS.role}`;
+    document.title = `${DEFAULTS.name} - ${L("role")}`;
   }
   scrollTo(0, keepScroll ? y : 0);
   setTimeout(headerTone, 60);

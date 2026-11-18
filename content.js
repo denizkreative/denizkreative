@@ -3,6 +3,7 @@
    Change any text between the "quotes", then click "Commit changes".
    Keep the quotes and the comma at the end of each line.
    Use \n inside a text to start a new line.
+   English texts are at the top. Italian texts are in the "italian" section below.
    ===================================================================== */
 
 window.SITE = {
@@ -35,6 +36,29 @@ window.SITE = {
     { title: "Editorial",    kind: "Photo",            text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location" },
     { title: "Music Videos", kind: "Direction & Film", text: "Music videos and visuals for artists. Concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
   ],
+
+  // ===================== ITALIANO =====================
+  // Italian version of the texts above. Shown when a visitor picks "IT".
+  // Anything left empty "" shows the English text instead.
+  italian: {
+    basedIn: "Con base a Bologna",
+    footerNote: "Con base a Bologna, disponibile in tutta Europa",
+    tagline: "Sono Deniz, fotografa e videomaker a Bologna. Racconto coppie, elopement, editoriali e videoclip.\nIn pellicola e in digitale.",
+    about: "Ciao, sono Deniz! Sono fotografa e videomaker.\nMi ha sempre affascinato osservare le persone e i piccoli dettagli che spesso passano inosservati. Lavoro con coppie, brand e artisti, creando foto e video.\nScatto in pellicola e in digitale. Per me non si tratta solo di una bella foto, ma di catturare qualcosa che abbia un’emozione dietro.",
+    categories: {
+      "couples":      "Uno shooting divertente, romantico e cinematografico tra stradine affascinanti, librerie, caffè accoglienti o dove preferite voi. Con uno stile autentico ed editoriale, catturerò momenti naturali.",
+      "editorial":    "Storie di moda, musica e ritratto per brand e designer.",
+      "music-videos": "Videoclip e contenuti visivi per artisti: idea, regia, riprese e montaggio."
+    },
+    servicesIntro: "Fotografia e video per coppie, brand e artisti. Ho base a Bologna e sono disponibile in tutta Italia e all’estero. Raccontami cosa hai in mente.",
+    servicesCta: "Idee, domande: scrivimi e ti rispondo in giornata.",
+    services: [
+      { title: "Coppie",     kind: "Foto",          text: "Shooting di coppia! Fidanzamenti, anniversari o semplicemente per voi :) Divertente, guidato e romantico.", details: "Bologna & Emilia-Romagna" },
+      { title: "Elopement",  kind: "Foto & Video",  text: "Matrimoni intimi ed elopement. Vi aiuto a scegliere le location in Italia.", details: "Mezza giornata o giornata intera · Italia & estero" },
+      { title: "Editoriale", kind: "Foto",          text: "Shooting di moda, brand e riviste con direzione creativa, dall’idea alle foto ritoccate.", details: "In studio o in location" },
+      { title: "Videoclip",  kind: "Regia & Video", text: "Videoclip e contenuti visivi per artisti. Idea, regia, riprese, montaggio e color.", details: "Idea · Riprese · Montaggio & color" }
+    ]
+  },
 
   // Music videos: the title shown is the file name (e.g. "01 PRISMA - LIVIDI.mp4" shows "PRISMA - LIVIDI").
   // To add a YouTube / Vimeo link to a clip, write its exact file name and the link:
