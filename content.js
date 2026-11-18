@@ -11,7 +11,7 @@ window.SITE = {
   // Contact
   email: "denizkreative@gmail.com",                          // e.g. "hello@denizkreative.com" — leave "" to show Instagram instead
   instagram: "denizkreative",         // your Instagram username, without @
-  whatsapp: "",                       // your WhatsApp number with country code, e.g. "+39 333 123 4567" — leave "" to hide
+  whatsapp: "+39 339 677 5515",                       // your WhatsApp number with country code, e.g. "+39 333 123 4567" — leave "" to hide
   basedIn: "Based in Bologna",
   hero: "editorial/03.jpg",
   footerNote: "Based in Bologna, available in Europe",
@@ -25,7 +25,7 @@ window.SITE = {
   categories: {
     "couples":      "Very fun, romantic, cinematic photoshoot through charming streets, bookstores, cozy coffee shops or wherever you choose. With an authentic, editorial style, I’ll capture natural moments.",
     "editorial":    "Fashion, Music and portrait stories For brands and designers.",
-    "music-videos": "Music videos and visual content for artists: concept, direction, shooting and edit."
+    "music-videos": "Music videos and visual content for artists: concept, direction, shooting and edit. Here you can see short cuts of my work; the full videos are 3–4 minutes long. Ask me to see them."
   },
 
   // Services page
@@ -41,7 +41,15 @@ window.SITE = {
   // Client reviews (shown on Couples & Elopements and Services). Leave text "" to hide.
   // text = English, textIT = Italian, name = who wrote it.
   reviews: [
-    { text: "", textIT: "", name: "" }
+    {
+      title:   "My Memorable Experience in Bologna!",
+      titleIT: "Un’esperienza indimenticabile a Bologna!",
+      text:    "Deniz's photoshoot was a unique way to explore Bologna. After we met, she took time to understand our goals in the photoshoot. She was fun, professional and we ended up with a number of great photos to remember our first night in this new city. As a person who takes numerous pictures on trips, but is rarely represented in them, I appreciated her skill in capturing photos of me and my good memories in many different locations within Central Bologna. Highly recommended experience!",
+      textIT:  "Lo shooting fotografico con Deniz è stato un modo unico per scoprire Bologna. Dopo esserci conosciute, si è presa il tempo di capire cosa volevamo dallo shooting. È stata divertente e professionale, e abbiamo ottenuto tante belle foto per ricordare la nostra prima sera in questa nuova città. Come persona che scatta tantissime foto in viaggio, ma raramente compare in esse, ho apprezzato la sua capacità di ritrarre me e i miei bei ricordi in tanti luoghi diversi del centro di Bologna. Esperienza consigliatissima!",
+      name:    "Patricia Hengel",
+      about:   "Photoshoot in Bologna · October 2026",
+      aboutIT: "Shooting a Bologna · Ottobre 2026"
+    }
   ],
 
   // ===================== ITALIANO =====================
@@ -55,7 +63,7 @@ window.SITE = {
     categories: {
       "couples":      "Uno shooting divertente, romantico e cinematografico tra stradine affascinanti, librerie, caffè accoglienti o dove preferite voi. Con uno stile autentico ed editoriale, catturerò momenti naturali.",
       "editorial":    "Storie di moda, musica e ritratto per brand e designer.",
-      "music-videos": "Videoclip e contenuti visivi per artisti: idea, regia, riprese e montaggio."
+      "music-videos": "Videoclip e contenuti visivi per artisti: idea, regia, riprese e montaggio. Qui trovi brevi estratti dei miei lavori; i video completi durano 3–4 minuti. Chiedimi di vederli."
     },
     servicesIntro: "Fotografia e video per coppie, brand e artisti. Ho base a Bologna e sono disponibile in tutta Italia e all’estero. Raccontami cosa hai in mente.",
     servicesCta: "Idee, domande: scrivimi e ti rispondo in giornata.",
@@ -69,6 +77,10 @@ window.SITE = {
 
   // Music videos: the title shown is the file name (e.g. "01 PRISMA - LIVIDI.mp4" shows "PRISMA - LIVIDI").
   // To add a YouTube / Vimeo link to a clip, write its exact file name and the link:
+  // Titles shown on the clips (instead of the file name):
+  musicVideoTitles: {
+    "02 Artist - Song.mp4": "Showreel"
+  },
   musicVideoLinks: {
     // "01 PRISMA - LIVIDI.mp4": "https://www.youtube.com/watch?v=...",
   },
