@@ -239,17 +239,30 @@ ul{list-style:none}
 @media (max-width:900px){ .next-project .text{flex-direction:column;justify-content:center;text-align:center} }
 
 /* footer */
-.footer{position:sticky;bottom:0;z-index:0;width:100%;height:100vh;height:100dvh;padding:var(--m);display:flex;
-  justify-content:space-between;align-items:flex-end;gap:var(--g);overflow:hidden}
-.footer .mail{font-size:clamp(60px,6vw,85px);line-height:.7;pointer-events:auto;white-space:nowrap}
-.footer .note{font-size:var(--small);text-align:right;flex-shrink:1}
-.bounce{position:absolute;top:0;left:0;z-index:-1;width:128px;height:128px;overflow:hidden;pointer-events:none;will-change:transform}
+.footer{position:relative;z-index:10;overflow:hidden;isolation:isolate;background:var(--white);border-top:1px solid rgba(0,0,0,.12);padding:56px var(--m) 22px;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:36px var(--g);font-size:var(--small)}
+.footer > :not(.bounce){position:relative;z-index:1}
+.ft-col a,.ft-col .ft-h,.ft-brand p,.ft-logo span,.ft-bottom span{text-shadow:0 0 4px var(--white),0 0 8px var(--white),0 0 12px var(--white)}
+.bounce-zone{position:relative;z-index:10;background:var(--white);height:34vh;min-height:240px;overflow:hidden}
+.bounce{position:absolute;top:0;left:0;z-index:0;width:128px;height:128px;overflow:hidden;pointer-events:none;will-change:transform}
 .bounce img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){ .bounce{width:90px;height:90px} .bounce-zone{height:28vh;min-height:200px} }
+.ft-brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.ft-logo{display:flex;align-items:center;gap:10px;font-size:15px}
+.ft-logo img{height:34px;width:auto}
+.ft-brand p{opacity:.6;max-width:260px;line-height:1.4}
+.ft-cta{background:var(--black);color:var(--white);padding:11px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em}
+.ft-col{display:flex;flex-direction:column;gap:10px}
+.ft-col a{width:fit-content;transition:opacity .2s;white-space:nowrap}
+@media (hover:hover){ .ft-col a:hover,.ft-logo:hover{opacity:.55} .ft-cta:hover{background:#333} }
+.ft-h{opacity:.45;font-size:11px;letter-spacing:.12em;margin-bottom:2px}
+.ft-bottom{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  padding-top:18px;border-top:1px solid rgba(0,0,0,.08);font-size:11px;opacity:.75}
+.ft-langs{display:flex;gap:4px;align-items:baseline}
 @media (max-width:900px){
-  .footer{flex-direction:column-reverse;justify-content:flex-start;align-items:flex-start;gap:var(--gap-xs)}
-  .footer .mail{font-size:32px;line-height:.9;white-space:nowrap}
-  .footer .note{text-align:left}
-  .bounce{width:90px;height:90px}
+  .footer{grid-template-columns:1fr 1fr;padding:44px var(--m) 20px;gap:30px var(--g)}
+  .ft-brand{grid-column:1 / -1}
+  .ft-contact{grid-column:1 / -1}
 }
 
 /* about + services shared */
@@ -402,7 +415,7 @@ ul{list-style:none}
 .gallery.mv .watch{position:absolute;right:12px;bottom:14px;z-index:2;background:var(--white);color:var(--black);padding:8px 12px;border-radius:999px;font-size:11px;letter-spacing:.1em}
 
 /* simple "next" line at the end of each section */
-.more-work{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 60px;display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+.more-work{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 20px;display:flex;justify-content:space-between;align-items:baseline;gap:20px}
 .more-work a{font-size:clamp(18px,1.6vw,24px);display:inline-flex;align-items:baseline;gap:14px;transition:opacity .2s}
 .more-work .mw-label{font-size:var(--small);opacity:.5}
 @media (hover:hover){ .more-work a:hover{opacity:.55} }
@@ -792,11 +805,24 @@ function pageWorks(){
 }
 
 function footerHTML(){
-  return `<footer class="footer">
-    <div class="bounce" id="bounce"><img src="${esc(allImages()[0])}" alt=""></div>
-    ${email() ? `<a class="mail" href="mailto:${esc(email())}">${esc(email())}</a>`
-              : `<a class="mail" href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">@${esc(igHandle())}</a>`}
-    ${ed("footerNote", DEFAULTS.footerNote, "p", "note")}
+  const wa = waNumber();
+  return `<div class="bounce-zone"><div class="bounce" id="bounce"><img src="${esc(allImages()[0])}" alt=""></div></div>
+  <footer class="footer">
+    <div class="ft-brand">
+      <a href="#" class="ft-logo"><img src="logo.png" alt=""><span>DenizKreative</span></a>
+      <p>${esc(T("footerNote", DEFAULTS.footerNote))}</p>
+      <button class="ft-cta" data-contact="">${L("contactMe").toUpperCase()}</button>
+    </div>
+    <nav class="ft-col"><p class="ft-h">${L("portfolio")}</p>
+      ${CATS.map(c => `<a href="#${c.slug}">${esc(c.title)}</a>`).join("")}</nav>
+    <nav class="ft-col"><p class="ft-h">${L("info")}</p>
+      <a href="#services">${L("services")}</a><a href="#about">${L("about")}</a></nav>
+    <div class="ft-col ft-contact"><p class="ft-h">${L("contact")}</p>
+      ${wa ? `<a href="https://wa.me/${wa}" target="_blank" rel="noopener noreferrer">WhatsApp</a>` : ""}
+      <a href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">Instagram</a>
+      ${email() ? `<a href="mailto:${esc(email())}">${esc(email())}</a>` : ""}</div>
+    <div class="ft-bottom"><span>© ${new Date().getFullYear()} DenizKreative</span>
+      <span class="ft-langs">${langSwitchHTML()}</span></div>
   </footer>`;
 }
 
@@ -857,7 +883,6 @@ function pageAbout(){
         <p class="sub-title">${L("contact")}</p>
         <p>${ig}</p>
         ${mail ? `<p>${mail}</p>` : ""}
-        <p>${esc(T("basedIn", DEFAULTS.basedIn))}</p>
         <button class="about-cta" data-contact="">${L("contactMe").toUpperCase()}</button>
       </div>
     </main>`;
@@ -922,7 +947,7 @@ function initCarousel(id){
 }
 
 function initBounce(id){
-  const b = $("#bounce"), f = $(".footer");
+  const b = $("#bounce"), f = $(".bounce-zone");
   if(!b) return;
   const img = b.querySelector("img"), pics = allImages();
   let x = 40, y = 40, vx = 1.6, vy = 1.3, k = 0;
@@ -1008,8 +1033,7 @@ function addBlossoms(page){
     d.innerHTML = branchHTML("tr", "decor/branch-a.webp") + (page === "about" ? branchHTML("bl", "decor/branch-b.webp") : "");
     app.appendChild(d);
   }
-  const f = ["about","services","couples"].includes(page) && app.querySelector(".footer");
-  if(f) f.insertAdjacentHTML("afterbegin", branchHTML("tr", "decor/branch-a.webp"));
+
   if(!["about","services","couples"].includes(page) && petals.list.length){ petals.list.forEach(p => p.el.remove()); petals.list = []; }
   petals.active = ["about","services","couples"].includes(page);
 }
