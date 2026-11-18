@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DenizKreative - Photographer and Videomaker</title>
-<meta name="description" content="Hello, I'm Deniz a photographer and videomaker based in Bologna. I specilized in couples, elopements, editorial and music videos.">
+<meta name="description" content="DenizKreative is a photographer and videomaker based in Bologna. Couples, elopements, editorial and music videos.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +46,9 @@ ul{list-style:none}
 
 /* header */
 .header{position:fixed;top:0;left:0;z-index:40;width:100%;padding:var(--m);display:flex;gap:var(--g);
-  mix-blend-mode:difference;color:var(--white);pointer-events:none;user-select:none;font-size:var(--small)}
+  color:var(--black);pointer-events:none;user-select:none;font-size:var(--small)}
+.header .home-link a,.header .works button,.header .menu-text,.header .infos a{transition:color .35s ease,text-shadow .35s ease}
+.header .lt{color:var(--white)!important;text-shadow:0 1px 10px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.35)}
 .home-link{width:calc(var(--col)*2 + var(--g));padding-left:34px}
 .works{width:calc(var(--col)*3 + var(--g)*2);font-size:var(--big);line-height:.9;display:flex;flex-direction:column;gap:var(--gap-xs)}
 .works button{pointer-events:auto;width:fit-content;text-align:left;line-height:.9}
@@ -68,17 +70,17 @@ ul{list-style:none}
 .menu-image{position:fixed;inset:0;background:var(--white);opacity:0;transition:opacity .6s var(--ease)}
 .menu.open .menu-image{opacity:1}
 .menu-image img,.menu-image video{width:100%;height:100%;object-fit:cover;object-position:center 25%}
-.menu-image::after{content:"";position:absolute;inset:0;background:var(--white-50);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.menu-image::after{content:"";position:absolute;inset:0;background:rgba(250,250,250,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .menu .close{position:relative;z-index:2;font-size:var(--big);line-height:.9;width:fit-content;
-  margin-left:calc(var(--col)*2 + var(--g)*2);mix-blend-mode:difference;color:var(--white)}
+  margin-left:calc(var(--col)*2 + var(--g)*2);color:var(--black)}
 .menu-group{position:relative;z-index:2;display:flex;flex-direction:column;gap:var(--gap-xs);font-size:var(--big);line-height:.9;
-  mix-blend-mode:difference;color:var(--white)}
+  color:var(--black)}
 .menu-group + .menu-group{margin-top:calc(var(--big)*1.2)}
 .menu-group .label{position:absolute;left:0;top:0;font-size:var(--small)}
 .menu-group a{padding-left:calc(var(--col)*2 + var(--g)*2);width:fit-content;transform:translateY(120%);opacity:0;
   transition:transform .9s var(--ease),opacity .5s}
 .menu.open .menu-group a{transform:none;opacity:1}
-@media (hover:hover){ .menu-group a:hover{opacity:.5!important} }
+@media (hover:hover){ .menu-group a:hover{opacity:.45!important} }
 @media (max-width:900px){
   .menu{align-items:flex-end}
   .menu .close{margin-left:0}
@@ -115,8 +117,8 @@ ul{list-style:none}
 .top{position:relative;flex:1 1 auto;min-height:0;background:var(--black)}
 .hero-media{width:calc(var(--col)*6 + var(--g)*5.5 + var(--m));height:100%;object-fit:cover;cursor:pointer}
 .carousel{position:absolute;top:0;right:0;height:100%;width:calc(var(--col)*4 + var(--g)*3.5 + var(--m))}
-.description{flex-shrink:0;padding:var(--m);color:var(--white);mix-blend-mode:difference;pointer-events:none;position:relative;z-index:3}
-.description .text{width:calc(var(--col)*8 + var(--g)*7);font-size:var(--big)}
+.description{flex-shrink:0;padding:var(--m);color:var(--black);pointer-events:none;position:relative;z-index:3}
+.description .text{width:calc(var(--col)*6 + var(--g)*5);font-size:var(--big)}
 .mobile-title{display:none;position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-size:var(--big)!important;
   color:var(--white);mix-blend-mode:difference;pointer-events:none;white-space:nowrap;z-index:3}
 @media (max-width:900px){
@@ -124,9 +126,13 @@ ul{list-style:none}
   .top{height:auto}
   .hero-media{width:100%;height:100vh;height:100svh}
   .carousel{display:none}
-  .description{position:fixed;bottom:0;width:100%}
+  .description{position:fixed;bottom:0;width:100%;mix-blend-mode:normal;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.4)}
+  .home .top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;pointer-events:none;
+    background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,.25) 45%,transparent)}
+  .home .top::before{content:"";position:absolute;left:0;right:0;top:0;height:22%;pointer-events:none;z-index:1;
+    background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent)}
   .description .text{width:100%}
-  .mobile-title{display:block}
+  .mobile-title{display:block;mix-blend-mode:normal;color:#fff;letter-spacing:.06em;text-shadow:0 1px 14px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
 }
 
 /* project card */
@@ -136,7 +142,7 @@ ul{list-style:none}
 .project-card .hover-images{display:flex}
 .hover-images div{flex:1;overflow:hidden;background:var(--black);transform:scaleX(0);transform-origin:100% 50%;transition:transform .2s ease-out}
 .hover-images img{width:200%;height:100%;object-fit:cover}
-.project-card .title{position:relative;z-index:1;width:100%;padding:calc(var(--g)*.5);color:#fff;mix-blend-mode:difference;
+.project-card .title{position:relative;z-index:1;width:100%;padding:calc(var(--g)*.5);color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.35);
   opacity:0;transition:opacity .2s;user-select:none}
 .project-card.big-title{justify-content:center;align-items:center}
 .project-card.big-title .title{opacity:1;text-align:center;font-size:var(--big)}
@@ -373,13 +379,13 @@ const DEFAULTS = {
   name: "DenizKreative",
   role: "Photographer and Videomaker",
   tagline: "Photographer and videomaker based in Bologna. Specialized in couples, elopements, editorial and music videos.\nFilm and digital.",
-  email: "denizkreative@gmail.com",
+  email: "hello@denizkreative.com",
   instagram: "denizkreative",
   basedIn: "Based in Bologna",
-  footerNote: "Based in Bologna, available in Europe",
-  about: "Hello, I'm Deniz! A photographer and videomaker based in Bologna, Italy. Working across couples, elopements, editorial and music videos, with a love. Available across Italy and abroad.",
-  servicesIntro: "Photography and film for couples, brands and artists. Based in Bologna, available across Italy and abroad. Tell me what you have in mind.",
-  servicesCta: "Ideas, questions, locations write me and I will reply within the same day."
+  footerNote: "Based in Bologna, available worldwide",
+  about: "DenizKreative is a photographer and videomaker based in Bologna, Italy. Working across couples, elopements, editorial and music videos, with a love for honest moments, natural light and movement. Available across Italy and abroad.",
+  servicesIntro: "Photography and film for couples, brands and artists. Based in Bologna, available across Italy and abroad. Every project starts with a conversation: tell me what you have in mind.",
+  servicesCta: "Dates, ideas, questions: write me and I will reply within two days."
 };
 
 const CATS = [
@@ -389,7 +395,7 @@ const CATS = [
 ];
 
 const SERVICES = [
-  { title: "Couples",      kind: "Photo",          cat: "couples",      text: "Couple sessions: engagements, anniversaries or just because. Fun, guided and romantic.", details: " Bologna & Emilia-Romagna" },
+  { title: "Couples",      kind: "Photo",          cat: "couples",      text: "Portrait sessions for two: engagements, anniversaries or just because. Relaxed, guided and natural.", details: "1 to 2 hours · Bologna & Emilia-Romagna" },
   { title: "Elopements",   kind: "Photo & Film",   cat: "couples",      text: "Intimate weddings and elopements, from the vows to the quiet moments after. Help with locations across Italy included.", details: "Half or full day · Italy & abroad" },
   { title: "Editorial",    kind: "Photo",          cat: "editorial",    text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location · Creative direction" },
   { title: "Music Videos", kind: "Direction & Film", cat: "music-videos", text: "Music videos and visuals for artists and labels: concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
@@ -806,6 +812,38 @@ function petalLoop(t){
 }
 requestAnimationFrame(petalLoop);
 
+
+/* ---------- readable menu: white over photos, black over white ---------- */
+const HDR_ITEMS = () => [...document.querySelectorAll(".header .home-link a, .header .works button, .header .menu-text, .header .infos a")];
+const SKIP = ".header, .overlay, .cursor, .deco, .petals, .logo, .svc-preview, .menu";
+function bgIsDark(x, y){
+  for(const el of document.elementsFromPoint(x, y)){
+    if(el.closest(SKIP)) continue;
+    if(el.closest(".next-project, .about-discover")) return false;   // these photos are under a light veil
+    if(el.tagName === "IMG" || el.tagName === "VIDEO") return true;
+    if(el.classList.contains("top") || el.closest(".lightbox")) return true;
+    const bg = getComputedStyle(el).backgroundColor;
+    const m = bg.match(/\d+(\.\d+)?/g);
+    if(m && (m.length < 4 || +m[3] > 0.5)){ const l = (+m[0] * 299 + +m[1] * 587 + +m[2] * 114) / 1000; return l < 128; }
+    if(el === document.body || el === document.documentElement) return false;
+  }
+  return false;
+}
+function headerTone(){
+  for(const it of HDR_ITEMS()){
+    if(!it.offsetParent) continue;
+    const r = it.getBoundingClientRect();
+    if(!r.width) continue;
+    const dark = bgIsDark(r.left + Math.min(r.width / 2, 40), r.top + r.height / 2) || bgIsDark(r.left + r.width - 4, r.top + r.height / 2);
+    it.classList.toggle("lt", dark);
+  }
+}
+let toneQueued = false;
+const queueTone = () => { if(toneQueued) return; toneQueued = true; requestAnimationFrame(() => { toneQueued = false; headerTone(); }); };
+addEventListener("scroll", queueTone, { passive: true });
+addEventListener("resize", queueTone);
+setInterval(headerTone, 400);
+
 /* ---------- router ---------- */
 function setMenuText(t){
   const el = $("#menuText");
@@ -841,6 +879,7 @@ function render(keepScroll){
     document.title = `${DEFAULTS.name} - ${DEFAULTS.role}`;
   }
   scrollTo(0, keepScroll ? y : 0);
+  setTimeout(headerTone, 60);
 }
 
 let busy = false, first = true;
