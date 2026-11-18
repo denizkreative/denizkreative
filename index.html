@@ -66,9 +66,10 @@ ul{list-style:none}
 .menu-text.show span{transform:none}
 .infos{width:calc(var(--col)*5 + var(--g)*4);display:flex;justify-content:space-between;height:fit-content}
 @media (max-width:900px){
-  .home-link,.infos,.menu-text{display:none}
+  .home-link,.menu-text,.works,#hSvc,#hAbout,#hIg{display:none}
   .header{justify-content:flex-end}
-  .works{width:fit-content}
+  .infos{width:auto;font-size:13px}
+  .langs{gap:0}
   .logo{height:40px}
 }
 
@@ -171,7 +172,7 @@ ul{list-style:none}
   .top{height:auto}
   .hero-media{width:100%;height:100vh;height:100svh}
   .carousel{display:none}
-  .description{position:fixed;bottom:0;width:100%;mix-blend-mode:normal;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.4)}
+  .description{position:fixed;bottom:var(--tabh);width:100%;mix-blend-mode:normal;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.55),0 0 2px rgba(0,0,0,.4)}
   .home .top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;pointer-events:none;
     background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,.25) 45%,transparent)}
   .home .top::before{content:"";position:absolute;left:0;right:0;top:0;height:22%;pointer-events:none;z-index:1;
@@ -303,8 +304,8 @@ ul{list-style:none}
 @media (max-width:900px){
   .about-simple{justify-content:center;padding:90px var(--m) 130px}
   .about-bio{width:100%;margin-left:0;font-size:26px;line-height:1.1}
-  .about-simple{justify-content:flex-start;padding-top:84px}
-  .about-contact{left:var(--m);right:var(--m);flex-direction:column;gap:6px;align-items:flex-start}
+  .about-simple{justify-content:flex-start;padding-top:70px;padding-bottom:calc(150px + var(--tabh))}
+  .about-contact{left:var(--m);right:var(--m);bottom:calc(var(--m) + var(--tabh));flex-direction:column;gap:6px;align-items:flex-start}
   .about-cta{margin:8px 0 0}
 }
 
@@ -421,6 +422,25 @@ ul{list-style:none}
 @media (hover:hover){ .more-work a:hover{opacity:.55} }
 @media (max-width:900px){ .more-work{padding:32px var(--m) 50px} .more-work a{font-size:15px;gap:8px;flex-direction:column;align-items:flex-start} .more-work .mw-next{align-items:flex-end;text-align:right} .more-work .mw-back{flex-direction:column-reverse} }
 
+/* mobile bottom tab bar */
+:root{--tabh:0px}
+.tabbar{display:none}
+@media (max-width:900px){
+  :root{--tabh:calc(60px + env(safe-area-inset-bottom))}
+  body{padding-bottom:var(--tabh)}
+  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:65;
+    height:var(--tabh);padding-bottom:env(safe-area-inset-bottom);background:rgba(250,250,250,.96);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(0,0,0,.1)}
+  .tabbar a,.tabbar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;letter-spacing:.08em;color:var(--black);opacity:.55}
+  .tabbar .on{opacity:1}
+  .tabbar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .tabbar .tb-contact{opacity:1}
+  .tabbar .tb-contact span.dot{width:42px;height:28px;border-radius:999px;background:var(--black);display:flex;align-items:center;justify-content:center}
+  .tabbar .tb-contact span.dot svg{stroke:var(--white);width:18px;height:18px}
+  .contact-fab,.about-cta,.ft-cta,.svc-cta .cta-btn{display:none!important}
+  .lb-count,.lb-cap{bottom:calc(var(--m) + var(--tabh))}
+}
+
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:var(--black);color:var(--white);display:none}
 .lightbox.open{display:block}
@@ -498,6 +518,12 @@ html.editing .mv-fields{display:flex}
 
 <div class="svc-preview" id="svcPreview"></div>
 <div class="cursor" id="cursor"></div>
+<nav class="tabbar" id="tabbar" aria-label="Main">
+  <a href="#works" data-tab="works"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1"/></svg><span class="tb-l" data-k="portfolio"></span></a>
+  <a href="#services" data-tab="services"><svg viewBox="0 0 24 24"><path d="M4 7.5h3l1.6-2.3h6.8L17 7.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="tb-l" data-k="services"></span></a>
+  <a href="#about" data-tab="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.3-3.8 4.2-5.6 7.5-5.6s6.2 1.8 7.5 5.6"/></svg><span class="tb-l" data-k="about"></span></a>
+  <button class="tb-contact" data-contact=""><span class="dot"><svg viewBox="0 0 24 24"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4.5 3.5V17H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/></svg></span><span class="tb-l" data-k="contact"></span></button>
+</nav>
 <button class="contact-fab" id="contactFab">Contact me</button>
 <div class="contact-sheet" id="contactSheet" aria-hidden="true">
   <div class="cs-box" role="dialog" aria-modal="true">
@@ -678,6 +704,9 @@ function updateChrome(){
   $("#lbPrev").dataset.cursor = L("prev"); $("#lbNext").dataset.cursor = L("next");
   $("#hSvc").innerHTML = linkHTML(L("services")); $("#hAbout").innerHTML = linkHTML(L("about"));
   $("#langSwitch").innerHTML = langSwitchHTML();
+  document.querySelectorAll(".tabbar .tb-l").forEach(el => el.textContent = L(el.dataset.k).toUpperCase());
+  const hh = location.hash.slice(1), onWorks = hh === "works" || CATS.some(c => c.slug === hh);
+  document.querySelectorAll(".tabbar [data-tab]").forEach(a => a.classList.toggle("on", a.dataset.tab === hh || (a.dataset.tab === "works" && onWorks)));
   const cover = heroOf();
   $("#menuImage").innerHTML = media(cover, "", 'id="menuImg"');
   const works = [{ href: "#works", label: L("viewAll"), item: cover }]
@@ -870,7 +899,7 @@ function fitAbout(){
   const box = $(".about-simple"), bio = $(".about-bio"), contact = $(".about-contact");
   if(!box || !bio) return;
   bio.style.fontSize = "";
-  const room = () => box.clientHeight - (isMobile() ? contact.offsetHeight + 120 : 150);
+  const room = () => box.clientHeight - (isMobile() ? contact.offsetHeight + 120 + 60 : 150);
   let px = parseFloat(getComputedStyle(bio).fontSize);
   while(bio.scrollHeight > room() && px > 11){ px -= 1; bio.style.fontSize = px + "px"; }
 }
@@ -921,9 +950,10 @@ function initCarousel(id){
   const size = () => { H = top.clientHeight; cards.forEach(c => c.style.height = H + "px"); };
   size(); addEventListener("resize", size);
   const ro = new ResizeObserver(size); ro.observe(top);
-  const onWheel = e => { if(!$("#lb").classList.contains("open") && !menu.classList.contains("open")) target += e.deltaY; };
+  let userMoved = false;
+  const onWheel = e => { if(!$("#lb").classList.contains("open") && !menu.classList.contains("open")){ target += e.deltaY; userMoved = true; } };
   const onTS = e => { touchY = e.touches[0].clientY; };
-  const onTM = e => { if(touchY != null){ target += (touchY - e.touches[0].clientY) * 1.5; touchY = e.touches[0].clientY; } };
+  const onTM = e => { if(touchY != null){ target += (touchY - e.touches[0].clientY) * 1.5; touchY = e.touches[0].clientY; userMoved = true; } };
   addEventListener("wheel", onWheel, {passive:true});
   addEventListener("touchstart", onTS, {passive:true});
   addEventListener("touchmove", onTM, {passive:true});
@@ -931,12 +961,12 @@ function initCarousel(id){
   (function tick(){
     if(id !== loopId){ removeEventListener("wheel", onWheel); removeEventListener("touchstart", onTS);
       removeEventListener("touchmove", onTM); removeEventListener("resize", size); ro.disconnect(); return; }
-    target += 0.35;
+    const maxT = (N - 1) * H;
+    if(!userMoved && target < maxT) target += 0.35;          // gentle drift until the last section
+    target = Math.max(0, Math.min(maxT, target));             // stop at the first and last section
     cur += (target - cur) * 0.08;
-    const total = N * H;
     cards.forEach((c, i) => {
-      let y = ((i * H - cur) % total + total) % total;
-      if(y > (N - 1) * H) y -= total;
+      const y = i * H - cur;
       c.style.transform = `translate3d(0,${y.toFixed(2)}px,0)`;
       const p = Math.max(-1, Math.min(1, y / H));
       imgs[i].style.transform = `translate3d(0,${(-p * 12).toFixed(2)}%,0) scale(1.2)`;
@@ -1130,7 +1160,7 @@ if(document.fonts) document.fonts.ready.then(() => fitMail());
 /* contact button visibility */
 function updateFab(){
   const h = location.hash.slice(1);
-  const otherVisible = [...document.querySelectorAll("[data-contact]")].some(el => {
+  const otherVisible = [...document.querySelectorAll("[data-contact]:not(.tb-contact)")].some(el => {
     const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0;
   });
   const nearFooter = otherVisible;
