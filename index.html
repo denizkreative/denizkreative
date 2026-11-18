@@ -894,8 +894,7 @@ function reviewsHTML(){
   const list = (C.reviews || []).map(r => ({ title: pick(r, "title"), text: pick(r, "text"), name: r.name || "", about: pick(r, "about") })).filter(r => r.text && r.text.trim());
   if(!list.length) return "";
   return `<section class="reviews"><p class="label">${L("kind")}</p>
-    ${list.map(r => `<figure class="review">${r.title ? `<p class="rv-title">“${esc(r.title.trim())}”</p>` : ""}<blockquote>${esc(r.text.trim())}</blockquote>${r.name ? `<cite>${esc(r.name)}${r.about ? `<span>${esc(r.about)}</span>` : ""}</cite>` : ""}</figure>`).join("")}
-    <button class="cta-btn" data-contact="">${L("contactMe").toUpperCase()}</button></section>`;
+    ${list.map(r => `<figure class="review">${r.title ? `<p class="rv-title">“${esc(r.title.trim())}”</p>` : ""}<blockquote>${esc(r.text.trim())}</blockquote>${r.name ? `<cite>${esc(r.name)}${r.about ? `<span>${esc(r.about)}</span>` : ""}</cite>` : ""}</figure>`).join("")}</section>`;
 }
 function pageServices(){
   const rows = SERVICES.map((s, k) => `
@@ -1130,8 +1129,11 @@ if(document.fonts) document.fonts.ready.then(() => fitMail());
 
 /* contact button visibility */
 function updateFab(){
-  const h = location.hash.slice(1), f = document.querySelector(".footer");
-  const nearFooter = f && f.getBoundingClientRect().top < innerHeight * .75 && scrollY > innerHeight * .5;
+  const h = location.hash.slice(1);
+  const otherVisible = [...document.querySelectorAll("[data-contact]")].some(el => {
+    const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0;
+  });
+  const nearFooter = otherVisible;
   $("#contactFab").textContent = L("contactMe").toUpperCase();
   $("#contactFab").classList.toggle("on", !!h && h !== "about" && !document.getElementById("intro") && !nearFooter);
 }
