@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DenizKreative - Photographer and Videomaker</title>
 <meta name="description" content="DenizKreative is a photographer and videomaker based in Bologna. Couples, elopements, editorial and music videos.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DenizKreative">
+<meta property="og:title" content="DenizKreative – Photographer & Videomaker, Bologna">
+<meta property="og:description" content="Couples, elopements, editorial and music videos. Film and digital.">
+<meta property="og:image" content="https://denizkreative.github.io/denizkreative/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://denizkreative.github.io/denizkreative/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -237,7 +246,7 @@ ul{list-style:none}
 .bounce img{width:100%;height:100%;object-fit:cover}
 @media (max-width:900px){
   .footer{flex-direction:column-reverse;justify-content:flex-start;align-items:flex-start;gap:var(--gap-xs)}
-  .footer .mail{font-size:32px;line-height:.9;white-space:normal;overflow-wrap:anywhere}
+  .footer .mail{font-size:32px;line-height:.9;white-space:nowrap}
   .footer .note{text-align:left}
   .bounce{width:90px;height:90px}
 }
@@ -344,6 +353,54 @@ ul{list-style:none}
   .petals{display:none}
 }
 
+/* contact button + sheet */
+.contact-fab{position:fixed;right:var(--m);bottom:var(--m);z-index:60;background:var(--black);color:var(--white);
+  font-size:12px;letter-spacing:.12em;padding:12px 18px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.18);
+  opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s;pointer-events:none}
+.contact-fab.on{opacity:1;transform:none;pointer-events:auto}
+@media (hover:hover){ .contact-fab:hover{background:#333} }
+.contact-sheet{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:rgba(250,250,250,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s}
+.contact-sheet.open{opacity:1;pointer-events:auto}
+.cs-box{position:relative;background:var(--white);width:min(440px,100%);padding:36px 32px 28px;box-shadow:0 20px 60px rgba(0,0,0,.14);
+  display:flex;flex-direction:column;gap:14px;transform:translateY(12px);transition:transform .35s}
+.contact-sheet.open .cs-box{transform:none}
+.cs-close{position:absolute;top:10px;right:14px;font-size:26px;line-height:1;text-transform:none}
+.cs-title{font-size:var(--big)}
+.cs-text,.cs-note{font-size:13px;text-transform:none;line-height:1.45;letter-spacing:.01em}
+.cs-note{opacity:.6}
+.cs-options{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.cs-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--black);padding:13px 16px;font-size:var(--small);transition:background .2s,color .2s}
+@media (hover:hover){ a.cs-opt:hover{background:var(--black);color:var(--white)} }
+.cs-opt small{font-size:11px;text-transform:none;opacity:.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cs-mail{display:flex;gap:8px}
+.cs-mail a{flex:1;min-width:0}
+.cs-copy{border:1px solid var(--black);padding:0 14px;font-size:11px;letter-spacing:.1em}
+.svc .price{font-size:var(--small);opacity:.6}
+.svc-cta .cta-btn,.reviews .cta-btn{display:inline-block;margin-top:8px;background:var(--white);color:var(--black);padding:12px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em;pointer-events:auto}
+/* reviews */
+.reviews{position:relative;z-index:10;background:var(--white);padding:110px var(--m);display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
+.reviews .label{font-size:var(--small);opacity:.5}
+.review{max-width:820px}
+.review blockquote{font-size:clamp(22px,2.2vw,34px);line-height:1.15}
+.review cite{display:block;margin-top:14px;font-style:normal;font-size:var(--small);opacity:.7}
+.reviews .cta-btn{background:var(--black);color:var(--white)}
+@media (max-width:900px){ .reviews{padding:70px var(--m)} .review blockquote{font-size:20px} }
+/* description over photos: readable */
+.p-desc.lt{color:#fff;mix-blend-mode:normal;text-shadow:0 1px 10px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
+.p-desc.dk{color:var(--black);mix-blend-mode:normal}
+/* music videos: bigger, one per row */
+.gallery.mv{columns:1}
+.gallery.mv .tile video{aspect-ratio:16/9;object-fit:cover;background:#111}
+.gallery.mv .tile .cap{font-size:var(--big);left:14px;bottom:12px;mix-blend-mode:normal;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.gallery.mv .watch{position:absolute;right:12px;bottom:14px;z-index:2;background:var(--white);color:var(--black);padding:8px 12px;border-radius:999px;font-size:11px;letter-spacing:.1em}
+
+/* simple "next" line at the end of each section */
+.more-work{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 60px;text-align:center}
+.more-work a{font-size:clamp(18px,1.6vw,24px);display:inline-flex;align-items:baseline;gap:14px;transition:opacity .2s}
+.more-work .mw-label{font-size:var(--small);opacity:.5}
+@media (hover:hover){ .more-work a:hover{opacity:.55} }
+
 /* lightbox */
 .lightbox{position:fixed;inset:0;z-index:70;background:var(--black);color:var(--white);display:none}
 .lightbox.open{display:block}
@@ -421,6 +478,16 @@ html.editing .mv-fields{display:flex}
 
 <div class="svc-preview" id="svcPreview"></div>
 <div class="cursor" id="cursor"></div>
+<button class="contact-fab" id="contactFab">Contact me</button>
+<div class="contact-sheet" id="contactSheet" aria-hidden="true">
+  <div class="cs-box" role="dialog" aria-modal="true">
+    <button class="cs-close" id="csClose" aria-label="Close">×</button>
+    <h2 class="cs-title" id="csTitle"></h2>
+    <p class="cs-text" id="csText"></p>
+    <div class="cs-options" id="csOptions"></div>
+    <p class="cs-note" id="csNote"></p>
+  </div>
+</div>
 <div class="overlay light" id="overlay"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><div class="intro" id="intro"><div class="intro-flowers" id="introFlowers"></div><img class="intro-logo" src="logo.png" alt=""><p class="intro-name"><span>DenizKreative</span></p></div></div>
 
 
@@ -471,12 +538,20 @@ const UI = {
         viewAll: "View all", contact: "Contact", next: "Next", prev: "Prev", view: "View", workWithMe: "Work with me",
         watch: "Watch", enquire: "Enquire", seeWork: "See the work", item: "item", items: "items",
         "cat.couples": "Couples & Elopements", "cat.editorial": "Editorial", "cat.music-videos": "Music Videos",
-        role: "Photographer and Videomaker", enquiry: "Enquiry" },
+        role: "Photographer and Videomaker", enquiry: "Enquiry",
+        contactMe: "Contact me", talkTitle: "Let’s talk", talkText: "Tell me about your idea, your date or your project. I usually reply the same day.",
+        priceNote: "Every project is different, so prices are on request. Write me and I’ll send you a tailored quote.",
+        priceShort: "Price on request", whatsapp: "WhatsApp", igDm: "Instagram message", emailMe: "Email", copy: "Copy", copied: "Copied!",
+        kind: "Kind words", moreWork: "More work" },
   it: { works: "I miei lavori", services: "Servizi", about: "Chi sono", close: "Chiudi", portfolio: "Portfolio", info: "Info",
         viewAll: "Vedi tutto", contact: "Contatti", next: "Avanti", prev: "Indietro", view: "Guarda", workWithMe: "Lavoriamo insieme",
         watch: "Guarda il video", enquire: "Scrivimi", seeWork: "Guarda i lavori", item: "foto", items: "foto",
         "cat.couples": "Coppie & Elopement", "cat.editorial": "Editoriale", "cat.music-videos": "Videoclip",
-        role: "Fotografa e Videomaker", enquiry: "Richiesta" }
+        role: "Fotografa e Videomaker", enquiry: "Richiesta",
+        contactMe: "Contattami", talkTitle: "Parliamone", talkText: "Raccontami la tua idea, la data o il progetto. Di solito rispondo in giornata.",
+        priceNote: "Ogni progetto è diverso, quindi il prezzo è su richiesta. Scrivimi e ti mando un preventivo su misura.",
+        priceShort: "Prezzo su richiesta", whatsapp: "WhatsApp", igDm: "Messaggio Instagram", emailMe: "Email", copy: "Copia", copied: "Copiato!",
+        kind: "Dicono di me", moreWork: "Altri lavori" }
 };
 let LANG = (() => {
   try{ const s = localStorage.getItem("dk-language"); if(LANGS.includes(s)) return s; }catch(_){}
@@ -566,7 +641,7 @@ function allImages(){
 }
 function media(item, cls = "", extra = ""){
   if(item.kind === "video")
-    return `<video class="${cls}" src="${esc(item.src)}" muted loop playsinline autoplay preload="metadata" ${extra}></video>`;
+    return `<video class="${cls}" src="${esc(item.src)}#t=0.1" muted loop playsinline preload="metadata" data-autoplay ${extra}></video>`;
   return `<img class="${cls}" src="${esc(item.src)}" alt="" ${extra}>`;
 }
 
@@ -610,6 +685,29 @@ document.addEventListener("click", e => {
   if(menu.classList.contains("open")){ menu.querySelectorAll(".lang-btn").forEach(x => x.classList.toggle("on", x.dataset.lang === LANG)); }
 }, true);
 $("#closeBtn").onclick = closeMenu;
+
+/* ---------- contact ---------- */
+const waNumber = () => String((window.SITE && window.SITE.whatsapp) || "").replace(/[^\d]/g, "");
+function openContact(subject){
+  const opts = [];
+  const msg = subject ? `${L("enquiry")}: ${subject}` : "";
+  if(waNumber()) opts.push(`<a class="cs-opt" href="https://wa.me/${waNumber()}${msg ? "?text=" + encodeURIComponent(msg) : ""}" target="_blank" rel="noopener noreferrer"><span>${L("whatsapp")}</span><small>+${waNumber()}</small></a>`);
+  opts.push(`<a class="cs-opt" href="https://ig.me/m/${esc(igHandle())}" target="_blank" rel="noopener noreferrer"><span>${L("igDm")}</span><small>@${esc(igHandle())}</small></a>`);
+  if(email()) opts.push(`<div class="cs-mail"><a class="cs-opt" href="mailto:${esc(email())}${msg ? "?subject=" + encodeURIComponent(msg) : ""}"><span>${L("emailMe")}</span><small>${esc(email())}</small></a><button class="cs-copy" id="csCopy">${L("copy")}</button></div>`);
+  $("#csTitle").textContent = L("talkTitle");
+  $("#csText").textContent = L("talkText");
+  $("#csNote").textContent = L("priceNote");
+  $("#csOptions").innerHTML = opts.join("");
+  const cp = $("#csCopy");
+  if(cp) cp.onclick = async () => { try{ await navigator.clipboard.writeText(email()); cp.textContent = L("copied"); }catch(_){ cp.textContent = email(); } };
+  $("#contactSheet").classList.add("open"); $("#contactSheet").setAttribute("aria-hidden", "false");
+}
+function closeContact(){ $("#contactSheet").classList.remove("open"); $("#contactSheet").setAttribute("aria-hidden", "true"); }
+$("#contactFab").onclick = () => openContact("");
+$("#csClose").onclick = closeContact;
+$("#contactSheet").addEventListener("click", e => { if(e.target.id === "contactSheet") closeContact(); });
+addEventListener("keydown", e => { if(e.key === "Escape") closeContact(); });
+document.addEventListener("click", e => { const t = e.target.closest && e.target.closest("[data-contact]"); if(t){ e.preventDefault(); openContact(t.dataset.contact || ""); } });
 
 /* ---------- cursor label + service preview ---------- */
 const cursor = $("#cursor"), preview = $("#svcPreview");
@@ -706,7 +804,7 @@ function tileHTML(it, idx, cat){
   const fields = isMV && !it.ph && CAN_EDIT ? `<div class="mv-fields">
       <input data-field="title" placeholder="Title, e.g. Artist — Song" value="${esc(it.title)}">
       <input data-field="link" placeholder="Link to the video (YouTube, Vimeo…)" value="${esc(it.link)}"></div>` : "";
-  const cap = isMV && it.title ? `<p class="cap">${esc(it.title)}</p>` : "";
+  const cap = (isMV && it.title ? `<p class="cap">${esc(it.title)}</p>` : "") + (isMV && it.link ? `<a class="watch" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">${L("watch").toUpperCase()} ↗</a>` : "");
   return `<figure class="tile" data-idx="${idx}" ${it.id ? `data-id="${it.id}"` : ""} data-cursor="${L("view")}">
     ${media(it, "", 'loading="lazy"')}${cap}${tools}${fields}</figure>`;
 }
@@ -714,15 +812,13 @@ function tileHTML(it, idx, cat){
 function pageCategory(cat){
   const i = CATS.indexOf(cat), next = CATS[i + 1];
   const items = itemsOf(cat.slug), real = realPhotos(cat.slug).length;
-  const nextBlock = next
-    ? `<a class="next-project" href="#${next.slug}" data-cursor="${L("next")}"><div class="bg">${media(coverOf(next.slug))}</div>
-        <div class="text"><p>${L("next")}</p><p>${esc(next.title)}</p></div></a>`
-    : "";
+  const nx = CATS[(CATS.indexOf(cat) + 1) % CATS.length];
+  const nextBlock = `<nav class="more-work"><a href="#${nx.slug}"><span class="mw-label">${L("next")}</span>${esc(nx.title)} →</a></nav>`;
   const accept = "image/*,video/mp4,video/webm";
   return `<div class="wrapper">
       <div class="cover-wrap">${media(coverOf(cat.slug), "thumbnail")}
         ${CAN_EDIT && !real ? `<p class="cover-note edit-only">Add photos below. The first one becomes the cover.</p>` : ""}</div>
-      <div class="gallery" id="gallery">
+      <div class="gallery${cat.slug === "music-videos" ? " mv" : ""}" id="gallery">
         ${CAN_EDIT ? `<label class="dropzone" id="drop">+ Add photos${cat.slug === "music-videos" ? " or clips" : ""}
           <small>Click or drop files here · JPG, PNG, WebP${cat.slug === "music-videos" ? " · MP4 up to 20 MB" : ""}</small>
           <input type="file" id="fileInput" multiple accept="${accept}" hidden></label>` : ""}
@@ -731,6 +827,7 @@ function pageCategory(cat){
       <div class="p-desc" id="pdesc"><p class="title">${esc(cat.title)}</p>${ed("cat." + cat.slug, cat.desc)}
         <p>${real ? `${real} ${real === 1 ? L("item") : L("items")}` : ""}</p></div>
     </div>
+    ${cat.slug === "couples" ? reviewsHTML() : ""}
     ${nextBlock}
     ${footerHTML()}`;
 }
@@ -757,16 +854,25 @@ function pageAbout(){
     </main>`;
 }
 
+function reviewsHTML(){
+  const C = window.SITE || {};
+  const list = (C.reviews || []).map(r => ({ text: (LANG === "it" && r.textIT && r.textIT.trim()) ? r.textIT : r.text, name: r.name || "" })).filter(r => r.text && r.text.trim());
+  if(!list.length) return "";
+  return `<section class="reviews"><p class="label">${L("kind")}</p>
+    ${list.map(r => `<figure class="review"><blockquote>“${esc(r.text.trim())}”</blockquote>${r.name ? `<cite>${esc(r.name)}</cite>` : ""}</figure>`).join("")}
+    <button class="cta-btn" data-contact="">${L("contactMe").toUpperCase()}</button></section>`;
+}
 function pageServices(){
   const rows = SERVICES.map((s, k) => `
     <div class="svc" data-svc="${k}" data-cursor="${L("enquire")}">
       <div class="num"><span>${String(k + 1).padStart(2, "0")}</span>${ed("svc." + k + ".kind", s.kind, "span")}</div>
-      <div class="body">${ed("svc." + k + ".title", s.title, "h2")}${ed("svc." + k + ".text", s.text, "p", "text")}${ed("svc." + k + ".details", s.details, "p", "details")}</div>
+      <div class="body">${ed("svc." + k + ".title", s.title, "h2")}${ed("svc." + k + ".text", s.text, "p", "text")}${ed("svc." + k + ".details", s.details, "p", "details")}<p class="price">${L("priceShort")} →</p></div>
     </div>`).join("");
   return `<div class="about">
       <div class="paragraphs">${ed("servicesIntro", DEFAULTS.servicesIntro)}</div>
       <div class="services"><div class="svc-list">${rows}</div></div>
-      <div class="svc-cta">${ed("servicesCta", DEFAULTS.servicesCta)}</div>
+      <div class="svc-cta">${ed("servicesCta", DEFAULTS.servicesCta)}<button class="cta-btn" data-contact="">${L("contactMe").toUpperCase()}</button></div>
+      ${reviewsHTML()}
       <a class="about-discover" href="#works" data-cursor="${L("seeWork")}">${media(coverOf("couples"))}<p class="label">${L("seeWork")}</p></a>
     </div>
     ${footerHTML()}`;
@@ -840,9 +946,7 @@ function initServices(){
     row.addEventListener("mouseleave", () => preview.classList.remove("show"));
     row.addEventListener("click", e => {
       if(document.documentElement.classList.contains("editing")) return;
-      const subj = encodeURIComponent(L("enquiry") + ": " + T("svc." + row.dataset.svc + ".title", s.title));
-      if(email()) location.href = `mailto:${email()}?subject=${subj}`;
-      else window.open(igUrl(), "_blank", "noopener");
+      openContact(T("svc." + row.dataset.svc + ".title", s.title));
     });
   });
 }
@@ -853,6 +957,7 @@ function initCategory(cat){
   set(); addEventListener("resize", set);
   const items = itemsOf(cat.slug);
   $("#gallery").addEventListener("click", e => {
+    if(e.target.closest("a")) return;
     const tile = e.target.closest(".tile");
     if(!tile) return;
     const btn = e.target.closest("[data-act]");
@@ -933,7 +1038,7 @@ requestAnimationFrame(petalLoop);
 
 /* ---------- readable menu: white over photos, black over white ---------- */
 const HDR_ITEMS = () => [...document.querySelectorAll(".header .home-link a, .header .works button, .header .menu-text, .header .infos > a, .header .langs > a, .header .lang-switch")];
-const SKIP = ".header, .overlay, .cursor, .deco, .petals, .logo, .svc-preview, .menu";
+const SKIP = ".header, .overlay, .cursor, .deco, .petals, .logo, .svc-preview, .menu, .p-desc, .contact-fab, .contact-sheet";
 function bgIsDark(x, y){
   for(const el of document.elementsFromPoint(x, y)){
     if(el.closest(SKIP)) continue;
@@ -947,7 +1052,14 @@ function bgIsDark(x, y){
   }
   return false;
 }
+function descTone(){
+  const d = document.getElementById("pdesc"); if(!d || isMobile()) return;
+  const r = d.getBoundingClientRect();
+  const dark = bgIsDark(r.left + 20, r.bottom - 14) || bgIsDark(r.left + 20, r.top + 10);
+  d.classList.toggle("lt", dark); d.classList.toggle("dk", !dark);
+}
 function headerTone(){
+  descTone();
   for(const it of HDR_ITEMS()){
     if(!it.offsetParent) continue;
     const r = it.getBoundingClientRect();
@@ -962,6 +1074,33 @@ addEventListener("scroll", queueTone, { passive: true });
 addEventListener("resize", queueTone);
 addEventListener("resize", () => { if(location.hash === "#about") fitAbout(); });
 setInterval(headerTone, 400);
+
+/* play videos only while visible (saves phone data) */
+const vidObs = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => {
+  const v = e.target; if(e.isIntersecting){ const p = v.play(); if(p && p.catch) p.catch(() => {}); } else v.pause();
+}), { threshold: .25 }) : null;
+function watchVideos(){ document.querySelectorAll("video[data-autoplay]").forEach(v => { if(vidObs) vidObs.observe(v); else v.play(); }); }
+
+/* footer email always fits on one line */
+function fitMail(){
+  const m = document.querySelector(".footer .mail"); if(!m) return;
+  m.style.fontSize = ""; m.style.display = "inline-block";
+  const f = m.parentElement, cs = getComputedStyle(f);
+  const max = f.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - (isMobile() ? 0 : 260);
+  let px = parseFloat(getComputedStyle(m).fontSize);
+  while(m.getBoundingClientRect().width > max && px > 12){ px -= 1; m.style.fontSize = px + "px"; }
+}
+addEventListener("resize", () => fitMail());
+if(document.fonts) document.fonts.ready.then(() => fitMail());
+
+/* contact button visibility */
+function updateFab(){
+  const h = location.hash.slice(1), f = document.querySelector(".footer");
+  const nearFooter = f && f.getBoundingClientRect().top < innerHeight * .75 && scrollY > innerHeight * .5;
+  $("#contactFab").textContent = L("contactMe").toUpperCase();
+  $("#contactFab").classList.toggle("on", !!h && h !== "about" && !document.getElementById("intro") && !nearFooter);
+}
+addEventListener("scroll", () => updateFab(), { passive: true });
 
 /* ---------- router ---------- */
 function setMenuText(t){
@@ -999,6 +1138,7 @@ function render(keepScroll){
   }
   scrollTo(0, keepScroll ? y : 0);
   setTimeout(headerTone, 60);
+  watchVideos(); updateFab(); fitMail();
 }
 
 let busy = false, first = true;
@@ -1012,6 +1152,7 @@ async function go(){
     await sleep(380);
     await barsAnim(1, 0, "50% 0%");
     $("#intro").remove();
+    updateFab();
     $("#overlay").classList.remove("light");
     return;
   }

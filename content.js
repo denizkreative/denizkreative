@@ -11,6 +11,7 @@ window.SITE = {
   // Contact
   email: "denizkreative@gmail.com",                          // e.g. "hello@denizkreative.com" — leave "" to show Instagram instead
   instagram: "denizkreative",         // your Instagram username, without @
+  whatsapp: "",                       // your WhatsApp number with country code, e.g. "+39 333 123 4567" — leave "" to hide
   basedIn: "Based in Bologna",
   hero: "editorial/03.jpg",
   footerNote: "Based in Bologna, available in Europe",
@@ -35,6 +36,12 @@ window.SITE = {
     { title: "Elopements",   kind: "Photo & Film",     text: "Intimate weddings and elopements. I will help you with locations in Italy.", details: "Half or full day · Italy & abroad" },
     { title: "Editorial",    kind: "Photo",            text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location" },
     { title: "Music Videos", kind: "Direction & Film", text: "Music videos and visuals for artists. Concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
+  ],
+
+  // Client reviews (shown on Couples & Elopements and Services). Leave text "" to hide.
+  // text = English, textIT = Italian, name = who wrote it.
+  reviews: [
+    { text: "", textIT: "", name: "" }
   ],
 
   // ===================== ITALIANO =====================
