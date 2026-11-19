@@ -87,5 +87,5 @@ window.SITE = {
 
   // Only needed if you connect your own domain (e.g. denizkreative.com):
   // your GitHub username and the repository name.
-  github: { owner: "", repo: "" }
+  github: { owner: "denizkreative", repo: "denizkreative" }
 };
