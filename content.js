@@ -14,6 +14,7 @@ window.SITE = {
   whatsapp: "+39 339 677 5515",                       // your WhatsApp number with country code, e.g. "+39 333 123 4567" — leave "" to hide
   basedIn: "Based in Bologna",
   hero: "editorial/03.jpg",
+  aboutPhoto: "about.jpg",                       // your photo on the About page (put the file next to index.html) — leave "" to hide
   footerNote: "Based in Bologna, available in Europe",
 
   // Homepage text (bottom of the first page)

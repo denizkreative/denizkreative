@@ -15,6 +15,20 @@
 <meta property="og:url" content="https://denizkreative.it/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://denizkreative.it/">
+<meta name="theme-color" content="#fafafa">
+<meta name="keywords" content="fotografa Bologna, videomaker Bologna, fotografo coppia Bologna, elopement Italia, servizio fotografico Bologna, editorial photographer Bologna, couple photographer Bologna, music video Bologna">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"DenizKreative","description":"Photographer and videomaker based in Bologna: couples, elopements, editorial and music videos. Film and digital.",
+ "url":"https://denizkreative.it/","image":"https://denizkreative.it/share.jpg","logo":"https://denizkreative.it/logo.png",
+ "email":"denizkreative@gmail.com","telephone":"+39 339 677 5515",
+ "address":{"@type":"PostalAddress","addressLocality":"Bologna","addressRegion":"BO","addressCountry":"IT"},
+ "areaServed":["Bologna","Emilia-Romagna","Italy"],
+ "founder":{"@type":"Person","name":"Deniz Tural","jobTitle":"Photographer and Videomaker"},
+ "sameAs":["https://www.instagram.com/denizkreative/"],
+ "knowsLanguage":["en","it"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500&display=swap" rel="stylesheet">
@@ -77,6 +91,8 @@ ul{list-style:none}
 .langs{display:flex;align-items:baseline;gap:22px}
 .lang-switch{display:inline-flex;gap:4px;align-items:baseline;pointer-events:auto}
 .lang-btn{opacity:.45;transition:opacity .2s;padding:0}
+.header .lt .lang-btn,.header .lt.lang-btn,.header .lt .lang-sep{opacity:.8}
+.header .lt .lang-btn.on{opacity:1}
 .lang-btn.on{opacity:1;text-decoration:underline;text-underline-offset:3px}
 @media (hover:hover){ .lang-btn:hover{opacity:1} }
 .lang-sep{opacity:.4}
@@ -200,7 +216,7 @@ ul{list-style:none}
   opacity:0;transition:opacity .2s;user-select:none}
 .project-card.big-title{justify-content:center;align-items:center}
 .project-card.big-title .title{opacity:1;text-align:center;font-size:var(--big)}
-.project-card .count{position:absolute;left:calc(var(--g)*.5);bottom:calc(var(--g)*.5);z-index:1;font-size:var(--small);color:#fff;mix-blend-mode:difference}
+.project-card .count{position:absolute;left:calc(var(--g)*.5);bottom:calc(var(--g)*.5);z-index:1;font-size:var(--small);color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
 @media (hover:hover) and (pointer:fine){
   .project-card:hover .title{opacity:1}
   .project-card:hover .hover-images div{transform:scaleX(1);transform-origin:0 50%}
@@ -244,10 +260,10 @@ ul{list-style:none}
   display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:36px var(--g);font-size:var(--small)}
 .footer > :not(.bounce){position:relative;z-index:1}
 .ft-col a,.ft-col .ft-h,.ft-brand p,.ft-logo span,.ft-bottom span{text-shadow:0 0 4px var(--white),0 0 8px var(--white),0 0 12px var(--white)}
-.bounce-zone{position:relative;z-index:10;background:var(--white);height:34vh;min-height:240px;overflow:hidden}
+.bounce-zone{position:relative;z-index:10;background:var(--white);height:22vh;min-height:170px;overflow:hidden}
 .bounce{position:absolute;top:0;left:0;z-index:0;width:128px;height:128px;overflow:hidden;pointer-events:none;will-change:transform}
 .bounce img{width:100%;height:100%;object-fit:cover}
-@media (max-width:900px){ .bounce{width:90px;height:90px} .bounce-zone{height:28vh;min-height:200px} }
+@media (max-width:900px){ .bounce{width:90px;height:90px} .bounce-zone{height:20vh;min-height:150px} }
 .ft-brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
 .ft-logo{display:flex;align-items:center;gap:10px;font-size:15px}
 .ft-logo img{height:34px;width:auto}
@@ -297,6 +313,12 @@ ul{list-style:none}
   display:flex;flex-direction:column;justify-content:center;overflow:hidden}
 .about-bio{width:calc(var(--col)*6 + var(--g)*5);margin-left:calc(var(--col)*2 + var(--g)*2);font-size:clamp(28px,2.6vw,44px);line-height:1.08;text-wrap:pretty}
 .about-bio p + p{margin-top:.55em}
+.about-row{display:flex;align-items:flex-start;gap:var(--g)}
+.about-row .about-bio{margin-left:0}
+.about-photo{flex:none;width:calc(var(--col)*2 + var(--g));aspect-ratio:4/5;margin:0;overflow:hidden;background:#eee;opacity:0;transform:translateY(14px);transition:opacity .9s ease,transform .9s ease}
+.about-photo.in{opacity:1;transform:none}
+.about-photo.empty{background:none}
+.about-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .about-contact{position:absolute;left:calc(var(--m) + var(--col)*2 + var(--g)*2);bottom:var(--m);display:flex;gap:calc(var(--g)*1.5);align-items:baseline;font-size:var(--small);flex-wrap:wrap}
 .about-contact .sub-title{width:auto;opacity:.5}
 .about-cta{background:var(--black);color:var(--white);padding:11px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em;margin-left:8px}
@@ -304,6 +326,9 @@ ul{list-style:none}
 @media (max-width:900px){
   .about-simple{justify-content:center;padding:90px var(--m) 130px}
   .about-bio{width:100%;margin-left:0;font-size:26px;line-height:1.1}
+  .about-row{flex-direction:column;gap:18px}
+  .about-photo{width:40vw;max-width:190px}
+  .about-photo.empty{display:none}
   .about-simple{justify-content:flex-start;padding-top:70px;padding-bottom:calc(150px + var(--tabh))}
   .about-contact{left:var(--m);right:var(--m);bottom:calc(var(--m) + var(--tabh));flex-direction:column;gap:6px;align-items:flex-start}
   .about-cta{margin:8px 0 0}
@@ -397,7 +422,7 @@ ul{list-style:none}
 .svc .price{font-size:var(--small);opacity:.6}
 .svc-cta .cta-btn,.reviews .cta-btn{display:inline-block;margin-top:8px;background:var(--white);color:var(--black);padding:12px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em;pointer-events:auto}
 /* reviews */
-.reviews{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 80px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
+.reviews{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 48px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
 .reviews .label{font-size:var(--small);opacity:.5}
 .review{max-width:760px;display:flex;flex-direction:column;align-items:center;gap:18px}
 .rv-title{font-size:clamp(24px,2.4vw,36px);line-height:1.1}
@@ -405,7 +430,7 @@ ul{list-style:none}
 .review cite{display:flex;flex-direction:column;gap:4px;font-style:normal;font-size:var(--small)}
 .review cite span{opacity:.55;font-size:11px}
 .reviews .cta-btn{background:var(--black);color:var(--white)}
-@media (max-width:900px){ .reviews{padding:24px var(--m) 50px} .rv-title{font-size:22px} .review blockquote{font-size:15px} }
+@media (max-width:900px){ .reviews{padding:24px var(--m) 32px} .rv-title{font-size:22px} .review blockquote{font-size:15px} }
 /* description over photos: readable */
 .p-desc.lt{color:#fff;mix-blend-mode:normal;text-shadow:0 1px 10px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
 .p-desc.dk{color:var(--black);mix-blend-mode:normal}
@@ -420,7 +445,7 @@ ul{list-style:none}
 .more-work a{font-size:clamp(18px,1.6vw,24px);display:inline-flex;align-items:baseline;gap:14px;transition:opacity .2s}
 .more-work .mw-label{font-size:var(--small);opacity:.5}
 @media (hover:hover){ .more-work a:hover{opacity:.55} }
-@media (max-width:900px){ .more-work{padding:32px var(--m) 50px} .more-work a{font-size:15px;gap:8px;flex-direction:column;align-items:flex-start} .more-work .mw-next{align-items:flex-end;text-align:right} .more-work .mw-back{flex-direction:column-reverse} }
+@media (max-width:900px){ .more-work{padding:28px var(--m) 28px} .more-work a{font-size:15px;gap:8px;flex-direction:column;align-items:flex-start} .more-work .mw-next{align-items:flex-end;text-align:right} }
 
 /* mobile bottom tab bar */
 :root{--tabh:0px}
@@ -694,10 +719,15 @@ function allImages(){
   const r = S.photos.filter(p => p.kind === "image").map(p => p.src);
   return r.length ? r : CATS.map(c => coverOf(c.slug).src);
 }
+function altOf(item){
+  const c = (typeof CATS !== "undefined" && CATS.find(x => x.slug === item.cat)) || null;
+  const what = c ? c.title : (LANG === "it" ? "Fotografia" : "Photography");
+  return `${what} – DenizKreative, ${LANG === "it" ? "fotografa e videomaker a Bologna" : "photographer and videomaker in Bologna"}`;
+}
 function media(item, cls = "", extra = ""){
   if(item.kind === "video")
     return `<video class="${cls}" src="${esc(item.src)}#t=0.1" muted loop playsinline preload="metadata" data-autoplay ${extra}></video>`;
-  return `<img class="${cls}" src="${esc(item.src)}" alt="" ${extra}>`;
+  return `<img class="${cls}" src="${esc(item.src)}" alt="${esc(altOf(item))}" decoding="async" ${extra}>`;
 }
 
 /* ---------- chrome ---------- */
@@ -829,7 +859,7 @@ function cardHTML(cat, big){
 function pageHome(){
   return `<main class="home${noHero() ? " no-hero" : ""}">
     <div class="top">
-      ${noHero() ? `<div class="hero-media hero-empty" id="hero"></div>` : media(heroOf(), "hero-media", `id="hero" data-cursor="${L("works")}"`)}
+      ${noHero() ? `<div class="hero-media hero-empty" id="hero"></div>` : media(heroOf(), "hero-media", `id="hero" fetchpriority="high" data-cursor="${L("works")}"`)}
       ${CAN_EDIT ? `<button class="ed-btn hero-change edit-only" id="heroChange">Change hero photo</button>` : ""}
       <div class="carousel" id="carousel">${CATS.map(c => cardHTML(c, true)).join("")}</div>
     </div>
@@ -885,7 +915,7 @@ function pageCategory(cat){
   const items = itemsOf(cat.slug), real = realPhotos(cat.slug).length;
   const nx = CATS[(CATS.indexOf(cat) + 1) % CATS.length];
   const ci = CATS.indexOf(cat), pv = CATS[ci - 1], nn = CATS[ci + 1];
-  const nextBlock = `<nav class="more-work">${pv ? `<a class="mw-back" href="#${pv.slug}">← ${esc(pv.title)}<span class="mw-label">${L("back")}</span></a>` : "<span></span>"}${nn ? `<a class="mw-next" href="#${nn.slug}"><span class="mw-label">${L("next")}</span>${esc(nn.title)} →</a>` : "<span></span>"}</nav>`;
+  const nextBlock = `<nav class="more-work">${pv ? `<a class="mw-back" href="#${pv.slug}"><span class="mw-label">${L("back")}</span>← ${esc(pv.title)}</a>` : "<span></span>"}${nn ? `<a class="mw-next" href="#${nn.slug}"><span class="mw-label">${L("next")}</span>${esc(nn.title)} →</a>` : "<span></span>"}</nav>`;
   const accept = "image/*,video/mp4,video/webm";
   return `<div class="wrapper">
       <div class="cover-wrap">${media(coverOf(cat.slug), "thumbnail")}
@@ -908,15 +938,21 @@ function fitAbout(){
   const box = $(".about-simple"), bio = $(".about-bio"), contact = $(".about-contact");
   if(!box || !bio) return;
   bio.style.fontSize = "";
-  const room = () => box.clientHeight - (isMobile() ? contact.offsetHeight + 120 + 60 : 150);
+  const pic = box.querySelector(".about-photo:not(.empty)");
+  const room = () => box.clientHeight - (isMobile() ? contact.offsetHeight + 120 + 60 + (pic ? pic.offsetHeight + 18 : 0) : 150);
   let px = parseFloat(getComputedStyle(bio).fontSize);
   while(bio.scrollHeight > room() && px > 11){ px -= 1; bio.style.fontSize = px + "px"; }
+}
+function aboutPhotoHTML(){
+  const src = window.SITE && typeof window.SITE.aboutPhoto === "string" ? window.SITE.aboutPhoto.trim() : "";
+  if(!src) return `<div class="about-photo empty"></div>`;
+  return `<figure class="about-photo"><img src="${esc(src)}" alt="${LANG === "it" ? "Deniz, fotografa e videomaker" : "Deniz, photographer and videomaker"}" onload="this.parentNode.classList.add('in')"></figure>`;
 }
 function pageAbout(){
   const ig = `<a class="link" href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">${linkHTML("Instagram @" + igHandle())}</a>`;
   const mail = email() ? `<a class="link" href="mailto:${esc(email())}">${linkHTML(email())}</a>` : "";
   return `<main class="about-simple">
-      <div class="about-bio">${String(T("about", DEFAULTS.about)).split(/\n+/).map(t => t.trim()).filter(Boolean).map(t => `<p>${esc(t)}</p>`).join("")}</div>
+      <div class="about-row">${aboutPhotoHTML()}<div class="about-bio">${String(T("about", DEFAULTS.about)).split(/\n+/).map(t => t.trim()).filter(Boolean).map(t => `<p>${esc(t)}</p>`).join("")}</div></div>
       <div class="about-contact">
         <p class="sub-title">${L("contact")}</p>
         <p>${ig}</p>

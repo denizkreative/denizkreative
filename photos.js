@@ -111,5 +111,17 @@ window.PHOTOS = [
 {
 "cat": "editorial",
 "name": "17.jpg"
+},
+{
+"cat": "music-videos",
+"name": "01 PRISMA - LIVIDI.mp4"
+},
+{
+"cat": "music-videos",
+"name": "02 Artist - Song.mp4"
+},
+{
+"cat": "music-videos",
+"name": "03 Backstage Baby.mp4"
 }
 ];
