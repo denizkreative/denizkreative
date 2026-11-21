@@ -14,7 +14,7 @@ window.SITE = {
   whatsapp: "+39 339 677 5515",                       // your WhatsApp number with country code, e.g. "+39 333 123 4567" — leave "" to hide
   basedIn: "Based in Bologna",
   hero: "editorial/03.jpg",
-  aboutPhoto: "about.jpg",                       // your photo on the About page (put the file next to index.html) — leave "" to hide
+  aboutPhoto: "",                                // your photo on the About page, e.g. "about.jpg" (put the file next to index.html) — leave "" to hide
   footerNote: "Based in Bologna, available in Europe",
 
   // Homepage text (bottom of the first page)
@@ -80,10 +80,12 @@ window.SITE = {
   // To add a YouTube / Vimeo link to a clip, write its exact file name and the link:
   // Titles shown on the clips (instead of the file name):
   musicVideoTitles: {
-    "02 Artist - Song.mp4": "Showreel"
+    "02 Artist - Song.mp4": "Showreel",
+    "03 Backstage Baby.mp4": "PEPE - Baby Backstage"
   },
   musicVideoLinks: {
     // "01 PRISMA - LIVIDI.mp4": "https://www.youtube.com/watch?v=...",
+    "03 Backstage Baby.mp4": "https://www.youtube.com/watch?v=9Tb1LolzUlw"
   },
 
   // Only needed if you connect your own domain (e.g. denizkreative.com):
