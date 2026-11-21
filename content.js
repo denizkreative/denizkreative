@@ -14,7 +14,33 @@ window.SITE = {
   whatsapp: "+39 339 677 5515",                       // your WhatsApp number with country code, e.g. "+39 333 123 4567" — leave "" to hide
   basedIn: "Based in Bologna",
   hero: "editorial/03.jpg",
+  heroCaption: "photo by Deniz",                 // small credit on the home photo (the name of the person is added from "credits" below) — leave "" to hide
+  // Who is in the photos: their name appears on the photo (and on the home photo). Add a line for each new person.
+  credits: [
+    { name: "Andrea & Cat", role: "Couple session", roleIT: "Servizio di coppia",
+      photos: ["couples/04-cover.jpg", "couples/01.jpg", "couples/02.jpg", "couples/03.jpg", "couples/05.jpg", "couples/06.jpg", "couples/07.jpg", "couples/12.jpg", "couples/13.jpg", "couples/14.jpg", "couples/18.jpg"] },
+    { name: "Tal & Gal", role: "Couple session", roleIT: "Servizio di coppia",
+      photos: ["couples/08.jpg", "couples/09.jpg", "couples/10.jpg", "couples/11.jpg", "couples/15.jpg", "couples/16.jpg", "couples/17.jpg"] },
+    { name: "Daria Ryzova", role: "Fashion designer & model", roleIT: "Stilista e modella",
+      photos: ["editorial/01.jpg", "editorial/02-hero.jpg", "editorial/03.jpg", "editorial/04.jpg"] },
+    { name: "Pepe", role: "Music artist", roleIT: "Artista musicale",
+      photos: ["editorial/05.jpg", "editorial/06.jpg", "editorial/07.jpg"] },
+    { name: "Giulia Magro", role: "Music artist", roleIT: "Artista musicale",
+      photos: ["editorial/08.jpg", "editorial/09.jpg", "editorial/10.jpg", "editorial/11.jpg", "editorial/12.jpg", "editorial/13.jpg", "editorial/14.jpg", "editorial/15.jpg"] },
+    { name: "Tano", role: "Music artist", roleIT: "Artista musicale",
+      photos: ["editorial/16.jpg", "editorial/17.jpg"] }
+  ],
   aboutPhoto: "",                                // your photo on the About page, e.g. "about.jpg" (put the file next to index.html) — leave "" to hide
+  // About page: little pictures that appear when the mouse is on these words (computers only)
+  aboutHovers: [
+    { words: ["I’m Deniz", "I'm Deniz", "sono Deniz"], image: "decor/deniz.jpg" }
+  ],
+  mouseEffect: "focus",                          // mouse effect on Couples, Editorial and Music Videos: "focus", "ring", "glitter", "embers", "confetti", "red" or "none"
+  mouseEffectCouples: "engagement",              // mouse effect on Couples only (same choices, plus "engagement" = the ring)
+  menuStyle: "classic",                          // menu look: "classic", "split", "sheet", "index" or "pill"
+  headerStyle: "tags",                        // top bar look on computers: "classic", "outline", "tags", "rule", "dots", "type" or "stack"
+  homeCard: "none",                              // look of the photos on the right of the home page: "tint", "bw", "blur", "vintage", "negative", "frame", "spotlight", "blinds", "halftone", "leak", "dim" or "none"
+  homeTint: "blush",                             // soft colour over the photos on the right of the home page: "blush", "rose", "powder", "grey", "warm grey", "mauve" or "none"
   footerNote: "Based in Bologna, available in Europe",
 
   // Homepage text (bottom of the first page)
@@ -32,9 +58,10 @@ window.SITE = {
   // Services page
   servicesIntro: "Photography and film for couples, brands and artists. I'm based in Bologna and available across Italy and abroad. Tell me what you have in mind.",
   servicesCta: "Ideas, questions, write me and I will reply within same day.",
+  // photo: "folder/file.jpg" picks the picture that appears when you hover a service (optional)
   services: [
     { title: "Couples",      kind: "Photo",            text: "Couple sessions! Engagements, anniversaries or just because :) Fun, guided and romantic.", details: "Bologna & Emilia-Romagna" },
-    { title: "Elopements",   kind: "Photo & Film",     text: "Intimate weddings and elopements. I will help you with locations in Italy.", details: "Half or full day · Italy & abroad" },
+    { title: "Elopements",   kind: "Photo & Film",     text: "Intimate weddings and elopements. I will help you with locations in Italy.", details: "Half or full day · Italy & abroad", photo: "couples/18.jpg" },
     { title: "Editorial",    kind: "Photo",            text: "Fashion, brand and magazine shoots with creative direction, from concept to retouched selects.", details: "Studio or location" },
     { title: "Music Videos", kind: "Direction & Film", text: "Music videos and visuals for artists. Concept, direction, filming, edit and colour.", details: "Concept · Filming · Edit & colour" }
   ],
@@ -60,6 +87,7 @@ window.SITE = {
     basedIn: "Con base a Bologna",
     footerNote: "Con base a Bologna, disponibile in tutta Europa",
     tagline: "Sono Deniz, fotografa e videomaker a Bologna. Racconto coppie, elopement, editoriali e videoclip.\nIn pellicola e in digitale.",
+    heroCaption: "foto di Deniz",
     about: "Ciao, sono Deniz! Sono fotografa e videomaker.\nMi ha sempre affascinato osservare le persone e i piccoli dettagli che spesso passano inosservati. Lavoro con coppie, brand e artisti, creando foto e video.\nScatto in pellicola e in digitale. Per me non si tratta solo di una bella foto, ma di catturare qualcosa che abbia un’emozione dietro.",
     categories: {
       "couples":      "Uno shooting divertente, romantico e cinematografico tra stradine affascinanti, librerie, caffè accoglienti o dove preferite voi. Con uno stile autentico ed editoriale, catturerò momenti naturali.",

@@ -123,5 +123,33 @@ window.PHOTOS = [
 {
 "cat": "music-videos",
 "name": "03 Backstage Baby.mp4"
+},
+{
+"cat": "couples",
+"name": "12.jpg"
+},
+{
+"cat": "couples",
+"name": "13.jpg"
+},
+{
+"cat": "couples",
+"name": "14.jpg"
+},
+{
+"cat": "couples",
+"name": "15.jpg"
+},
+{
+"cat": "couples",
+"name": "16.jpg"
+},
+{
+"cat": "couples",
+"name": "17.jpg"
+},
+{
+"cat": "couples",
+"name": "18.jpg"
 }
 ];

@@ -31,7 +31,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 :root{
   --black:#0a0a0a; --white:#fafafa; --white-50:#ffffff80; --pink:#e98aa6;
@@ -87,6 +87,30 @@ ul{list-style:none}
   .logo{height:40px}
 }
 
+
+/* ---------- top bar shapes (content.js → headerStyle), computers only ---------- */
+@media (min-width:901px){
+  html[data-header="outline"] .header .infos > a,html[data-header="outline"] .header .langs > a,html[data-header="outline"] .header .lang-switch{border:1px solid currentColor;border-radius:999px;padding:7px 14px;margin-top:-8px;pointer-events:auto}
+  html[data-header="outline"] .header .home-link a{border:1px solid currentColor;border-radius:999px;padding:7px 14px;margin:-8px 0 0 -14px}
+  html[data-header="tags"] .header .infos > a,html[data-header="tags"] .header .langs > a,html[data-header="tags"] .header .lang-switch,html[data-header="tags"] .header .home-link a{background:var(--pink);color:var(--black)!important;text-shadow:none!important;padding:6px 10px;margin-top:-6px;pointer-events:auto}
+  html[data-header="tags"] .header .lang-switch .lang-btn,html[data-header="tags"] .header .lang-switch .lang-sep{color:var(--black)!important}
+  html[data-header="tags"] .header .home-link a{margin-left:-10px}
+  html[data-header="rule"] .header .infos{position:relative;padding-bottom:9px}
+  html[data-header="rule"] .header .infos::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:#e0301e;pointer-events:none}
+  html[data-header="rule"] .header .home-link{border-bottom:1px solid #e0301e;padding-bottom:9px;height:fit-content}
+  html[data-header="rule"] .header .infos > a::before,html[data-header="rule"] .header .langs > a::before{content:"→ ";opacity:.6}
+  html[data-header="dots"] .header .infos > a,html[data-header="dots"] .header .langs > a{display:inline-flex;align-items:center;gap:8px}
+  html[data-header="dots"] .header .infos > a::before,html[data-header="dots"] .header .langs > a::before{content:"";width:7px;height:7px;border-radius:50%;border:1.5px solid #e0301e;flex:none}
+  html[data-header="dots"] .header .infos > a.here::before{background:#e0301e}
+  html[data-header="dots"] .header .home-link a::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#e0301e;margin-left:8px;vertical-align:1px}
+  html[data-header="type"] .header .home-link,html[data-header="type"] .header .infos{font:400 11px/1.2 "DM Mono",ui-monospace,Menlo,monospace;letter-spacing:.12em}
+  html[data-header="type"] .header .infos > a::before,html[data-header="type"] .header .langs > a::before{content:"["}
+  html[data-header="type"] .header .infos > a::after,html[data-header="type"] .header .langs > a::after{content:"]"}
+  html[data-header="type"] .header .infos > a.here{color:#e0301e!important}
+  html[data-header="stack"] .header .infos{flex-direction:column;align-items:flex-end;gap:6px;margin-left:auto;width:auto}
+  html[data-header="stack"] .header .langs{flex-direction:column;align-items:flex-end;gap:6px}
+  html[data-header="stack"] .header .infos > a,html[data-header="stack"] .header .langs > a{font-size:22px;line-height:1}
+}
 /* language switch */
 .langs{display:flex;align-items:baseline;gap:22px}
 .lang-switch{display:inline-flex;gap:4px;align-items:baseline;pointer-events:auto}
@@ -178,6 +202,11 @@ ul{list-style:none}
 .home{width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
 .top{position:relative;flex:1 1 auto;min-height:0;background:var(--black)}
 .hero-media{width:calc(var(--col)*6 + var(--g)*5.5 + var(--m));height:100%;object-fit:cover;cursor:pointer}
+/* photo credit on the home photo, so visitors know it's Deniz's work (not Deniz) */
+.hero-cap{position:absolute;left:var(--m);bottom:var(--m);z-index:3;display:flex;align-items:center;gap:8px;margin:0;pointer-events:none;
+  font:400 11px/1.2 "DM Mono",ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+.hero-cap .dot{width:6px;height:6px;border-radius:50%;background:#e0301e;flex:none}
+@media (max-width:900px){ .hero-cap{top:66px;bottom:auto;font-size:10px} }
 .carousel{position:absolute;top:0;right:0;height:100%;width:calc(var(--col)*4 + var(--g)*3.5 + var(--m))}
 .description{flex-shrink:0;padding:var(--m);color:var(--black);pointer-events:none;position:relative;z-index:3}
 .description .text{width:calc(var(--col)*6 + var(--g)*5);font-size:var(--big)}
@@ -223,6 +252,135 @@ ul{list-style:none}
 }
 .project-card.card{position:absolute;top:0;left:0;width:100%;will-change:transform}
 
+
+/* ---------- menu styles (content.js → menuStyle: "classic", "split", "sheet", "index", "pill") ---------- */
+.menu-alt{position:relative;z-index:2;display:none}
+.mono{font-family:"DM Mono",ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+/* 1 split: list left, the section's photo fills the right half */
+html[data-menu="split"] .menu-image{left:50%;opacity:0;transform:translateX(30px);transition:opacity .6s var(--ease),transform .9s var(--ease)}
+html[data-menu="split"] .menu.open .menu-image{opacity:1;transform:none}
+html[data-menu="split"] .menu-image::after{display:none}
+html[data-menu="split"] .menu::before{content:"";position:fixed;inset:0;background:var(--white);z-index:0}
+html[data-menu="split"] .menu-group a,html[data-menu="split"] .menu .close{padding-left:0;margin-left:calc(var(--col)*1 + var(--g))}
+html[data-menu="split"] .menu-group a{display:flex;gap:14px;align-items:baseline}
+html[data-menu="split"] .menu-group a::before{content:attr(data-n);font:400 11px/1 "DM Mono",monospace;letter-spacing:.08em;opacity:.5;width:22px}
+@media (hover:hover){ html[data-menu="split"] .menu-group a:hover{opacity:1!important;color:#e0301e} }
+/* 2 contact sheet, 3 index: own layout */
+html[data-menu="sheet"] .menu-group,html[data-menu="index"] .menu-group,html[data-menu="sheet"] .menu-image,html[data-menu="index"] .menu-image{display:none}
+html[data-menu="sheet"] .menu,html[data-menu="index"] .menu{background:var(--white)}
+html[data-menu="sheet"] .menu-alt,html[data-menu="index"] .menu-alt{display:block;opacity:0;transform:translateY(16px);transition:opacity .6s ease .1s,transform .8s var(--ease) .1s}
+.menu.open .menu-alt{opacity:1!important;transform:none!important}
+.ms-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.4vw,36px);margin:clamp(30px,6vh,70px) calc(var(--col)*1 + var(--g)) 0}
+.ms-frame{display:block;color:var(--black)}
+.ms-frame .pic{aspect-ratio:4/5;background:#fff;padding:9px 9px 34px;box-shadow:0 1px 0 rgba(0,0,0,.06),0 10px 30px rgba(0,0,0,.08);transition:transform .5s var(--ease),box-shadow .5s;position:relative}
+.ms-frame .pic img,.ms-frame .pic video{width:100%;height:100%;object-fit:cover;display:block}
+.ms-frame .pic i{position:absolute;left:10px;bottom:11px;font:400 10px/1 "DM Mono",monospace;font-style:normal;letter-spacing:.1em;opacity:.55}
+.ms-frame .pic b{position:absolute;inset:-10px;border:2px solid #e0301e;border-radius:50%;opacity:0;transform:scale(.9) rotate(-4deg);transition:opacity .3s,transform .5s var(--ease);font-weight:400}
+.ms-frame p{margin:12px 2px 0;font-size:var(--small)}
+@media (hover:hover){ .ms-frame:hover .pic{transform:translateY(-6px) rotate(-1deg)} .ms-frame:hover .pic b{opacity:1;transform:none} }
+.ms-info{display:flex;gap:28px;flex-wrap:wrap;margin:clamp(30px,6vh,60px) calc(var(--col)*1 + var(--g)) 0;font-size:var(--small)}
+.ms-info a{color:var(--black)} .ms-info .menu-langs{padding:0;margin:0}
+.mi-list{margin:clamp(30px,7vh,80px) calc(var(--col)*2 + var(--g)*2) 0 calc(var(--col)*2 + var(--g)*2);max-width:820px}
+.mi-row{display:grid;grid-template-columns:54px 1fr auto;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.12);color:var(--black);font-size:var(--big);line-height:1}
+.mi-row .n,.mi-row .c{font:400 11px/1 "DM Mono",monospace;letter-spacing:.1em;opacity:.55}
+.mi-row .t{transition:transform .4s var(--ease),color .3s}
+@media (hover:hover){ .mi-row:hover .t{transform:translateX(14px);color:#e0301e} }
+.mi-label{font:400 11px/1 "DM Mono",monospace;letter-spacing:.14em;opacity:.5;margin:0 0 6px}
+.mi-thumb{position:fixed;top:0;left:0;width:170px;height:212px;z-index:60;pointer-events:none;opacity:0;transform:scale(.8);transition:opacity .25s,transform .35s var(--ease)}
+.mi-thumb.show{opacity:1;transform:scale(1) rotate(-3deg)}
+.mi-thumb img,.mi-thumb video{width:100%;height:100%;object-fit:cover;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+@media (max-width:900px){
+  .ms-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:30px 0 0}
+  .ms-frame .pic{padding:5px 5px 22px} .ms-frame p{font-size:10px}
+  .ms-info,.mi-list{margin-left:0;margin-right:0}
+  .mi-row{font-size:22px;grid-template-columns:40px 1fr auto}
+}
+/* 4 floating pill bar (computers) */
+.pillnav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:45;display:none;align-items:center;gap:4px;background:rgba(250,250,250,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-radius:999px;padding:6px;box-shadow:0 4px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.05);font-size:12px;letter-spacing:.08em}
+.pillnav > a,.pillnav > div > button{padding:10px 16px;border-radius:999px;color:var(--black);display:block}
+.pillnav .pn-on{background:rgba(0,0,0,.07)}
+.pillnav .pn-contact{background:var(--black);color:var(--white)!important}
+.pillnav .pn-drop{position:relative}
+.pillnav .pn-menu{position:absolute;top:calc(100% + 10px);left:0;min-width:260px;background:rgba(250,250,250,.96);backdrop-filter:blur(12px);border-radius:16px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);
+  opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .25s,transform .3s var(--ease)}
+.pillnav .pn-drop.open .pn-menu{opacity:1;transform:none;pointer-events:auto}
+.pillnav .pn-menu a{display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;color:var(--black)}
+.pillnav .pn-menu a img{width:44px;height:44px;object-fit:cover;border-radius:8px}
+@media (hover:hover){ .pillnav > a:hover,.pillnav > div > button:hover,.pillnav .pn-menu a:hover{background:rgba(0,0,0,.06)} .pillnav .pn-contact:hover{background:#333} }
+@media (hover:hover) and (min-width:901px){
+  html[data-menu="pill"] .pillnav{display:flex}
+  html[data-menu="pill"] .header .works,html[data-menu="pill"] #hSvc,html[data-menu="pill"] #hAbout{visibility:hidden}
+}
+
+/* ---------- home card looks (content.js → homeCard). Each one lifts when the mouse is on the card ---------- */
+@property --bl{syntax:'<length>';inherits:false;initial-value:11px}
+@property --dot{syntax:'<length>';inherits:false;initial-value:1.6px}
+.project-card.card .image{transition:filter .8s ease,clip-path .8s cubic-bezier(.2,.8,.2,1)}
+.project-card.card::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .7s ease,--bl .7s ease,--dot .7s ease,box-shadow .7s cubic-bezier(.2,.8,.2,1)}
+.project-card.card .title,.project-card.card .count{z-index:2}
+html[data-card]:not([data-card="tint"]) .project-card.card::after{opacity:0}
+@media (hover:hover){
+  html[data-card="bw"] .project-card.card .image{filter:grayscale(1) contrast(1.05)}
+  html[data-card="blur"] .project-card.card .image{filter:blur(7px) brightness(1.04)}
+  html[data-card="vintage"] .project-card.card .image{filter:sepia(.55) saturate(.75) contrast(.92) brightness(1.06)}
+  html[data-card="vintage"] .project-card.card::before{opacity:1;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(40,20,5,.45) 100%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");mix-blend-mode:multiply}
+  html[data-card="negative"] .project-card.card .image{filter:invert(1) sepia(.35) saturate(1.6) hue-rotate(-12deg)}
+  html[data-card="frame"] .project-card.card::before{opacity:1;box-shadow:inset 0 0 0 34px var(--white)}
+  html[data-card="frame"] .project-card.card:hover::before{opacity:1;box-shadow:inset 0 0 0 0 var(--white)}
+  html[data-card="spotlight"] .project-card.card::before{opacity:1;background:radial-gradient(circle 190px at var(--mx,-999px) var(--my,-999px),transparent 0,transparent 55%,rgba(8,8,8,.74) 100%)}
+  html[data-card="blinds"] .project-card.card::before{opacity:1;background:repeating-linear-gradient(180deg,rgba(250,250,250,.94) 0 var(--bl),transparent var(--bl) 24px)}
+  html[data-card="halftone"] .project-card.card::before{opacity:1;background:radial-gradient(circle,rgba(250,250,250,.9) 0 var(--dot),transparent calc(var(--dot) + .6px)) 0 0/7px 7px}
+  html[data-card="leak"] .project-card.card::before{opacity:1;background:radial-gradient(60% 55% at 0% 10%,rgba(255,120,60,.75),transparent 70%),radial-gradient(55% 50% at 100% 95%,rgba(255,80,130,.55),transparent 70%);background-size:140% 140%;mix-blend-mode:screen;animation:leak 7s ease-in-out infinite alternate}
+  html[data-card="dim"] .project-card.card .image{filter:brightness(.42) saturate(.6)}
+  .project-card.card:hover .image{filter:none!important;clip-path:inset(0)!important}
+  .project-card.card:hover::before{opacity:0;--bl:0px;--dot:0px}
+  html[data-card="spotlight"] .project-card.card:hover::before{opacity:1}
+  html[data-card="blinds"] .project-card.card:hover::before,html[data-card="halftone"] .project-card.card:hover::before{opacity:1}
+}
+@keyframes leak{0%{background-position:0% 0%}100%{background-position:100% 100%}}
+/* ---------- more creative card looks ---------- */
+@property --gap{syntax:'<length>';inherits:false;initial-value:7px}
+.project-card.card::before{transition:opacity .7s ease,--bl .7s ease,--dot .7s ease,--gap .7s ease,box-shadow .7s cubic-bezier(.2,.8,.2,1),border-width .7s cubic-bezier(.2,.8,.2,1)}
+.card-wipe,.card-loupe,.card-ring{position:absolute;inset:0;z-index:1;pointer-events:none}
+.card-loupe{clip-path:circle(0 at 50% 50%);transition:clip-path .25s ease}
+.card-loupe .lz{position:absolute;inset:0}
+.card-ring{inset:auto;width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:50%;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 8px 30px rgba(0,0,0,.35),inset 0 0 0 6px rgba(255,255,255,.12);opacity:0;transition:opacity .25s}
+.bloom{position:absolute;top:0;left:0;width:22px;height:22px;margin:-11px 0 0 -11px;will-change:transform,opacity}
+.bloom img{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.2))}
+@media (hover:hover){
+  html[data-card="darkroom"] .project-card.card .image{filter:grayscale(1) sepia(1) hue-rotate(-42deg) saturate(4.5) brightness(.48) contrast(1.35);transition:filter 1.9s ease}
+  html[data-card="darkroom"] .project-card.card::before{opacity:1;background:radial-gradient(70% 60% at 50% 40%,rgba(255,40,20,.18),rgba(60,0,0,.35))}
+  html[data-card="polaroid"] .project-card.card::before{opacity:1;border:22px solid #fbfaf6;border-bottom-width:92px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+  html[data-card="polaroid"] .project-card.card:hover::before{opacity:1;border-width:0}
+  html[data-card="aperture"] .project-card.card .image{clip-path:polygon(50% 30%,67% 40%,67% 60%,50% 70%,33% 60%,33% 40%);transition:clip-path .9s cubic-bezier(.3,.9,.2,1)}
+  html[data-card="aperture"] .project-card.card:hover .image{clip-path:polygon(50% -60%,160% 0%,160% 100%,50% 160%,-60% 100%,-60% 0%)!important}
+  html[data-card="contact"] .project-card.card::before{opacity:1;background:linear-gradient(90deg,var(--white) var(--gap),transparent var(--gap)) 0 0/33.34% 100%,linear-gradient(var(--white) var(--gap),transparent var(--gap)) 0 0/100% 33.34%;box-shadow:inset 0 0 0 var(--gap) var(--white)}
+  html[data-card="contact"]:not([data-card="tint"]) .project-card.card::after{opacity:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M18 52C16 30 36 16 56 18 76 20 86 38 82 56 78 76 58 86 38 82 22 79 14 64 20 44' fill='none' stroke='%23e0301e' stroke-width='3.2' stroke-linecap='round' opacity='.9'/%3E%3C/svg%3E") 50% 50%/34% 34% no-repeat;transition:opacity .5s}
+  html[data-card="contact"] .project-card.card:hover::before{opacity:1;--gap:0px}
+  html[data-card="contact"]:not([data-card="tint"]) .project-card.card:hover::after{opacity:0}
+  html[data-card="filmstrip"] .project-card.card::before{opacity:1;background:
+      repeating-linear-gradient(90deg,transparent 0 9px,rgba(250,248,240,.92) 9px 21px,transparent 21px 30px) 0 9px/100% 15px no-repeat,
+      repeating-linear-gradient(90deg,transparent 0 9px,rgba(250,248,240,.92) 9px 21px,transparent 21px 30px) 0 calc(100% - 9px)/100% 15px no-repeat,
+      linear-gradient(#141210,#141210) 0 0/100% 34px no-repeat,linear-gradient(#141210,#141210) 0 100%/100% 34px no-repeat;
+    transition:opacity .6s ease,background-position .6s ease}
+  html[data-card="filmstrip"] .project-card.card .image{filter:sepia(.2) saturate(.9)}
+  html[data-card="loupe"] .project-card.card .image{filter:brightness(.82) saturate(.85)}
+  html[data-card="loupe"] .project-card.card .hover-images,html[data-card="wipe"] .project-card.card .hover-images{display:none}
+  html[data-card="flash"] .project-card.card .image{filter:brightness(.38) saturate(.5)}
+  html[data-card="flash"] .project-card.card::before{background:#fff}
+  html[data-card="flash"] .project-card.card:hover::before{animation:camflash .75s ease-out}
+  html[data-card="exposure"] .project-card.card .image{filter:brightness(1.85) contrast(.62) saturate(.55)}
+  html[data-card="exposure"] .project-card.card::before{opacity:1;inset:auto;left:18px;bottom:16px;content:"+2.0 EV";font:500 11px/1 "DM Mono",ui-monospace,monospace;letter-spacing:.12em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+  html[data-card="exposure"] .project-card.card:hover::before{opacity:1;content:"0.0 EV"}
+}
+@keyframes camflash{0%{opacity:0}8%{opacity:.95}100%{opacity:0}}
+
+
+/* soft colour veil over the home cards; it lifts when the mouse is on a card */
+.project-card.card::after{content:"";position:absolute;inset:0;z-index:0;background:var(--tint,transparent);pointer-events:none;transition:opacity .6s ease}
+@media (hover:hover){ .project-card.card:hover::after{opacity:0} }
+
 /* works index */
 .works-index{padding:calc(var(--m)*2 + var(--big) + 40px) var(--m) var(--m);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--g);min-height:100vh}
 .works-index .project-card{height:calc(100vh - var(--m)*3 - var(--big) - 40px);min-height:360px}
@@ -236,6 +394,13 @@ ul{list-style:none}
 .tile{position:relative;break-inside:avoid;margin-bottom:var(--gap-s);cursor:zoom-in;background:#eee}
 .tile img,.tile video{width:100%;height:auto}
 .tile .cap{position:absolute;left:8px;bottom:8px;right:8px;font-size:var(--small);color:#fff;mix-blend-mode:difference;pointer-events:none}
+/* small credit: who is in the photo */
+.tile .credit{position:absolute;left:10px;top:10px;right:10px;margin:0;display:flex;align-items:center;gap:7px;pointer-events:none;
+  font:400 10px/1.25 "DM Mono",ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4);
+  opacity:0;transform:translateY(-4px);transition:opacity .35s ease,transform .35s ease}
+.tile .credit .dot,.lb-cap .dot{width:5px;height:5px;border-radius:50%;background:#e0301e;flex:none;display:inline-block}
+@media (hover:hover){ .tile:hover .credit{opacity:1;transform:none} }
+@media (hover:none){ .tile .credit{opacity:1;transform:none} }
 .p-desc{position:sticky;bottom:0;margin-left:calc(var(--col)*2 + var(--g)*2 + var(--m));
   width:calc(var(--col)*3 + var(--g)*2);padding-bottom:var(--m);margin-top:calc(var(--dh,200px)*-1 - var(--m));
   color:var(--white);mix-blend-mode:difference;font-size:var(--small);z-index:2;display:flex;flex-direction:column;gap:var(--gap-s)}
@@ -335,7 +500,7 @@ ul{list-style:none}
 }
 
 /* services */
-.services{padding-top:42vh}
+.services{padding-top:22vh}
 .svc-list{display:flex;flex-direction:column}
 .svc{position:relative;z-index:20;display:flex;gap:var(--g);padding:var(--m);padding-left:calc(var(--col)*2 + var(--g)*2 + var(--m));
   border-top:1px solid currentColor;color:var(--white);mix-blend-mode:difference;cursor:pointer}
@@ -350,6 +515,11 @@ ul{list-style:none}
   clip-path:inset(100% 0 0 0);transition:clip-path .5s var(--ease)}
 .svc-preview.show{clip-path:inset(0)}
 .svc-preview img,.svc-preview video{width:100%;height:100%;object-fit:cover}
+.svc-preview.png{background:none;width:170px;height:190px}
+.svc-preview.png img{object-fit:contain}
+.hov{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.14em;text-decoration-color:rgba(0,0,0,.28);cursor:default;transition:text-decoration-color .25s}
+@media (hover:hover){ .hov:hover{text-decoration-color:currentColor} }
+@media (hover:none){ .hov{text-decoration:none} }
 .svc-cta{position:relative;z-index:20;margin:0 var(--m);padding-left:calc(var(--col)*5 + var(--g)*5);color:var(--white);mix-blend-mode:difference}
 .svc-cta p{font-size:var(--small);width:calc(var(--col)*3 + var(--g)*2);margin-bottom:var(--gap-s)}
 @media (max-width:900px){
@@ -371,6 +541,7 @@ ul{list-style:none}
 .branch img{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 14px rgba(0,0,0,.12))}
 .branch.tr{top:30px;right:-4vw;width:min(34vw,540px)}
 .about-page .branch.tr{width:min(25vw,400px);top:70px}
+.svc-page .branch.tr{width:min(15vw,230px);top:64px}
 .home .branch.tr{width:min(19vw,290px);top:34px;right:-2vw}
 .branch.tr .sway,.branch.tr .flutter{transform-origin:100% 0}
 .branch.bl{bottom:-3vh;left:-2.5vw;width:min(17vw,270px)}
@@ -381,6 +552,46 @@ ul{list-style:none}
 @keyframes sway{0%{transform:rotate(-1.6deg)}100%{transform:rotate(1.8deg)}}
 @keyframes flutter{0%{transform:rotate(-.5deg) skewX(.4deg)}100%{transform:rotate(.6deg) skewX(-.5deg)}}
 .petals{position:fixed;inset:0;pointer-events:none;z-index:36;overflow:hidden}
+/* glitter that follows the mouse on the Editorial page (computers only) */
+.sparkles{position:fixed;inset:0;pointer-events:none;z-index:90;overflow:hidden}
+.ink{position:fixed;top:0;left:0;pointer-events:none;z-index:90}
+.ember,.confetti{position:absolute;top:0;left:0;border-radius:50%;will-change:transform,opacity}
+.confetti{width:4px;height:8px;margin:-4px 0 0 -2px;border-radius:1px}
+.fx-ring,.fx-focus,.fx-engagement,.fx-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:90;will-change:transform}
+.fx-ring::before{content:"";position:absolute;width:38px;height:38px;left:-19px;top:-19px;border:1.5px solid #e0301e;border-radius:50%;transition:width .35s,height .35s,left .35s,top .35s,background .35s}
+.fx-ring.over::before{width:64px;height:64px;left:-32px;top:-32px;background:rgba(224,48,30,.12)}
+.fx-dot{width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#e0301e}
+.fx-dot.hide{display:none}
+.fx-engagement .rg{position:absolute;width:32px;height:38px;left:-16px;top:-22px;transform-origin:50% 75%;transition:transform .4s cubic-bezier(.2,.9,.2,1.35);filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.fx-engagement.over .rg{transform:scale(1.3)}
+.fx-engagement .gl{position:absolute;width:11px;height:11px;left:-9px;top:-27px;opacity:0;filter:drop-shadow(0 0 3px #fff)}
+.fx-engagement.over .gl{animation:fxglint 1.5s ease-in-out infinite}
+@keyframes fxglint{0%,55%,100%{opacity:0;transform:scale(.2) rotate(0)}72%{opacity:1;transform:scale(1) rotate(45deg)}}
+.fx-focus i{position:absolute;width:10px;height:10px;border:0 solid #e0301e;transition:transform .3s}
+.fx-focus i:nth-child(1){left:-22px;top:-16px;border-width:1.5px 0 0 1.5px}
+.fx-focus i:nth-child(2){left:12px;top:-16px;border-width:1.5px 1.5px 0 0}
+.fx-focus i:nth-child(3){left:-22px;top:6px;border-width:0 0 1.5px 1.5px}
+.fx-focus i:nth-child(4){left:12px;top:6px;border-width:0 1.5px 1.5px 0}
+.fx-focus.over i:nth-child(1){transform:translate(-14px,-10px)}.fx-focus.over i:nth-child(2){transform:translate(14px,-10px)}
+.fx-focus.over i:nth-child(3){transform:translate(-14px,10px)}.fx-focus.over i:nth-child(4){transform:translate(14px,10px)}
+.fx-focus i{transition:transform .38s cubic-bezier(.2,.9,.2,1.25),border-color .2s}
+.fx-focus.over i{border-color:#ff3b1f}
+.fx-focus.lock i{animation:fxlock .42s steps(1) 1}
+@keyframes fxlock{0%{opacity:1}20%{opacity:.15}40%{opacity:1}60%{opacity:.15}80%{opacity:1}}
+.fx-focus b,.fx-focus em{position:absolute;font:500 9px/1 "DM Mono",ui-monospace,monospace;letter-spacing:.12em;color:#ff3b1f;font-style:normal;white-space:nowrap;opacity:0;transition:opacity .25s .15s,transform .38s cubic-bezier(.2,.9,.2,1.25)}
+.fx-focus b{left:-36px;top:24px}
+.fx-focus em{left:14px;top:24px}
+.fx-focus.over b{opacity:1;transform:translate(0,10px)}
+.fx-focus.over em{opacity:1;transform:translate(10px,10px)}
+.fx-focus::after{content:"";position:absolute;left:-5px;top:-0.75px;width:10px;height:1.5px;background:#ff3b1f;opacity:0;transition:opacity .2s}
+.fx-focus::before{content:"";position:absolute;left:-0.75px;top:-5px;width:1.5px;height:10px;background:#ff3b1f;opacity:0;transition:opacity .2s}
+.fx-focus.over::after,.fx-focus.over::before{opacity:1}
+.fx-try{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:96;display:none;gap:4px;align-items:center;background:#111;color:#fff;padding:6px 8px 6px 14px;border-radius:999px;font:11px/1 "DM Mono",ui-monospace,monospace;letter-spacing:.06em;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.fx-try span{opacity:.6;margin-right:6px;text-transform:uppercase}
+.fx-try button{font:inherit;color:#fff;background:none;border:0;padding:8px 10px;border-radius:999px;cursor:pointer}
+.fx-try button:hover{background:rgba(255,255,255,.12)}.fx-try button.on{background:#e0301e}
+.spark{position:absolute;top:0;left:0;width:14px;height:14px;margin:-7px 0 0 -7px;will-change:transform,opacity}
+.spark svg{width:100%;height:100%;display:block;overflow:visible}
 .petal{position:absolute;top:0;left:0;width:26px;height:26px;will-change:transform,opacity}
 .petal img{width:100%;height:100%;display:block;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.18))}
 @media (max-width:900px){
@@ -422,15 +633,15 @@ ul{list-style:none}
 .svc .price{font-size:var(--small);opacity:.6}
 .svc-cta .cta-btn,.reviews .cta-btn{display:inline-block;margin-top:8px;background:var(--white);color:var(--black);padding:12px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em;pointer-events:auto}
 /* reviews */
-.reviews{position:relative;z-index:10;background:var(--white);padding:40px var(--m) 48px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px}
-.reviews .label{font-size:var(--small);opacity:.5}
-.review{max-width:760px;display:flex;flex-direction:column;align-items:center;gap:18px}
-.rv-title{font-size:clamp(24px,2.4vw,36px);line-height:1.1}
-.review blockquote{font-size:16px;line-height:1.6;text-transform:none;letter-spacing:.01em;max-width:640px}
-.review cite{display:flex;flex-direction:column;gap:4px;font-style:normal;font-size:var(--small)}
-.review cite span{opacity:.55;font-size:11px}
+.reviews{position:relative;z-index:10;background:var(--white);padding:110px var(--m) 48px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;font-family:"DM Mono",ui-monospace,Menlo,monospace}
+.reviews .label{font-size:11px;letter-spacing:.14em;opacity:.5}
+.review{max-width:600px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.rv-title{font-size:16px;line-height:1.35;letter-spacing:.04em;font-weight:400}
+.review blockquote{font-size:12.5px;line-height:1.75;text-transform:none;letter-spacing:0;max-width:520px}
+.review cite{display:flex;flex-direction:column;gap:4px;font-style:normal;font-size:11px;letter-spacing:.08em}
+.review cite span{opacity:.55;font-size:10px}
 .reviews .cta-btn{background:var(--black);color:var(--white)}
-@media (max-width:900px){ .reviews{padding:24px var(--m) 32px} .rv-title{font-size:22px} .review blockquote{font-size:15px} }
+@media (max-width:900px){ .reviews{padding:64px var(--m) 32px} .rv-title{font-size:15px} .review blockquote{font-size:12px} }
 /* description over photos: readable */
 .p-desc.lt{color:#fff;mix-blend-mode:normal;text-shadow:0 1px 10px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
 .p-desc.dk{color:var(--black);mix-blend-mode:normal}
@@ -538,7 +749,10 @@ html.editing .mv-fields{display:flex}
   <button class="close" id="closeBtn">Close,</button>
   <div class="menu-group" id="menuWorks"></div>
   <div class="menu-group" id="menuInfo"></div>
+  <div class="menu-alt" id="menuAlt"></div>
 </div>
+<div class="mi-thumb" id="miThumb"></div>
+<nav class="pillnav" id="pillNav" aria-label="Menu"></nav>
 
 <div class="lightbox" id="lb">
   <button class="lb-close" id="lbClose">Close,</button>
@@ -655,6 +869,7 @@ function loadContent(){
     if(!SERVICES[i]) SERVICES[i] = { title: "", kind: "", text: "", details: "", cat: "couples" };
     const tr = (X.services && X.services[i]) || {};
     ["title","kind","text","details"].forEach(f => put(`svc.${i}.${f}`, typeof tr[f] === "string" && tr[f].trim() ? tr[f] : sv[f]));
+    SERVICES[i].photo = typeof sv.photo === "string" ? sv.photo.trim() : "";
   });
   if(C.services) SERVICES.length = list.length;
 }
@@ -706,6 +921,14 @@ function coverOf(cat){
   const items = itemsOf(cat);
   return items.find(i => i.kind === "image") || items[0];
 }
+function heroCaption(){
+  const C = window.SITE || {}, X = (LANG === "it" && C.italian) || {};
+  const v = typeof X.heroCaption === "string" && X.heroCaption.trim() ? X.heroCaption : C.heroCaption;
+  const base = typeof v === "string" ? v.trim() : "";
+  const h = heroOf && heroOf(), who = h && !h.ph ? creditOf(h) : "";
+  if(!base) return "";
+  return who ? `${who} — ${base}` : base;
+}
 const noHero = () => !!(window.SITE && typeof window.SITE.hero === "string" && /^(none|empty|no)$/i.test(window.SITE.hero.trim()));
 function heroOf(){
   const set = window.SITE && typeof window.SITE.hero === "string" && window.SITE.hero.trim();
@@ -751,20 +974,109 @@ function updateChrome(){
   const works = [{ href: "#works", label: L("viewAll"), item: cover }]
     .concat(CATS.map(c => ({ href: "#" + c.slug, label: c.title, item: coverOf(c.slug) })));
   $("#menuWorks").innerHTML = `<span class="label">${L("portfolio")}</span>` +
-    works.map(w => `<a href="${w.href}" data-src="${esc(w.item.src)}" data-kind="${w.item.kind}">${esc(w.label)}</a>`).join("");
+    works.map((w, i) => `<a href="${w.href}" data-n="${String(i).padStart(2, "0")}" data-src="${esc(w.item.src)}" data-kind="${w.item.kind}">${esc(w.label)}</a>`).join("");
   $("#menuInfo").innerHTML = `<span class="label">${L("info")}</span>
     <a href="#services">${L("services")}</a><a href="#about">${L("about")}</a>
     <a href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">Instagram</a>
     <span class="menu-langs">${langSwitchHTML()}</span>`;
+  buildAltMenus();
   document.querySelectorAll(".menu-group a").forEach(a => {
     a.addEventListener("mouseenter", () => { if(a.dataset.src) $("#menuImage").innerHTML = media({ src: a.dataset.src, kind: a.dataset.kind }); });
     a.addEventListener("click", closeMenu);
   });
 }
 const menu = $("#menu");
+
+/* ---------- menu styles ---------- */
+const MENU_STYLES = ["classic", "split", "sheet", "index", "pill"];
+let menuTry = null;
+try{ localStorage.removeItem("dk-menu-try"); }catch(_){}
+function menuStyle(){ return menuTry || (window.SITE && window.SITE.menuStyle) || "classic"; }
+function countOf(slug){ const n = realPhotos(slug).length; if(!n) return ""; return slug === "music-videos" ? `${n} ${LANG === "it" ? "video" : n === 1 ? "film" : "films"}` : `${n} ${LANG === "it" ? "foto" : "photos"}`; }
+function buildAltMenus(){
+  const alt = document.getElementById("menuAlt"); if(!alt) return;
+  const st = menuStyle(), info = `<a href="#services">${L("services")}</a><a href="#about">${L("about")}</a><a href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">Instagram</a><a href="#" data-contact="">${L("contact")}</a><span class="menu-langs">${langSwitchHTML()}</span>`;
+  if(st === "sheet"){
+    alt.innerHTML = `<div class="ms-grid">${CATS.map((c, i) => { const it = coverOf(c.slug); return `<a class="ms-frame" href="#${c.slug}"><div class="pic">${media(it)}<i>${String(i + 1).padStart(2, "0")}A</i><b></b></div><p class="mono">${String(i + 1).padStart(2, "0")} — ${esc(c.title)}</p></a>`; }).join("")}</div><div class="ms-info mono">${info}</div>`;
+  } else if(st === "index"){
+    const rows = CATS.map((c, i) => ({ n: i + 1, t: c.title, href: "#" + c.slug, c: countOf(c.slug), it: coverOf(c.slug) }))
+      .concat([{ t: L("services"), href: "#services" }, { t: L("about"), href: "#about" }].map((r, k) => ({ ...r, n: CATS.length + k + 1, c: "" })));
+    alt.innerHTML = `<div class="mi-list"><p class="mi-label">${LANG === "it" ? "INDICE" : "CONTENTS"}</p>${rows.map(r => `<a class="mi-row" href="${r.href}" ${r.it ? `data-src="${esc(r.it.src)}" data-kind="${r.it.kind}"` : ""}><span class="n">${String(r.n).padStart(2, "0")}</span><span class="t">${esc(r.t)}</span><span class="c">${r.c}</span></a>`).join("")}</div><div class="ms-info mono" style="margin-left:calc(var(--col)*2 + var(--g)*2)">${info}</div>`;
+  } else alt.innerHTML = "";
+  alt.querySelectorAll("a[href^='#']").forEach(a => a.addEventListener("click", closeMenu));
+  buildPill();
+}
+function buildPill(){
+  const p = document.getElementById("pillNav"); if(!p) return;
+  const h = location.hash.slice(1), onW = h === "works" || CATS.some(c => c.slug === h);
+  p.innerHTML = `<a href="#" class="${!h ? "pn-on" : ""}">${L("home").toUpperCase()}</a>
+    <div class="pn-drop"><button class="${onW ? "pn-on" : ""}">${(LANG === "it" ? "LAVORI" : "WORK")} ▾</button><div class="pn-menu">
+      ${CATS.map(c => { const it = coverOf(c.slug); return `<a href="#${c.slug}">${it && it.kind === "image" ? `<img src="${esc(it.src)}" alt="">` : `<span style="width:44px;height:44px;border-radius:8px;background:#111;display:block"></span>`}<span>${esc(c.title)}<br><small style="opacity:.5;font-family:'DM Mono',monospace;font-size:10px">${countOf(c.slug)}</small></span></a>`; }).join("")}
+      <a href="#works" style="justify-content:center;font-size:11px;opacity:.7">${L("viewAll").toUpperCase()} →</a></div></div>
+    <a href="#services" class="${h === "services" ? "pn-on" : ""}">${L("services").toUpperCase()}</a>
+    <a href="#about" class="${h === "about" ? "pn-on" : ""}">${L("about").toUpperCase()}</a>
+    <a href="#" class="pn-contact" data-contact="">${L("contact").toUpperCase()}</a>`;
+  const d = p.querySelector(".pn-drop");
+  d.querySelector("button").onclick = e => { e.stopPropagation(); d.classList.toggle("open"); };
+  d.addEventListener("mouseenter", () => d.classList.add("open")); d.addEventListener("mouseleave", () => d.classList.remove("open"));
+  p.querySelectorAll(".pn-menu a").forEach(a => a.addEventListener("click", () => d.classList.remove("open")));
+}
+addEventListener("hashchange", () => setTimeout(buildPill, 30));
+document.addEventListener("mousemove", e => {
+  const t = document.getElementById("miThumb"); if(!t) return;
+  const r = e.target.closest && e.target.closest(".mi-row[data-src]");
+  if(r && menu.classList.contains("open")){
+    if(t.dataset.src !== r.dataset.src){ t.dataset.src = r.dataset.src; t.innerHTML = media({ src: r.dataset.src, kind: r.dataset.kind }); }
+    t.style.left = (e.clientX + 26) + "px"; t.style.top = (e.clientY - 106) + "px"; t.classList.add("show");
+  } else t.classList.remove("show");
+}, { passive: true });
+function applyMenu(){
+  document.documentElement.dataset.menu = menuStyle();
+  buildAltMenus();
+  let bar = document.getElementById("menuTry");
+  if(true){ if(bar) bar.remove(); return; }            // test bar switched off
+  if(!bar){
+    bar = document.createElement("div"); bar.id = "menuTry"; bar.className = "fx-try"; bar.style.zIndex = 9500;
+    bar.innerHTML = `<span>Try menu</span>` + MENU_STYLES.map(n => `<button data-menu-try="${n}">${n}</button>`).join("") + `<button data-open-menu="" style="background:#fff;color:#111;margin-left:6px">open menu</button>`;
+    bar.addEventListener("click", e => {
+      if(e.target.closest("[data-open-menu]")){ menu.classList.contains("open") ? closeMenu() : openMenu(); return; }
+      const b = e.target.closest("[data-menu-try]"); if(!b) return;
+      menuTry = b.dataset.menuTry; try{ localStorage.setItem("dk-menu-try", menuTry); }catch(_){}
+      applyMenu(); if(menuTry !== "pill" && !menu.classList.contains("open")) openMenu();
+    });
+    document.body.appendChild(bar);
+  }
+  bar.style.display = "flex";
+  bar.querySelectorAll("[data-menu-try]").forEach(b => b.classList.toggle("on", b.dataset.menuTry === menuStyle()));
+}
+
 function openMenu(){ menu.classList.add("open"); [...menu.querySelectorAll(".menu-group a")].forEach((a,i)=>a.style.transitionDelay = (i*35)+"ms"); }
 function closeMenu(){ menu.classList.remove("open"); [...menu.querySelectorAll(".menu-group a")].forEach(a=>a.style.transitionDelay = "0ms"); }
 $("#worksBtn").onclick = openMenu;
+
+/* ---------- top bar shapes ---------- */
+const HEADER_STYLES = ["classic", "outline", "tags", "rule", "dots", "type", "stack"];
+let headTry = null;
+try{ localStorage.removeItem("dk-head-try"); }catch(_){}
+function applyHeader(){
+  const v = headTry || (window.SITE && window.SITE.headerStyle) || "classic";
+  document.documentElement.dataset.header = v;
+  const h = location.hash.slice(1);
+  $("#hSvc").classList.toggle("here", h === "services"); $("#hAbout").classList.toggle("here", h === "about");
+  let bar = document.getElementById("headTry");
+  if(true){ if(bar) bar.remove(); return; }            // test bar switched off
+  if(!bar){
+    bar = document.createElement("div"); bar.id = "headTry"; bar.className = "fx-try"; bar.style.zIndex = 9500;
+    bar.innerHTML = `<span>Try top bar</span>` + HEADER_STYLES.map(n => `<button data-head-try="${n}">${n}</button>`).join("");
+    bar.addEventListener("click", e => { const b = e.target.closest("[data-head-try]"); if(!b) return; headTry = b.dataset.headTry; try{ localStorage.setItem("dk-head-try", headTry); }catch(_){} applyHeader(); setTimeout(() => typeof headerTone === "function" && headerTone(), 50); });
+    document.body.appendChild(bar);
+  }
+  bar.style.display = "flex";
+  bar.querySelectorAll("[data-head-try]").forEach(b => b.classList.toggle("on", b.dataset.headTry === v));
+}
+setTimeout(applyHeader, 350); addEventListener("hashchange", () => setTimeout(applyHeader, 60));
+
+setTimeout(applyMenu, 300);
 document.addEventListener("click", e => {
   const b = e.target.closest && e.target.closest(".lang-btn");
   if(!b) return;
@@ -798,31 +1110,57 @@ addEventListener("keydown", e => { if(e.key === "Escape") closeContact(); });
 document.addEventListener("click", e => { const t = e.target.closest && e.target.closest("[data-contact]"); if(t){ e.preventDefault(); openContact(t.dataset.contact || ""); } });
 
 /* ---------- cursor label + service preview ---------- */
+document.addEventListener("mouseover", e => {
+  const h = e.target.closest && e.target.closest(".hov");
+  if(!h) return;
+  const src = h.dataset.hov, png = /\.(png|svg|webp|gif)$/i.test(src);
+  $("#svcPreview").innerHTML = `<img src="${esc(src)}" alt="">`;
+  $("#svcPreview").classList.toggle("png", png); $("#svcPreview").classList.add("show");
+});
+document.addEventListener("mouseout", e => {
+  const h = e.target.closest && e.target.closest(".hov");
+  if(h && !(e.relatedTarget && h.contains(e.relatedTarget))) $("#svcPreview").classList.remove("show");
+});
 const cursor = $("#cursor"), preview = $("#svcPreview");
 addEventListener("mousemove", e => {
   cursor.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0) translate(-50%,-50%)`;
   preview.style.transform = `translate3d(${e.clientX + 24}px,${e.clientY - 125}px,0)`;
   const t = e.target.closest && e.target.closest("[data-cursor]");
-  if(t && !document.documentElement.classList.contains("editing")){ cursor.textContent = t.dataset.cursor; cursor.classList.add("show"); }
+  if(t && !document.documentElement.classList.contains("editing") && !(typeof followOn === "function" && followOn())){ cursor.textContent = t.dataset.cursor; cursor.classList.add("show"); }
   else cursor.classList.remove("show");
 });
 
 /* ---------- lightbox ---------- */
 const LB = { items: [], i: 0 };
-function openLB(items, i){ LB.items = items; LB.i = i; $("#lb").classList.add("open"); showLB(); }
+function openLB(items, i){ LB.items = items; LB.i = i; $("#lb").classList.add("open"); $("#cursor").classList.remove("show"); showLB(); }
 function closeLB(){ $("#lb").classList.remove("open"); $("#lbStage").innerHTML = ""; }
 function showLB(){
   const it = LB.items[LB.i];
   $("#lbStage").innerHTML = it.kind === "video"
     ? `<video src="${esc(it.src)}" autoplay loop playsinline controls></video>` : `<img src="${esc(it.src)}" alt="">`;
   $("#lbCount").textContent = String(LB.i + 1).padStart(2, "0") + " / " + String(LB.items.length).padStart(2, "0");
-  $("#lbCap").innerHTML = (it.title ? esc(it.title) : "") +
+  const who = it.kind === "image" ? creditOf(it) : "";
+  $("#lbCap").innerHTML = (who ? `<span class="dot"></span>&nbsp; ${esc(who)}` : "") + (it.title ? esc(it.title) : "") +
     (it.link ? `${it.title ? " · " : ""}<a href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">${L("watch")}</a>` : "");
 }
 const stepLB = d => { LB.i = (LB.i + d + LB.items.length) % LB.items.length; showLB(); };
 $("#lbClose").onclick = closeLB;
 $("#lbPrev").onclick = () => stepLB(-1);
 $("#lbNext").onclick = () => stepLB(1);
+(() => {
+  let sx = 0, sy = 0, st = 0, on = false;
+  $("#lb").addEventListener("touchstart", e => {
+    if(e.touches.length !== 1 || e.target.closest("video,a,button")) { on = false; return; }
+    on = true; sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now();
+  }, { passive: true });
+  $("#lb").addEventListener("touchend", e => {
+    if(!on) return; on = false;
+    const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if(Date.now() - st > 800) return;
+    if(Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.2){ e.preventDefault(); stepLB(dx < 0 ? 1 : -1); }
+    else if(dy > 90 && dy > Math.abs(dx) * 1.5){ e.preventDefault(); closeLB(); }
+  });
+})();
 addEventListener("keydown", e => {
   if(e.target.closest && e.target.closest("[data-edit],input")) return;
   if($("#lb").classList.contains("open")){
@@ -861,6 +1199,7 @@ function pageHome(){
     <div class="top">
       ${noHero() ? `<div class="hero-media hero-empty" id="hero"></div>` : media(heroOf(), "hero-media", `id="hero" fetchpriority="high" data-cursor="${L("works")}"`)}
       ${CAN_EDIT ? `<button class="ed-btn hero-change edit-only" id="heroChange">Change hero photo</button>` : ""}
+      ${!noHero() && heroCaption() ? `<p class="hero-cap"><span class="dot"></span>${esc(heroCaption())}</p>` : ""}
       <div class="carousel" id="carousel">${CATS.map(c => cardHTML(c, true)).join("")}</div>
     </div>
     <h1 class="mobile-title">${esc(DEFAULTS.name)}</h1>
@@ -894,8 +1233,23 @@ function footerHTML(){
   </footer>`;
 }
 
+/* who is in the photo (content.js → credits) */
+function creditOf(it){
+  const C = window.SITE || {}, key = (it.cat || "") + "/" + (it.name || "");
+  const p = (C.credits || []).find(c => (c.photos || []).some(f => f.replace(/^photos\//, "") === key));
+  if(!p || !p.name) return "";
+  const role = LANG === "it" && p.roleIT ? p.roleIT : p.role;
+  return role ? `${p.name} · ${role}` : p.name;
+}
+/* keep each person's / couple's photos together, in the order of content.js → credits */
+function groupByCredit(list){
+  const C = window.SITE || {}, groups = C.credits || [];
+  const g = it => { const key = (it.cat || "") + "/" + (it.name || ""); const i = groups.findIndex(c => (c.photos || []).some(f => f.replace(/^photos\//, "") === key)); return i < 0 ? groups.length : i; };
+  return list.map((it, i) => [it, i]).sort((a, b) => g(a[0]) - g(b[0]) || a[1] - b[1]).map(x => x[0]);
+}
 function tileHTML(it, idx, cat){
   const isMV = cat.slug === "music-videos";
+  const who = !isMV && !it.ph ? creditOf(it) : "";
   const tools = it.ph || !CAN_EDIT ? "" : `<div class="tools">
       <button data-act="cover" class="${coverOf(cat.slug).src === it.src ? "on" : ""}">Cover</button>
       <button data-act="hero">Hero</button>
@@ -907,12 +1261,12 @@ function tileHTML(it, idx, cat){
       <input data-field="link" placeholder="Link to the video (YouTube, Vimeo…)" value="${esc(it.link)}"></div>` : "";
   const cap = (isMV && it.title ? `<p class="cap">${esc(it.title)}</p>` : "") + (isMV && it.link ? `<a class="watch" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">${L("watch").toUpperCase()} ↗</a>` : "");
   return `<figure class="tile" data-idx="${idx}" ${it.id ? `data-id="${it.id}"` : ""} data-cursor="${L("view")}">
-    ${media(it, "", 'loading="lazy"')}${cap}${tools}${fields}</figure>`;
+    ${media(it, "", 'loading="lazy"')}${cap}${who ? `<p class="credit"><span class="dot"></span>${esc(who)}</p>` : ""}${tools}${fields}</figure>`;
 }
 
 function pageCategory(cat){
   const i = CATS.indexOf(cat), next = CATS[i + 1];
-  const items = itemsOf(cat.slug), real = realPhotos(cat.slug).length;
+  const items = groupByCredit(itemsOf(cat.slug)), real = realPhotos(cat.slug).length;
   const nx = CATS[(CATS.indexOf(cat) + 1) % CATS.length];
   const ci = CATS.indexOf(cat), pv = CATS[ci - 1], nn = CATS[ci + 1];
   const nextBlock = `<nav class="more-work">${pv ? `<a class="mw-back" href="#${pv.slug}"><span class="mw-label">${L("back")}</span>← ${esc(pv.title)}</a>` : "<span></span>"}${nn ? `<a class="mw-next" href="#${nn.slug}"><span class="mw-label">${L("next")}</span>${esc(nn.title)} →</a>` : "<span></span>"}</nav>`;
@@ -943,7 +1297,28 @@ function fitAbout(){
   let px = parseFloat(getComputedStyle(bio).fontSize);
   while(bio.scrollHeight > room() && px > 11){ px -= 1; bio.style.fontSize = px + "px"; }
 }
+/* About: little pictures that pop up when the mouse is on certain words (set in content.js → aboutHovers) */
+const ABOUT_HOVERS = [
+  { words: ["I’m Deniz", "I'm Deniz", "sono Deniz"], image: "decor/deniz.jpg" }
+];
+function aboutHovers(html){
+  const rules = (window.SITE && Array.isArray(window.SITE.aboutHovers)) ? window.SITE.aboutHovers : ABOUT_HOVERS;
+  let out = esc(html.replace(/^<p>|<\/p>$/g, ""));
+  const used = aboutHovers.used || (aboutHovers.used = new Set());
+  rules.forEach((r, i) => {
+    if(used.has(i) || !r || !r.image) return;
+    for(const w of (r.words || [])){
+      const k = out.toLowerCase().indexOf(esc(w).toLowerCase());
+      if(k < 0) continue;
+      const len = esc(w).length;
+      out = out.slice(0, k) + `<span class="hov" data-hov="${esc(r.image)}">${out.slice(k, k + len)}</span>` + out.slice(k + len);
+      used.add(i); break;
+    }
+  });
+  return `<p>${out}</p>`;
+}
 function aboutPhotoHTML(){
+  aboutHovers.used = new Set();
   const src = window.SITE && typeof window.SITE.aboutPhoto === "string" ? window.SITE.aboutPhoto.trim() : "";
   if(!src) return `<div class="about-photo empty"></div>`;
   return `<figure class="about-photo"><img src="${esc(src)}" alt="${LANG === "it" ? "Deniz, fotografa e videomaker" : "Deniz, photographer and videomaker"}" onload="this.parentNode.classList.add('in')"></figure>`;
@@ -952,7 +1327,7 @@ function pageAbout(){
   const ig = `<a class="link" href="${esc(igUrl())}" target="_blank" rel="noopener noreferrer">${linkHTML("Instagram @" + igHandle())}</a>`;
   const mail = email() ? `<a class="link" href="mailto:${esc(email())}">${linkHTML(email())}</a>` : "";
   return `<main class="about-simple">
-      <div class="about-row">${aboutPhotoHTML()}<div class="about-bio">${String(T("about", DEFAULTS.about)).split(/\n+/).map(t => t.trim()).filter(Boolean).map(t => `<p>${esc(t)}</p>`).join("")}</div></div>
+      <div class="about-row">${aboutPhotoHTML()}<div class="about-bio">${String(T("about", DEFAULTS.about)).split(/\n+/).map(t => t.trim()).filter(Boolean).map(t => `<p>${t}</p>`).map(aboutHovers).join("")}</div></div>
       <div class="about-contact">
         <p class="sub-title">${L("contact")}</p>
         <p>${ig}</p>
@@ -1047,10 +1422,25 @@ function initAbout(id){
   })();
 }
 
+/* preview picture for a service: its own "photo" from content.js, otherwise the
+   category cover — and a different photo when two services share a category */
+function servicePreview(idx){
+  const s = SERVICES[idx];
+  if(s.photo){
+    const f = s.photo.replace(/^photos\//, "");
+    const hit = S.photos.find(p => (p.cat + "/" + p.name) === f);
+    return hit || { cat: s.cat, name: f, src: "photos/" + f.split("/").map(encodeURIComponent).join("/"), kind: /\.(mp4|webm|mov)$/i.test(f) ? "video" : "image" };
+  }
+  const cover = coverOf(s.cat);
+  const before = SERVICES.slice(0, idx).filter(o => o.cat === s.cat).length;
+  if(!before) return cover;
+  const imgs = itemsOf(s.cat).filter(i => i.kind === "image" && i.src !== cover.src);
+  return imgs.length ? imgs[(before * 5 - 1) % imgs.length] : cover;
+}
 function initServices(){
   document.querySelectorAll(".svc").forEach(row => {
     const s = SERVICES[+row.dataset.svc];
-    row.addEventListener("mouseenter", () => { preview.innerHTML = media(coverOf(s.cat)); preview.classList.add("show"); });
+    row.addEventListener("mouseenter", () => { preview.innerHTML = media(servicePreview(+row.dataset.svc)); preview.classList.add("show"); });
     row.addEventListener("mouseleave", () => preview.classList.remove("show"));
     row.addEventListener("click", e => {
       if(document.documentElement.classList.contains("editing")) return;
@@ -1063,7 +1453,7 @@ function initCategory(cat){
   const d = $("#pdesc");
   const set = () => d.style.setProperty("--dh", d.offsetHeight + "px");
   set(); addEventListener("resize", set);
-  const items = itemsOf(cat.slug);
+  const items = groupByCredit(itemsOf(cat.slug));
   $("#gallery").addEventListener("click", e => {
     if(e.target.closest("a")) return;
     const tile = e.target.closest(".tile");
@@ -1102,7 +1492,7 @@ function addBlossoms(page){
   const app = $("#app");
   if(page === "about" || page === "services"){
     const d = document.createElement("div");
-    d.className = "deco " + (page === "home" ? "home" : "about-page");
+    d.className = "deco " + (page === "home" ? "home" : page === "services" ? "about-page svc-page" : "about-page");
     d.innerHTML = branchHTML("tr", "decor/branch-a.webp") + (page === "about" ? branchHTML("bl", "decor/branch-b.webp") : "");
     app.appendChild(d);
   }
@@ -1111,13 +1501,27 @@ function addBlossoms(page){
   petals.active = ["about","services","couples"].includes(page);
 }
 const petals = { active: false, list: [], box: null, last: 0 };
+/* falling flowers: they drift down, gather on the floor, and the mouse (or a finger) blows them around like a breeze */
+const air = { x: -999, y: -999, vx: 0, vy: 0, t: 0 };
+function blow(x, y){
+  const now = performance.now(), dt = Math.max(16, now - air.t);
+  if(air.t && now - air.t < 120){ air.vx = (x - air.x) / dt * 16; air.vy = (y - air.y) / dt * 16; } else { air.vx = air.vy = 0; }
+  air.x = x; air.y = y; air.t = now;
+}
+addEventListener("mousemove", e => blow(e.clientX, e.clientY), { passive: true });
+addEventListener("touchmove", e => { const t = e.touches[0]; if(t) blow(t.clientX, t.clientY); }, { passive: true });
+function petalFloor(){
+  const tab = isMobile() ? (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--tabh")) || 0) : 0;
+  return innerHeight - tab - 8;
+}
 function petalLoop(t){
   requestAnimationFrame(petalLoop);
   if(reduceMotion || document.hidden) return;
   if(!petals.box){ petals.box = document.createElement("div"); petals.box.className = "petals"; document.body.appendChild(petals.box); }
-  const max = isMobile() ? 10 : 18;
-  const firstScreen = location.hash.slice(1) === "couples" || scrollY < innerHeight * .8;
-  if(petals.active && firstScreen && petals.list.length < max && t - petals.last > (isMobile() ? 1100 : 650)){
+  const maxAir = isMobile() ? 8 : 14, maxGround = isMobile() ? 26 : 46;
+  const firstScreen = scrollY < innerHeight * .8;
+  const flying = petals.list.filter(p => !p.landed).length;
+  if(petals.active && firstScreen && flying < maxAir && t - petals.last > (isMobile() ? 1100 : 650)){
     petals.last = t;
     const el = document.createElement("div"); el.className = "petal";
     el.innerHTML = `<img src="${FLOWERS[Math.floor(Math.random() * FLOWERS.length)]}" alt="">`;
@@ -1126,21 +1530,343 @@ function petalLoop(t){
     petals.list.push({ el, x: W * (0.62 + Math.random() * 0.36), y: -20 + Math.random() * innerHeight * 0.25,
       vx: -(0.25 + Math.random() * 0.45), vy: 0.35 + Math.random() * 0.4, rot: Math.random() * 360,
       vr: (Math.random() - .5) * 2.4, ph: Math.random() * 6.28, amp: 18 + Math.random() * 26,
-      s: 0.6 + Math.random() * 0.55, born: t });
+      s: 0.6 + Math.random() * 0.55, born: t, ix: 0, iy: 0, landed: false, rest: Math.random() * 10, gone: 0 });
   }
-  const wind = Math.sin(t / 2600) * 0.25;
+  const wind = Math.sin(t / 2600) * 0.25, floor = petalFloor(), breeze = performance.now() - air.t < 90;
+  const R = isMobile() ? 95 : 145;
+  // too many on the floor: the oldest ones fade away
+  const ground = petals.list.filter(p => p.landed && !p.gone);
+  if(ground.length > maxGround) ground.slice(0, ground.length - maxGround).forEach(p => p.gone = t);
   petals.list = petals.list.filter(p => {
-    p.x += p.vx + wind; p.y += p.vy; p.rot += p.vr; p.ph += 0.018;
     const age = (t - p.born) / 1000;
-    const op = Math.min(1, age / 0.8) * (p.y > innerHeight * .85 ? Math.max(0, 1 - (p.y - innerHeight * .85) / (innerHeight * .15)) : 1);
-    const flip = Math.cos(p.ph * 1.7);
+    let px = p.landed ? p.x : p.x + Math.sin(p.ph) * p.amp;
+    // the breeze from the mouse
+    if(breeze && (p.landed || (p.gust && t - p.gust < 1400))){                                   // only the flowers lying on the floor react to the mouse
+      const dx = px - air.x, dy = p.y - air.y, d = Math.hypot(dx, dy);
+      if(d < R){
+        const f = (1 - d / R), k = Math.max(d, 1);
+        // like wind: they travel the way the mouse moves (a still mouse doesn't disturb them)
+        const sp = Math.hypot(air.vx, air.vy), g = f * f * Math.min(1, sp / 6);
+        if(g > .02){
+          const wx = Math.max(-14, Math.min(14, air.vx)), wy = Math.max(-10, Math.min(10, air.vy));
+          p.ix += wx * g * .06;
+          p.iy += -(.55 + Math.random() * .45) * g * Math.min(1, sp / 6) + wy * g * .05;
+          p.iy = Math.max(p.iy, -4.5); p.ix = Math.max(-9, Math.min(9, p.ix));   // a gust lifts them up
+          p.vr += (wx > 0 ? 1 : -1) * (2 + Math.random() * 3) * g;      // they tumble
+          p.gust = t; p.seed = p.seed || Math.random() * 6.28;
+        }
+        if(p.landed && (Math.abs(p.ix) > .15 || p.iy < -.1)){ p.landed = false; p.amp = 0; p.ph = 0; }
+      }
+    }
+    if(!p.landed){
+      p.x += p.vx * (p.amp ? 1 : .6) + wind + p.ix; p.y += p.vy + p.iy; p.rot += p.vr; p.ph += 0.018;
+      if(p.gust && t - p.gust < 2600){                       // swirling in the air after a gust
+        const k2 = 1 - (t - p.gust) / 2600, w = (t - p.gust) / 340 + p.seed;
+        p.ix += Math.cos(w) * .16 * k2; p.iy += Math.sin(w * 1.3) * .07 * k2;
+      }
+      p.ix *= .978; p.iy = p.iy * .972 + .008;               // gentle air resistance, slow float back down
+      p.vr *= .985;
+      p.vr *= .99; if(Math.abs(p.vr) < .4) p.vr += (Math.random() - .5) * .2;
+      px = p.amp ? p.x + Math.sin(p.ph) * p.amp : p.x;
+      const fl = floor - p.rest - (isMobile() ? 20 : 26) * p.s;
+      if(p.y >= fl && p.iy >= -0.2){ p.y = fl; p.x = px; p.amp = 0; p.landed = true; p.ix = p.iy = 0; p.vr = 0; }
+    }
+    const left = !firstScreen && p.landed;                    // scrolled away: the floor ones fade out
+    let op = Math.min(1, age / 0.8);
+    if(p.gone || left){ p.gone = p.gone || t; op *= Math.max(0, 1 - (t - p.gone) / 900); }
+    const flip = p.landed ? .55 : Math.cos(p.ph * 1.7);
     p.el.style.opacity = op.toFixed(3);
-    p.el.style.transform = `translate3d(${(p.x + Math.sin(p.ph) * p.amp).toFixed(1)}px,${p.y.toFixed(1)}px,0) rotate(${p.rot.toFixed(1)}deg) scale(${p.s.toFixed(2)},${(p.s * (0.75 + 0.25 * Math.abs(flip))).toFixed(2)})`;
-    if(p.y > innerHeight + 30 || p.x < -60 || op <= 0 && age > 2){ p.el.remove(); return false; }
+    p.el.style.transform = `translate3d(${px.toFixed(1)}px,${p.y.toFixed(1)}px,0) rotate(${p.rot.toFixed(1)}deg) scale(${p.s.toFixed(2)},${(p.s * (0.75 + 0.25 * Math.abs(flip))).toFixed(2)})`;
+    if(px < -80 || px > innerWidth + 80 || p.y < -200 || op <= 0 && age > 1){ p.el.remove(); return false; }
     return true;
   });
 }
 requestAnimationFrame(petalLoop);
+
+/* ---------- red ink trail (Editorial, mouse only) ---------- */
+const ink = { cv: null, ctx: null, pts: [], running: false };
+const INK_LIFE = 420; // ms a point stays on screen
+try{ localStorage.removeItem("dk-fx-try"); }catch(_){}
+function cursorStyle(){
+  const S0 = window.SITE || {};
+  if(location.hash.slice(1) === "couples" && typeof S0.mouseEffectCouples === "string") return S0.mouseEffectCouples.trim().toLowerCase() || "none";
+  const raw = typeof S0.mouseEffect === "string" ? S0.mouseEffect : S0.editorialCursor;
+  const v = typeof raw === "string" ? raw.trim().toLowerCase() : "focus";
+  return v || "none";
+}
+function inkOn(){ return cursorStyle() === "red" && ["couples","editorial","music-videos"].includes(location.hash.slice(1)) && !reduceMotion && matchMedia("(hover:hover) and (pointer:fine)").matches; }
+function inkSize(){
+  const d = Math.min(devicePixelRatio || 1, 2);
+  ink.cv.width = innerWidth * d; ink.cv.height = innerHeight * d;
+  ink.cv.style.width = innerWidth + "px"; ink.cv.style.height = innerHeight + "px";
+  ink.ctx.setTransform(d, 0, 0, d, 0, 0);
+}
+addEventListener("mousemove", e => {
+  if(!inkOn() || $("#lb").classList.contains("open")) return;
+  if(!ink.cv){
+    ink.cv = document.createElement("canvas"); ink.cv.className = "ink";
+    document.body.appendChild(ink.cv); ink.ctx = ink.cv.getContext("2d"); inkSize();
+    addEventListener("resize", inkSize);
+  }
+  ink.pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+  if(!ink.running){ ink.running = true; requestAnimationFrame(inkLoop); }
+}, { passive: true });
+function inkLoop(now){
+  const c = ink.ctx;
+  c.clearRect(0, 0, innerWidth, innerHeight);
+  ink.pts = ink.pts.filter(p => now - p.t < INK_LIFE);
+  if(!inkOn()) ink.pts = [];
+  const P = ink.pts;
+  if(P.length > 1){
+    c.lineCap = "round"; c.lineJoin = "round";
+    for(let i = 1; i < P.length; i++){
+      const a = P[i - 1], b = P[i], age = 1 - (now - b.t) / INK_LIFE;        // 1 = newest
+      const sp = Math.hypot(b.x - a.x, b.y - a.y);
+      c.strokeStyle = `rgba(200,16,46,${(0.92 * age).toFixed(3)})`;
+      c.lineWidth = Math.max(.6, (1.2 + Math.min(sp, 40) * .06) * (0.35 + age * 0.85));
+      const m0 = i > 1 ? { x: (P[i - 2].x + a.x) / 2, y: (P[i - 2].y + a.y) / 2 } : a;
+      const m1 = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+      c.beginPath(); c.moveTo(m0.x, m0.y); c.quadraticCurveTo(a.x, a.y, m1.x, m1.y); c.stroke();
+    }
+    const h = P[P.length - 1];                                                // small red dot at the tip
+    c.fillStyle = "rgba(200,16,46,.95)"; c.beginPath(); c.arc(h.x, h.y, 2.6, 0, 6.283); c.fill();
+  }
+  if(P.length) requestAnimationFrame(inkLoop); else { ink.running = false; c.clearRect(0, 0, innerWidth, innerHeight); }
+}
+
+/* ---------- soft colour veil on the home cards (content.js → homeTint) ---------- */
+const TINTS = { blush: "rgba(246,196,210,.40)", rose: "rgba(230,140,165,.32)", powder: "rgba(250,222,228,.55)",
+  grey: "rgba(205,205,205,.45)", "warm grey": "rgba(196,184,178,.45)", mauve: "rgba(208,182,192,.45)", none: "transparent" };
+let tintTry = null;
+const tintPreview = !/(^|\.)denizkreative\.(it|github\.io)$/i.test(location.hostname);
+try{ localStorage.removeItem("dk-tint-try"); }catch(_){}
+function applyTint(){
+  const v = tintTry || (window.SITE && window.SITE.homeTint) || "blush";
+  document.documentElement.style.setProperty("--tint", TINTS[v] || v);
+  let bar = document.getElementById("tintTry");
+  const show = false; // test bar switched off
+  if(!show){ if(bar) bar.style.display = "none"; return; }
+  if(!bar){
+    bar = document.createElement("div"); bar.id = "tintTry"; bar.className = "fx-try";
+    bar.innerHTML = `<span>Try card colour</span>` + Object.keys(TINTS).map(n => `<button data-tint="${n}">${n}</button>`).join("");
+    bar.addEventListener("click", e => { const b = e.target.closest("[data-tint]"); if(!b) return; tintTry = b.dataset.tint; try{ localStorage.setItem("dk-tint-try", tintTry); }catch(_){} applyTint(); });
+    document.body.appendChild(bar);
+  }
+  bar.style.display = "flex";
+  bar.querySelectorAll("[data-tint]").forEach(b => b.classList.toggle("on", b.dataset.tint === v));
+}
+applyTint(); addEventListener("hashchange", () => setTimeout(applyTint, 50));
+
+/* ---------- home card looks ---------- */
+const CARD_LOOKS = ["darkroom","polaroid","aperture","contact","filmstrip","loupe","flash","exposure","wipe","bloom","|","tint","bw","blur","vintage","negative","frame","spotlight","blinds","halftone","leak","dim","none"];
+let cardTry = null;
+try{ localStorage.removeItem("dk-card-try"); }catch(_){}
+function applyCard(){
+  const v = cardTry || (window.SITE && window.SITE.homeCard) || "tint";
+  if(v === "none") document.documentElement.removeAttribute("data-card"); else document.documentElement.dataset.card = v;
+  if(v === "none") document.documentElement.style.setProperty("--tint", "transparent");
+  let bar = document.getElementById("cardTry");
+  const show = false; // test bar switched off
+  if(!show){ if(bar) bar.style.display = "none"; return; }
+  if(!bar){
+    bar = document.createElement("div"); bar.id = "cardTry"; bar.className = "fx-try"; bar.style.bottom = "70px";
+    bar.innerHTML = `<span>Try card idea</span>` + CARD_LOOKS.map(n => n === "|" ? `<span style="opacity:.35;margin:0 4px">·  older:</span>` : `<button data-card-try="${n}">${n}</button>`).join(""); bar.style.flexWrap = "wrap"; bar.style.maxWidth = "min(1100px, 94vw)"; bar.style.borderRadius = "18px"; bar.style.justifyContent = "center";
+    bar.addEventListener("click", e => { const b = e.target.closest("[data-card-try]"); if(!b) return; cardTry = b.dataset.cardTry; try{ localStorage.setItem("dk-card-try", cardTry); }catch(_){} if(cardTry !== "none") applyTint(); applyCard(); ensureCardFx(); });
+    document.body.appendChild(bar);
+  }
+  bar.style.display = "flex";
+  bar.querySelectorAll("[data-card-try]").forEach(b => b.classList.toggle("on", b.dataset.cardTry === v));
+  const tb = document.getElementById("tintTry"); if(tb) tb.style.display = v === "tint" ? "flex" : "none";
+}
+applyCard(); addEventListener("hashchange", () => setTimeout(applyCard, 60));
+
+/* JS-driven card looks: wipe (paint you rub away), loupe (magnifier), bloom (blossom burst) */
+function cardLook(){ return document.documentElement.dataset.card || ""; }
+function ensureCardFx(){
+  const v = cardLook(), fine = matchMedia("(hover:hover) and (pointer:fine)").matches;
+  document.querySelectorAll(".project-card.card").forEach(c => {
+    let w = c.querySelector(".card-wipe");
+    if(v === "wipe" && fine){
+      if(!w || w.width !== c.clientWidth || w.height !== c.clientHeight){
+        if(!w){ w = document.createElement("canvas"); w.className = "card-wipe"; c.insertBefore(w, c.querySelector(".title")); }
+        w.width = c.clientWidth; w.height = c.clientHeight;
+        const g = w.getContext("2d"), gr = g.createLinearGradient(0, 0, w.width, w.height);
+        gr.addColorStop(0, "#f6d3dc"); gr.addColorStop(1, "#ecc0cc"); g.fillStyle = gr; g.fillRect(0, 0, w.width, w.height);
+        for(let i = 0; i < w.width * w.height / 90; i++){ g.fillStyle = `rgba(255,255,255,${Math.random() * .25})`; g.fillRect(Math.random() * w.width, Math.random() * w.height, 1.2, 1.2); }
+        g.globalCompositeOperation = "destination-out";
+      }
+    } else if(w) w.remove();
+    let l = c.querySelector(".card-loupe");
+    if(v === "loupe" && fine){
+      if(!l){
+        l = document.createElement("div"); l.className = "card-loupe"; l.innerHTML = `<div class="lz"></div>`;
+        const im = c.querySelector(".image"); if(im) l.firstChild.appendChild(im.cloneNode(true));
+        const ring = document.createElement("div"); ring.className = "card-ring";
+        c.insertBefore(l, c.querySelector(".title")); c.insertBefore(ring, c.querySelector(".title"));
+      }
+    } else if(l){ l.remove(); const r = c.querySelector(".card-ring"); if(r) r.remove(); }
+  });
+}
+new MutationObserver(() => { clearTimeout(ensureCardFx.t); ensureCardFx.t = setTimeout(ensureCardFx, 120); }).observe(document.getElementById("app") || document.body, { childList: true, subtree: true });
+addEventListener("resize", () => setTimeout(ensureCardFx, 200));
+const blooms = { list: [], running: false, last: 0 };
+function spawnBloom(x, y, burst){
+  const box = fxBox(), n = burst ? 12 : 1;
+  for(let k = 0; k < n; k++){
+    const el = document.createElement("div"); el.className = "bloom";
+    el.innerHTML = `<img src="${FLOWERS[Math.floor(Math.random() * FLOWERS.length)]}" alt="">`; box.appendChild(el);
+    const a = Math.random() * Math.PI * 2, sp = burst ? 2 + Math.random() * 3.5 : .4 + Math.random();
+    blooms.list.push({ el, x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - (burst ? 2 : .5), rot: Math.random() * 360, vr: (Math.random() - .5) * 8, s: .6 + Math.random() * .6, born: performance.now(), life: 1300 + Math.random() * 600 });
+  }
+  if(!blooms.running){ blooms.running = true; requestAnimationFrame(bloomLoop); }
+}
+function bloomLoop(t){
+  blooms.list = blooms.list.filter(p => {
+    const a = (t - p.born) / p.life; if(a >= 1){ p.el.remove(); return false; }
+    p.vy += .09; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+    p.el.style.opacity = (a > .7 ? 1 - (a - .7) / .3 : 1).toFixed(3);
+    p.el.style.transform = `translate3d(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px,0) rotate(${p.rot.toFixed(1)}deg) scale(${p.s.toFixed(2)})`;
+    return true;
+  });
+  if(blooms.list.length) requestAnimationFrame(bloomLoop); else blooms.running = false;
+}
+document.addEventListener("mouseover", e => {
+  const c = e.target.closest && e.target.closest(".project-card.card");
+  if(!c || (e.relatedTarget && c.contains(e.relatedTarget))) return;
+  if(cardLook() === "bloom") spawnBloom(e.clientX, e.clientY, true);
+});
+document.addEventListener("mouseout", e => {
+  const c = e.target.closest && e.target.closest(".project-card.card");
+  if(!c || (e.relatedTarget && c.contains(e.relatedTarget))) return;
+  const l = c.querySelector(".card-loupe"), r = c.querySelector(".card-ring");
+  if(l) l.style.clipPath = "circle(0 at 50% 50%)"; if(r) r.style.opacity = 0;
+});
+addEventListener("mousemove", e => {
+  const c = e.target.closest && e.target.closest(".project-card.card"); if(!c) return;
+  const look = cardLook(), r = c.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+  if(look === "wipe"){
+    const w = c.querySelector(".card-wipe"); if(!w) return;
+    const g = w.getContext("2d"), rg = g.createRadialGradient(mx, my, 0, mx, my, 70);
+    rg.addColorStop(0, "rgba(0,0,0,1)"); rg.addColorStop(.6, "rgba(0,0,0,.9)"); rg.addColorStop(1, "rgba(0,0,0,0)");
+    g.fillStyle = rg; g.beginPath(); g.arc(mx, my, 70, 0, 6.283); g.fill();
+  } else if(look === "loupe"){
+    const l = c.querySelector(".card-loupe"), ring = c.querySelector(".card-ring"); if(!l) return;
+    const orig = c.querySelector(":scope > .image"), clone = l.querySelector(".image");
+    if(orig && clone) clone.style.transform = orig.style.transform;
+    const z = l.firstChild; z.style.transformOrigin = `${mx}px ${my}px`; z.style.transform = "scale(2.1)";
+    l.style.transition = "none"; l.style.clipPath = `circle(84px at ${mx}px ${my}px)`;
+    ring.style.left = mx + "px"; ring.style.top = my + "px"; ring.style.opacity = 1;
+  } else if(look === "bloom"){
+    const now = performance.now(); if(now - blooms.last > 110){ blooms.last = now; spawnBloom(e.clientX, e.clientY, false); }
+  }
+}, { passive: true });
+
+addEventListener("mousemove", e => {
+  const c = e.target.closest && e.target.closest(".project-card.card");
+  if(!c) return; const r = c.getBoundingClientRect();
+  c.style.setProperty("--mx", (e.clientX - r.left) + "px"); c.style.setProperty("--my", (e.clientY - r.top) + "px");
+}, { passive: true });
+
+
+/* ---------- mouse effects on Editorial (computers only) ----------
+   chosen in content.js → editorialCursor: "glitter", "embers", "confetti", "ring", "focus", "red" or "none" */
+const FX_NAMES = ["glitter", "embers", "confetti", "ring", "focus", "engagement", "red", "none"];
+const isPreviewHost = !/(^|\.)denizkreative\.(it|github\.io)$/i.test(location.hostname);
+const FX_PAGES = ["couples", "editorial", "music-videos"];
+const ENGAGEMENT_RING = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -26 40 48" class="rg"> <defs> <linearGradient id="rgBand" x1="0" y1="0" x2="1" y2="0"> <stop offset="0" stop-color="#8a6420"/><stop offset=".18" stop-color="#e9c876"/><stop offset=".34" stop-color="#fff4cf"/> <stop offset=".52" stop-color="#c79a3c"/><stop offset=".78" stop-color="#f2d995"/><stop offset="1" stop-color="#7d5a1c"/> </linearGradient> <linearGradient id="rgBack" x1="0" y1="0" x2="1" y2="0"> <stop offset="0" stop-color="#6e4f18"/><stop offset=".5" stop-color="#b38a3a"/><stop offset="1" stop-color="#6e4f18"/> </linearGradient> <linearGradient id="rgCrown" x1="0" y1="0" x2="1" y2="1"> <stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#e9eef3"/><stop offset="1" stop-color="#b9c4cf"/> </linearGradient> <linearGradient id="rgPav" x1="0" y1="0" x2="1" y2="0"> <stop offset="0" stop-color="#9aa6b2"/><stop offset=".3" stop-color="#ffffff"/><stop offset=".55" stop-color="#cfd8e0"/><stop offset=".8" stop-color="#f7f9fb"/><stop offset="1" stop-color="#8d99a5"/> </linearGradient> </defs> <path d="M-11.5 7 A11.5 9 0 0 1 11.5 7" fill="none" stroke="url(#rgBack)" stroke-width="1.5"/> <path d="M-11.5 7 A11.5 9 0 0 0 11.5 7" fill="none" stroke="url(#rgBand)" stroke-width="1.9" stroke-linecap="round"/> <path d="M-9 11.6 A11.5 9 0 0 0 4 15.6" fill="none" stroke="#fffbe8" stroke-width=".5" stroke-linecap="round" opacity=".85"/> <path d="M-3.4 -1.6 L-1.6 -6.2 M3.4 -1.6 L1.6 -6.2" stroke="#c9a04a" stroke-width=".9" stroke-linecap="round"/> <path d="M-4.6 -5.6 L-3 -1.4 M4.6 -5.6 L3 -1.4" stroke="#e8cf86" stroke-width=".8" stroke-linecap="round"/> <path d="M-3.6 -1.4 Q0 .6 3.6 -1.4" fill="none" stroke="url(#rgBand)" stroke-width="1.1" stroke-linecap="round"/> <path d="M-5.6 -8.4 L5.6 -8.4 L0 -1.2 Z" fill="url(#rgPav)"/> <path d="M-5.6 -8.4 L-1.8 -8.4 L0 -1.2 M5.6 -8.4 L1.8 -8.4 L0 -1.2" fill="none" stroke="#7f8b97" stroke-width=".22" opacity=".8"/> <path d="M-5.6 -8.4 L-3.4 -10.6 L3.4 -10.6 L5.6 -8.4 Z" fill="url(#rgCrown)"/> <path d="M-3.4 -10.6 L-2 -8.4 L0 -10.6 L2 -8.4 L3.4 -10.6 M-5.6 -8.4 L5.6 -8.4" fill="none" stroke="#8b97a3" stroke-width=".22"/> <circle cx="-5.2" cy="-8.7" r=".7" fill="#e9cc7c"/><circle cx="5.2" cy="-8.7" r=".7" fill="#e9cc7c"/> <path d="M-1.2 -6 L-.4 -4.2 L-1.9 -4.4 Z" fill="#ffd9a8" opacity=".7"/><path d="M1.6 -6.6 L2.4 -5.4 L1.1 -5.2 Z" fill="#bfe3ff" opacity=".8"/> <path d="M-2.6 -10 L-1.6 -10 L-2.3 -9 Z" fill="#fff"/> </svg>`;
+const fxMouse = () => FX_PAGES.includes(location.hash.slice(1)) && !reduceMotion && matchMedia("(hover:hover) and (pointer:fine)").matches;
+const WARM = ["#c8102e", "#e0301e", "#ff4f1f", "#ff7a2a", "#ff9a3c", "#e5383b"];
+const pickOne = a => a[Math.floor(Math.random() * a.length)];
+const sparks = { box: null, list: [], lastX: 0, lastY: 0, lastT: 0, running: false };
+function sparkOn(){ return ["glitter","embers","confetti"].includes(cursorStyle()) && fxMouse(); }
+function fxBox(){ if(!sparks.box){ sparks.box = document.createElement("div"); sparks.box.className = "sparkles"; document.body.appendChild(sparks.box); } return sparks.box; }
+addEventListener("mousemove", e => {
+  if(!sparkOn() || $("#lb").classList.contains("open")) return;
+  const now = performance.now(), dx = e.clientX - sparks.lastX, dy = e.clientY - sparks.lastY, kind = cursorStyle();
+  if(now - sparks.lastT < (kind === "embers" ? 40 : 28) || dx * dx + dy * dy < 64) return;
+  sparks.lastT = now; sparks.lastX = e.clientX; sparks.lastY = e.clientY;
+  if(sparks.list.length > 30) return;
+  const n = Math.random() < .35 ? 2 : 1;
+  for(let k = 0; k < n; k++){
+    const el = document.createElement("div"), c = pickOne(WARM);
+    const p = { el, kind, x: e.clientX + (Math.random() - .5) * 14, y: e.clientY + (Math.random() - .5) * 14, rot: Math.random() * 360, born: now };
+    if(kind === "glitter"){
+      el.className = "spark";
+      el.innerHTML = `<svg viewBox="-10 -10 20 20"><path d="M0-10C1-2 2-1 10 0 2 1 1 2 0 10-1 2-2 1-10 0-2-1-1-2 0-10Z" fill="${c}" style="filter:drop-shadow(0 0 2px rgba(255,110,40,.75)) drop-shadow(0 0 1px rgba(120,0,0,.3))"/></svg>`;
+      Object.assign(p, { vx: (Math.random() - .5) * .5, vy: .25 + Math.random() * .55, vr: (Math.random() - .5) * 6, s: .45 + Math.random() * .75, life: 650 + Math.random() * 450 });
+    } else if(kind === "embers"){
+      el.className = "ember"; const d = 3 + Math.random() * 4;
+      el.style.cssText = `width:${d}px;height:${d}px;margin:${-d/2}px 0 0 ${-d/2}px;background:${c};box-shadow:0 0 ${4 + d * 1.6}px ${1 + d * .4}px ${c}cc`;
+      Object.assign(p, { vx: (Math.random() - .5) * .4, vy: -(.35 + Math.random() * .6), vr: 0, s: 1, sway: Math.random() * 6.28, life: 1100 + Math.random() * 800 });
+    } else {
+      el.className = "confetti"; el.style.background = c;
+      Object.assign(p, { vx: (Math.random() - .5) * 1.6, vy: -(.6 + Math.random() * 1.2), vr: (Math.random() - .5) * 10, s: .7 + Math.random() * .6, flip: Math.random() * 6.28, life: 1100 + Math.random() * 500 });
+    }
+    fxBox().appendChild(el); sparks.list.push(p);
+  }
+  if(!sparks.running){ sparks.running = true; requestAnimationFrame(sparkLoop); }
+}, { passive: true });
+function sparkLoop(t){
+  sparks.list = sparks.list.filter(p => {
+    const a = (t - p.born) / p.life;
+    if(a >= 1 || !sparkOn()){ p.el.remove(); return false; }
+    let sc = p.s, op = 1 - a * a, extra = "";
+    if(p.kind === "glitter"){
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      sc = Math.max(0, p.s * (a < .15 ? a / .15 : 1 - (a - .15) * .7) * (.75 + .25 * Math.sin((t - p.born) / 60)));
+    } else if(p.kind === "embers"){
+      p.sway += .08; p.x += p.vx + Math.sin(p.sway) * .35; p.y += p.vy; p.vy *= .995;
+      sc = 1 - a * .5; op = (a < .08 ? a / .08 : 1) * (1 - a * a) * (.8 + .2 * Math.sin((t - p.born) / 45));
+    } else {
+      p.vy += .045; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.flip += .18;
+      extra = ` scaleY(${Math.cos(p.flip).toFixed(2)})`; op = a > .7 ? 1 - (a - .7) / .3 : 1;
+    }
+    p.el.style.opacity = Math.max(0, op).toFixed(3);
+    p.el.style.transform = `translate3d(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px,0) rotate(${p.rot.toFixed(1)}deg) scale(${sc.toFixed(3)})${extra}`;
+    return true;
+  });
+  if(sparks.list.length) requestAnimationFrame(sparkLoop); else sparks.running = false;
+}
+/* ring + focus: one shape that follows the mouse with a soft delay */
+const follow = { el: null, dot: null, x: -100, y: -100, tx: -100, ty: -100, dx: -100, dy: -100, on: false, over: false, was: null, kind: "" };
+function followOn(){ return ["ring","focus","engagement"].includes(cursorStyle()) && fxMouse() && !$("#lb").classList.contains("open"); }
+addEventListener("mousemove", e => {
+  follow.tx = e.clientX; follow.ty = e.clientY;
+  const m = e.target.closest && e.target.closest("img,video");
+  follow.over = !!m;
+  if(m && follow.el && follow.kind === "focus"){
+    const all = [...document.querySelectorAll("#gallery img, #gallery video")];
+    const i = all.indexOf(m), em = follow.el.querySelector("em");
+    if(em) em.textContent = i >= 0 ? String(i + 1).padStart(2, "0") + " / " + String(all.length).padStart(2, "0") : "";
+  }
+  if(followOn() && !follow.on){ follow.on = true; follow.x = follow.dx = e.clientX; follow.y = follow.dy = e.clientY; requestAnimationFrame(followLoop); }
+}, { passive: true });
+function followLoop(){
+  const kind = cursorStyle();
+  if(!followOn()){ if(follow.el){ follow.el.remove(); follow.dot.remove(); follow.el = follow.dot = null; } follow.on = false; return; }
+  if(!follow.el || follow.kind !== kind){
+    if(follow.el){ follow.el.remove(); follow.dot.remove(); }
+    follow.kind = kind; follow.was = null;
+    follow.el = document.createElement("div"); follow.el.className = "fx-" + kind;
+    if(kind === "focus") follow.el.innerHTML = "<i></i><i></i><i></i><i></i><b>AF</b><em></em>";
+    if(kind === "engagement") follow.el.innerHTML = ENGAGEMENT_RING + `<svg class="gl" viewBox="-10 -10 20 20"><path d="M0-10C1-2 2-1 10 0 2 1 1 2 0 10-1 2-2 1-10 0-2-1-1-2 0-10Z" fill="#fff"/></svg>`;
+    follow.dot = document.createElement("div"); follow.dot.className = "fx-dot" + (kind === "engagement" ? " hide" : "");
+    document.body.append(follow.el, follow.dot);
+  }
+  follow.x += (follow.tx - follow.x) * (kind === "focus" ? .16 : .12); follow.y += (follow.ty - follow.y) * (kind === "focus" ? .16 : .12);
+  follow.dx += (follow.tx - follow.dx) * .5; follow.dy += (follow.ty - follow.dy) * .5;
+  if(follow.over !== follow.was){
+    follow.was = follow.over;
+    follow.el.classList.toggle("over", follow.over);
+    if(follow.over && kind === "focus"){ follow.el.classList.remove("lock"); void follow.el.offsetWidth; follow.el.classList.add("lock"); }
+  }
+  const swing = Math.max(-28, Math.min(28, (follow.tx - follow.x) * .35));
+  follow.rot = (follow.rot || 0) + (swing - (follow.rot || 0)) * .12;
+  follow.el.style.transform = `translate3d(${follow.x.toFixed(1)}px,${follow.y.toFixed(1)}px,0)` + (kind === "engagement" ? ` rotate(${follow.rot.toFixed(1)}deg)` : "");
+  follow.dot.style.transform = `translate3d(${follow.dx.toFixed(1)}px,${follow.dy.toFixed(1)}px,0)`;
+  requestAnimationFrame(followLoop);
+}
+
 
 
 /* ---------- readable menu: white over photos, black over white ---------- */
@@ -1169,7 +1895,7 @@ function descTone(){
 function headerTone(){
   descTone();
   for(const it of HDR_ITEMS()){
-    if(!it.offsetParent) continue;
+    if(!it.offsetParent && getComputedStyle(it).position !== "fixed") continue;
     const r = it.getBoundingClientRect();
     if(!r.width) continue;
     const dark = bgIsDark(r.left + Math.min(r.width / 2, 40), r.top + r.height / 2) || bgIsDark(r.left + r.width - 4, r.top + r.height / 2);
