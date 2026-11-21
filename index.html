@@ -925,9 +925,7 @@ function heroCaption(){
   const C = window.SITE || {}, X = (LANG === "it" && C.italian) || {};
   const v = typeof X.heroCaption === "string" && X.heroCaption.trim() ? X.heroCaption : C.heroCaption;
   const base = typeof v === "string" ? v.trim() : "";
-  const h = heroOf && heroOf(), who = h && !h.ph ? creditOf(h) : "";
-  if(!base) return "";
-  return who ? `${who} — ${base}` : base;
+  return base;
 }
 const noHero = () => !!(window.SITE && typeof window.SITE.hero === "string" && /^(none|empty|no)$/i.test(window.SITE.hero.trim()));
 function heroOf(){

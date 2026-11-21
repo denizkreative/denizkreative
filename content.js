@@ -14,7 +14,7 @@ window.SITE = {
   whatsapp: "+39 339 677 5515",                       // your WhatsApp number with country code, e.g. "+39 333 123 4567" — leave "" to hide
   basedIn: "Based in Bologna",
   hero: "editorial/03.jpg",
-  heroCaption: "photo by Deniz",                 // small credit on the home photo (the name of the person is added from "credits" below) — leave "" to hide
+  heroCaption: "Editorial — Photography by Deniz",   // small credit on the home photo — leave "" to hide
   // Who is in the photos: their name appears on the photo (and on the home photo). Add a line for each new person.
   credits: [
     { name: "Andrea & Cat", role: "Couple session", roleIT: "Servizio di coppia",
@@ -87,7 +87,7 @@ window.SITE = {
     basedIn: "Con base a Bologna",
     footerNote: "Con base a Bologna, disponibile in tutta Europa",
     tagline: "Sono Deniz, fotografa e videomaker a Bologna. Racconto coppie, elopement, editoriali e videoclip.\nIn pellicola e in digitale.",
-    heroCaption: "foto di Deniz",
+    heroCaption: "Editoriale — Fotografia di Deniz",
     about: "Ciao, sono Deniz! Sono fotografa e videomaker.\nMi ha sempre affascinato osservare le persone e i piccoli dettagli che spesso passano inosservati. Lavoro con coppie, brand e artisti, creando foto e video.\nScatto in pellicola e in digitale. Per me non si tratta solo di una bella foto, ma di catturare qualcosa che abbia un’emozione dietro.",
     categories: {
       "couples":      "Uno shooting divertente, romantico e cinematografico tra stradine affascinanti, librerie, caffè accoglienti o dove preferite voi. Con uno stile autentico ed editoriale, catturerò momenti naturali.",
