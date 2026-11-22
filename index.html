@@ -111,6 +111,44 @@ ul{list-style:none}
   html[data-header="stack"] .header .langs{flex-direction:column;align-items:flex-end;gap:6px}
   html[data-header="stack"] .header .infos > a,html[data-header="stack"] .header .langs > a{font-size:22px;line-height:1}
 }
+
+/* ---------- booking form (#book) ---------- */
+.book{position:relative;z-index:10;min-height:100vh;padding:calc(var(--m) * 2 + 120px) var(--m) 120px calc(var(--m) + var(--col)*2 + var(--g)*2);background:var(--white)}
+.book-intro{max-width:520px;font-size:var(--small);margin:0 0 40px}
+.book-form{max-width:760px;display:grid;grid-template-columns:1fr 1fr;gap:26px 34px}
+.book-form .full{grid-column:1 / -1}
+.bk-l{display:block;font:400 11px/1 "DM Mono",ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin:0 0 10px}
+.bk-l em{font-style:normal;color:#e0301e}
+.book-form input[type=text],.book-form input[type=email],.book-form input[type=tel],.book-form input[type=date],.book-form select,.book-form textarea{
+  width:100%;font:inherit;font-size:16px;letter-spacing:.01em;color:var(--black);background:transparent;border:0;border-bottom:1px solid rgba(0,0,0,.25);border-radius:0;padding:8px 0 10px;outline:none;transition:border-color .25s;-webkit-appearance:none;appearance:none}
+.book-form textarea{min-height:110px;resize:vertical;line-height:1.5}
+.book-form input:focus,.book-form select:focus,.book-form textarea:focus{border-bottom-color:#e0301e}
+.book-form select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23111' stroke-width='1.3'/%3E%3C/svg%3E") right 2px center no-repeat}
+.bk-types{display:flex;flex-wrap:wrap;gap:8px}
+.bk-types label{cursor:pointer}
+.bk-types input{position:absolute;opacity:0;pointer-events:none}
+.bk-types span{display:inline-block;padding:9px 14px;font-size:var(--small);letter-spacing:.04em;border:1px solid rgba(0,0,0,.25);transition:background .2s,border-color .2s}
+.bk-types input:checked + span{background:var(--pink);border-color:var(--pink)}
+.bk-types input:focus-visible + span{outline:2px solid #e0301e;outline-offset:2px}
+.bk-flex{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;cursor:pointer}
+.bk-flex input{accent-color:#e0301e;width:16px;height:16px}
+.bk-hp{position:absolute;left:-9999px;opacity:0}
+.bk-err{color:#c8102e;font-size:13px;margin:6px 0 0;min-height:0}
+.bk-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:6px}
+.bk-send{background:var(--black);color:var(--white);padding:16px 26px;font-size:var(--small);letter-spacing:.1em;border-radius:999px;transition:background .2s}
+.bk-send:hover{background:#e0301e}
+.bk-send[disabled]{opacity:.5;cursor:wait}
+.bk-wa{padding:15px 22px;font-size:var(--small);letter-spacing:.1em;border-radius:999px;border:1px solid var(--black);color:var(--black)}
+.bk-wa:hover{background:var(--pink);border-color:var(--pink)}
+.bk-note{font-size:12px;opacity:.55;margin-top:4px}
+.bk-done{max-width:560px;padding:40px 0}
+.bk-done h2{font-size:var(--big);line-height:1;margin:0 0 18px}
+.bk-done p{font-size:var(--small);line-height:1.5}
+@media (max-width:900px){
+  .book{padding:110px var(--m) calc(var(--tabh,64px) + 60px)}
+  .book-form{grid-template-columns:1fr;gap:22px}
+  .bk-actions{flex-direction:column;align-items:stretch} .bk-send,.bk-wa{text-align:center}
+}
 /* language switch */
 .langs{display:flex;align-items:baseline;gap:22px}
 .lang-switch{display:inline-flex;gap:4px;align-items:baseline;pointer-events:auto}
@@ -625,6 +663,7 @@ html[data-card]:not([data-card="tint"]) .project-card.card::after{opacity:0}
 .cs-note{opacity:.6}
 .cs-options{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .cs-opt{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--black);padding:13px 16px;font-size:var(--small);transition:background .2s,color .2s}
+.cs-opt.cs-book{background:var(--pink);border-color:var(--pink);color:var(--black)}
 @media (hover:hover){ a.cs-opt:hover{background:var(--black);color:var(--white)} }
 .cs-opt small{font-size:11px;text-transform:none;opacity:.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cs-mail{display:flex;gap:8px}
@@ -1084,11 +1123,97 @@ document.addEventListener("click", e => {
 }, true);
 $("#closeBtn").onclick = closeMenu;
 
+
+/* ---------- booking form ---------- */
+const BK = {
+  en: { title: "Book a shoot", intro: "Tell me a little about what you have in mind and I’ll reply within a day with availability and a tailored quote. No commitment.",
+    name: "Your name", email: "Email", phone: "WhatsApp / phone", type: "Type of shoot", date: "Preferred date", flexible: "My dates are flexible",
+    where: "Where", wherePh: "Bologna, Florence, Lake Como…", people: "How many people", find: "How did you find me?", msg: "Tell me more",
+    msgPh: "Your idea, the mood you love, the story behind the day…", send: "Send request", sending: "Sending…", wa: "Or send on WhatsApp",
+    note: "Your details are only used to reply to you.", required: "Please fill in your name and a valid email.", pickType: "Please choose a type of shoot.",
+    fail: "Something went wrong. Please try WhatsApp or email instead.", doneT: "Thank you!", doneP: "Your request is on its way. I’ll write you back within a day. If it’s urgent, message me on WhatsApp.",
+    types: ["Couples", "Elopement", "Engagement", "Editorial", "Music video", "Other"], finds: ["Instagram", "Google", "A friend", "Hotel / B&B", "Other"],
+    subj: "New booking request" },
+  it: { title: "Prenota uno shooting", intro: "Raccontami cosa hai in mente: ti rispondo entro un giorno con la disponibilità e un preventivo su misura. Senza impegno.",
+    name: "Il tuo nome", email: "Email", phone: "WhatsApp / telefono", type: "Tipo di servizio", date: "Data preferita", flexible: "Le mie date sono flessibili",
+    where: "Dove", wherePh: "Bologna, Firenze, Lago di Como…", people: "Quante persone", find: "Come mi hai trovata?", msg: "Raccontami di più",
+    msgPh: "La tua idea, l’atmosfera che ami, la storia dietro quel giorno…", send: "Invia richiesta", sending: "Invio…", wa: "Oppure scrivimi su WhatsApp",
+    note: "I tuoi dati servono solo per risponderti.", required: "Inserisci il tuo nome e un’email valida.", pickType: "Scegli il tipo di servizio.",
+    fail: "Qualcosa non ha funzionato. Scrivimi su WhatsApp o per email.", doneT: "Grazie!", doneP: "La tua richiesta è arrivata. Ti rispondo entro un giorno. Se è urgente, scrivimi su WhatsApp.",
+    types: ["Coppia", "Elopement", "Fidanzamento", "Editoriale", "Videoclip", "Altro"], finds: ["Instagram", "Google", "Un’amica / un amico", "Hotel / B&B", "Altro"],
+    subj: "Nuova richiesta di prenotazione" }
+};
+let bookPrefill = "";
+function pageBook(){
+  const t = BK[LANG] || BK.en;
+  const today = new Date().toISOString().slice(0, 10);
+  return `<section class="book"><p class="book-intro">${esc(t.intro)}</p>
+    <form class="book-form" id="bookForm" novalidate>
+      <div><label class="bk-l" for="bkName">${esc(t.name)} <em>*</em></label><input type="text" id="bkName" name="name" autocomplete="name" required></div>
+      <div><label class="bk-l" for="bkEmail">${esc(t.email)} <em>*</em></label><input type="email" id="bkEmail" name="email" autocomplete="email" required></div>
+      <div class="full"><span class="bk-l">${esc(t.type)} <em>*</em></span><div class="bk-types">${t.types.map((x, i) => `<label><input type="radio" name="type" value="${esc(BK.en.types[i])}" ${bookPrefill && bookPrefill.toLowerCase().startsWith(BK.en.types[i].toLowerCase().slice(0, 5)) ? "checked" : ""}><span>${esc(x)}</span></label>`).join("")}</div></div>
+      <div><label class="bk-l" for="bkDate">${esc(t.date)}</label><input type="date" id="bkDate" name="date" min="${today}"><label class="bk-flex"><input type="checkbox" name="flexible" value="yes"> ${esc(t.flexible)}</label></div>
+      <div><label class="bk-l" for="bkWhere">${esc(t.where)}</label><input type="text" id="bkWhere" name="where" placeholder="${esc(t.wherePh)}"></div>
+      <div><label class="bk-l" for="bkPhone">${esc(t.phone)}</label><input type="tel" id="bkPhone" name="phone" autocomplete="tel"></div>
+      <div><label class="bk-l" for="bkFind">${esc(t.find)}</label><select id="bkFind" name="found"><option value=""></option>${t.finds.map((x, i) => `<option value="${esc(BK.en.finds[i])}">${esc(x)}</option>`).join("")}</select></div>
+      <div class="full"><label class="bk-l" for="bkMsg">${esc(t.msg)}</label><textarea id="bkMsg" name="message" placeholder="${esc(t.msgPh)}"></textarea></div>
+      <input class="bk-hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="full"><p class="bk-err" id="bkErr" role="alert"></p>
+        <div class="bk-actions"><button type="submit" class="bk-send" id="bkSend">${esc(t.send).toUpperCase()} →</button>${waNumber() ? `<a class="bk-wa" id="bkWa" href="#">${esc(t.wa).toUpperCase()}</a>` : ""}</div>
+        <p class="bk-note">${esc(t.note)}</p></div>
+    </form></section>`;
+}
+function bookData(f){
+  const d = Object.fromEntries(new FormData(f).entries());
+  return { name: (d.name || "").trim(), email: (d.email || "").trim(), phone: (d.phone || "").trim(), type: d.type || "", date: d.date || "",
+    flexible: d.flexible ? "yes" : "no", where: (d.where || "").trim(), found: d.found || "", message: (d.message || "").trim(), _honey: d._honey || "" };
+}
+function initBook(){
+  const f = $("#bookForm"); if(!f) return;
+  const t = BK[LANG] || BK.en, err = $("#bkErr");
+  const check = d => {
+    if(!d.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) return t.required;
+    if(!d.type) return t.pickType; return "";
+  };
+  f.addEventListener("input", () => { err.textContent = ""; });
+  const wa = $("#bkWa");
+  if(wa) wa.onclick = e => {
+    e.preventDefault();
+    const d = bookData(f);
+    const lines = [`${t.subj} – DenizKreative`, d.name && `${t.name}: ${d.name}`, d.type && `${t.type}: ${d.type}`, d.date && `${t.date}: ${d.date}${d.flexible === "yes" ? " (flex)" : ""}`,
+      d.where && `${t.where}: ${d.where}`, d.message].filter(Boolean);
+    open(`https://wa.me/${waNumber()}?text=${encodeURIComponent(lines.join("\n"))}`, "_blank", "noopener");
+  };
+  f.addEventListener("submit", async e => {
+    e.preventDefault();
+    const d = bookData(f), problem = check(d);
+    if(problem){ err.textContent = problem; return; }
+    if(d._honey) return;
+    const btn = $("#bkSend"); btn.disabled = true; btn.textContent = t.sending.toUpperCase();
+    const to = (window.SITE && window.SITE.bookingEndpoint) || email();
+    try{
+      const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
+        method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ _subject: `${BK.en.subj}: ${d.type} – ${d.name}`, _template: "table", _captcha: "false", _replyto: d.email,
+          Name: d.name, Email: d.email, "WhatsApp / phone": d.phone, "Type of shoot": d.type, "Preferred date": d.date || "—", "Flexible dates": d.flexible,
+          Where: d.where || "—", "Found me via": d.found || "—", Message: d.message || "—", Language: LANG.toUpperCase() })
+      });
+      const j = await r.json().catch(() => ({}));
+      if(!r.ok || j.success === false || j.success === "false") throw new Error(j.message || r.status);
+      f.outerHTML = `<div class="bk-done"><h2>${esc(t.doneT).toUpperCase()}</h2><p>${esc(t.doneP)}</p></div>`;
+      scrollTo({ top: 0, behavior: "smooth" });
+    }catch(_){
+      err.textContent = t.fail; btn.disabled = false; btn.textContent = t.send.toUpperCase() + " →";
+    }
+  });
+}
+
 /* ---------- contact ---------- */
 const waNumber = () => String((window.SITE && window.SITE.whatsapp) || "").replace(/[^\d]/g, "");
 function openContact(subject){
   const opts = [];
   const msg = subject ? `${L("enquiry")}: ${subject}` : "";
+  opts.push(`<a class="cs-opt cs-book" href="#book" data-book="${esc(subject)}"><span>${esc((BK[LANG] || BK.en).title)} →</span><small>${LANG === "it" ? "modulo di prenotazione" : "booking form"}</small></a>`);
   if(waNumber()) opts.push(`<a class="cs-opt" href="https://wa.me/${waNumber()}${msg ? "?text=" + encodeURIComponent(msg) : ""}" target="_blank" rel="noopener noreferrer"><span>${L("whatsapp")}</span><small>+${waNumber()}</small></a>`);
   opts.push(`<a class="cs-opt" href="https://ig.me/m/${esc(igHandle())}" target="_blank" rel="noopener noreferrer"><span>${L("igDm")}</span><small>@${esc(igHandle())}</small></a>`);
   if(email()) opts.push(`<div class="cs-mail"><a class="cs-opt" href="mailto:${esc(email())}${msg ? "?subject=" + encodeURIComponent(msg) : ""}"><span>${L("emailMe")}</span><small>${esc(email())}</small></a><button class="cs-copy" id="csCopy">${L("copy")}</button></div>`);
@@ -1096,6 +1221,7 @@ function openContact(subject){
   $("#csText").textContent = L("talkText");
   $("#csNote").textContent = L("priceNote");
   $("#csOptions").innerHTML = opts.join("");
+  const bk = $("#csOptions .cs-book"); if(bk) bk.onclick = () => { bookPrefill = bk.dataset.book || ""; closeContact(); if(location.hash === "#book") render(); };
   const cp = $("#csCopy");
   if(cp) cp.onclick = async () => { try{ await navigator.clipboard.writeText(email()); cp.textContent = L("copied"); }catch(_){ cp.textContent = email(); } };
   $("#contactSheet").classList.add("open"); $("#contactSheet").setAttribute("aria-hidden", "false");
@@ -1953,7 +2079,7 @@ function render(keepScroll){
   preview.classList.remove("show");
   updateChrome();
   document.documentElement.classList.toggle("lock", !h && !isMobile());
-  setMenuText(cat ? cat.title : h === "services" ? L("services") : "");
+  setMenuText(cat ? cat.title : h === "services" ? L("services") : h === "book" ? (BK[LANG] || BK.en).title : "");
   if(cat){
     app.innerHTML = pageCategory(cat); initCategory(cat); initBounce(id); addBlossoms(cat.slug === "couples" ? "couples" : "none");
     document.title = `${cat.title} - ${DEFAULTS.name}`;
@@ -1963,6 +2089,9 @@ function render(keepScroll){
   } else if(h === "services"){
     app.innerHTML = pageServices(); initServices(); initBounce(id); addBlossoms("services");
     document.title = `${L("services")} - ${DEFAULTS.name}`;
+  } else if(h === "book"){
+    app.innerHTML = pageBook(); initBook(); addBlossoms("none");
+    document.title = `${(BK[LANG] || BK.en).title} - ${DEFAULTS.name}`;
   } else if(h === "works"){
     app.innerHTML = pageWorks(); addBlossoms("none");
     document.title = `Portfolio - ${DEFAULTS.name}`;
