@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+/* QR scans: the printed QR opens /#book directly, with no referrer -> count it via /qr/ */
+(function(){try{
+  var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  if(/[?&]q=1/.test(location.search)){ history.replaceState(null, "", location.pathname + "#book"); return; }
+  if(location.hash === "#book" && !document.referrer && !location.search && (!nav || nav.type === "navigate") && /^\/(index\.html)?$/.test(location.pathname)) location.replace("/qr/");
+}catch(e){}})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DenizKreative - Photographer and Videomaker</title>
 <meta name="description" content="DenizKreative is a photographer and videomaker based in Bologna. Couples, elopements, editorial and music videos.">
@@ -1175,6 +1183,8 @@ function initBook(){
     if(!d.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) return t.required;
     if(!d.type) return t.pickType; return "";
   };
+  const done = () => { f.outerHTML = `<div class="bk-done"><h2>${esc(t.doneT).toUpperCase()}</h2><p>${esc(t.doneP)}</p></div>`; scrollTo({ top: 0, behavior: "smooth" }); };
+  if(/[?&]booked=1/.test(location.search)){ history.replaceState(null, "", location.pathname + "#book"); done(); return; }
   f.addEventListener("input", () => { err.textContent = ""; });
   const wa = $("#bkWa");
   if(wa) wa.onclick = e => {
@@ -1200,10 +1210,20 @@ function initBook(){
       });
       const j = await r.json().catch(() => ({}));
       if(!r.ok || j.success === false || j.success === "false") throw new Error(j.message || r.status);
-      f.outerHTML = `<div class="bk-done"><h2>${esc(t.doneT).toUpperCase()}</h2><p>${esc(t.doneP)}</p></div>`;
-      scrollTo({ top: 0, behavior: "smooth" });
+      done();
     }catch(_){
-      err.textContent = t.fail; btn.disabled = false; btn.textContent = t.send.toUpperCase() + " →";
+      /* backup: classic form post (also triggers FormSubmit activation) */
+      try{
+        const pf = document.createElement("form"); pf.method = "POST"; pf.action = `https://formsubmit.co/${encodeURIComponent(to)}`; pf.style.display = "none";
+        const add = (k, v) => { const i = document.createElement("input"); i.type = "hidden"; i.name = k; i.value = v == null ? "" : String(v); pf.appendChild(i); };
+        add("_subject", `${BK.en.subj}: ${d.type} – ${d.name}`); add("_template", "table"); add("_captcha", "false"); add("_replyto", d.email);
+        add("_next", location.origin + location.pathname + "?booked=1#book");
+        add("Name", d.name); add("Email", d.email); add("WhatsApp / phone", d.phone); add("Type of shoot", d.type); add("Preferred date", d.date || "—");
+        add("Flexible dates", d.flexible); add("Where", d.where || "—"); add("Found me via", d.found || "—"); add("Message", d.message || "—"); add("Language", LANG.toUpperCase());
+        document.body.appendChild(pf); pf.submit();
+      }catch(__){
+        err.textContent = t.fail; btn.disabled = false; btn.textContent = t.send.toUpperCase() + " →";
+      }
     }
   });
 }
@@ -2370,5 +2390,6 @@ function askLanguage(){
 loadPhotos().finally(() => go().then(askLanguage));
 
 </script>
+<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "f6c4f4c729974007b20ea870ab13ee84"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
