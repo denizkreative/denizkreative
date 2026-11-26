@@ -103,6 +103,13 @@ ul{list-style:none}
   html[data-header="tags"] .header .infos > a,html[data-header="tags"] .header .langs > a,html[data-header="tags"] .header .lang-switch,html[data-header="tags"] .header .home-link a{background:var(--pink);color:var(--black)!important;text-shadow:none!important;padding:6px 10px;margin-top:-6px;pointer-events:auto}
   html[data-header="tags"] .header .lang-switch .lang-btn,html[data-header="tags"] .header .lang-switch .lang-sep{color:var(--black)!important}
   html[data-header="tags"] .header .home-link a{margin-left:-10px}
+  /* tags: clean colour swap on hover instead of the text roll (the roll showed two words inside the pink tag) */
+  html[data-header="tags"] .header .infos > a,html[data-header="tags"] .header .langs > a,html[data-header="tags"] .header .home-link a{transition:background-color .3s ease,color .3s ease}
+  html[data-header="tags"] .header .link span{transition:none}
+  @media (hover:hover){
+    html[data-header="tags"] .header .link:hover span{transform:none}
+    html[data-header="tags"] .header .infos > a:hover,html[data-header="tags"] .header .langs > a:hover,html[data-header="tags"] .header .home-link a:hover{background:var(--black)!important;color:var(--pink)!important}
+  }
   html[data-header="rule"] .header .infos{position:relative;padding-bottom:9px}
   html[data-header="rule"] .header .infos::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:#e0301e;pointer-events:none}
   html[data-header="rule"] .header .home-link{border-bottom:1px solid #e0301e;padding-bottom:9px;height:fit-content}
