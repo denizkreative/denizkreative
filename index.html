@@ -687,15 +687,21 @@ html[data-card]:not([data-card="tint"]) .project-card.card::after{opacity:0}
 .svc .price{font-size:var(--small);opacity:.6}
 .svc-cta .cta-btn,.reviews .cta-btn{display:inline-block;margin-top:8px;background:var(--white);color:var(--black);padding:12px 18px;border-radius:999px;font-size:12px;letter-spacing:.12em;pointer-events:auto}
 /* reviews */
-.reviews{position:relative;z-index:10;background:var(--white);padding:110px var(--m) 48px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;font-family:"DM Mono",ui-monospace,Menlo,monospace}
+.reviews{position:relative;z-index:10;background:var(--white);padding:110px var(--m) 56px;display:flex;flex-direction:column;align-items:center;gap:28px;font-family:"DM Mono",ui-monospace,Menlo,monospace}
 .reviews .label{font-size:11px;letter-spacing:.14em;opacity:.5}
-.review{max-width:600px;display:flex;flex-direction:column;align-items:center;gap:14px}
-.rv-title{font-size:16px;line-height:1.35;letter-spacing:.04em;font-weight:400}
-.review blockquote{font-size:12.5px;line-height:1.75;text-transform:none;letter-spacing:0;max-width:520px}
-.review cite{display:flex;flex-direction:column;gap:4px;font-style:normal;font-size:11px;letter-spacing:.08em}
-.review cite span{opacity:.55;font-size:10px}
+.rv-grid{width:100%;max-width:1040px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:stretch}
+.review{position:relative;margin:0;background:#fff;border:1px solid rgba(0,0,0,.08);padding:64px 30px 26px;display:flex;flex-direction:column;gap:16px;text-align:left}
+.review::before{content:"\201C";position:absolute;top:14px;left:26px;font-family:Georgia,"Times New Roman",serif;font-size:72px;line-height:1;color:var(--pink)}
+.rv-top{position:absolute;top:30px;right:30px;display:flex;align-items:center;gap:12px}
+.rv-stars{color:var(--pink);letter-spacing:.12em;font-size:16px;font-family:-apple-system,"Segoe UI",Arial,sans-serif}
+.rv-src{font-size:9.5px;letter-spacing:.14em;opacity:.5;text-transform:uppercase}
+.rv-title{font-size:14px;line-height:1.4;letter-spacing:.04em;font-weight:400;text-transform:uppercase}
+.review blockquote{margin:0;font-size:12.5px;line-height:1.8;text-transform:none;letter-spacing:0}
+.review cite{margin-top:auto;display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-top:1px solid rgba(0,0,0,.08);padding-top:14px}
+.review cite b{font-weight:400}
+.review cite span{opacity:.5;font-size:10px}
 .reviews .cta-btn{background:var(--black);color:var(--white)}
-@media (max-width:900px){ .reviews{padding:64px var(--m) 32px} .rv-title{font-size:15px} .review blockquote{font-size:12px} }
+@media (max-width:900px){ .reviews{padding:64px var(--m) 36px} .review{padding:30px 22px 22px} .review blockquote{font-size:12px} }
 /* description over photos: readable */
 .p-desc.lt{color:#fff;mix-blend-mode:normal;text-shadow:0 1px 10px rgba(0,0,0,.6),0 0 2px rgba(0,0,0,.4)}
 .p-desc.dk{color:var(--black);mix-blend-mode:normal}
@@ -1491,10 +1497,10 @@ function pageAbout(){
 function reviewsHTML(){
   const C = window.SITE || {};
   const pick = (r, k) => (LANG === "it" && r[k + "IT"] && r[k + "IT"].trim()) ? r[k + "IT"] : (r[k] || "");
-  const list = (C.reviews || []).map(r => ({ title: pick(r, "title"), text: pick(r, "text"), name: r.name || "", about: pick(r, "about") })).filter(r => r.text && r.text.trim());
+  const list = (C.reviews || []).map(r => ({ title: pick(r, "title"), text: pick(r, "text"), name: r.name || "", about: pick(r, "about"), stars: +r.stars || 0, source: r.source || "" })).filter(r => r.text && r.text.trim());
   if(!list.length) return "";
-  return `<section class="reviews"><p class="label">${L("kind")}</p>
-    ${list.map(r => `<figure class="review">${r.title ? `<p class="rv-title">“${esc(r.title.trim())}”</p>` : ""}<blockquote>${esc(r.text.trim())}</blockquote>${r.name ? `<cite>${esc(r.name)}${r.about ? `<span>${esc(r.about)}</span>` : ""}</cite>` : ""}</figure>`).join("")}</section>`;
+  return `<section class="reviews"><p class="label">${L("kind")}</p><div class="rv-grid">
+    ${list.map(r => `<figure class="review">${(r.stars || r.source) ? `<div class="rv-top">${r.source ? `<span class="rv-src">${esc(r.source)}</span>` : ""}${r.stars ? `<span class="rv-stars" aria-label="${r.stars} stars">${"★".repeat(Math.min(5, r.stars))}</span>` : ""}</div>` : ""}${r.title ? `<p class="rv-title">${esc(r.title.trim())}</p>` : ""}<blockquote>${esc(r.text.trim())}</blockquote>${r.name ? `<cite><b>${esc(r.name)}</b>${r.about ? `<span>${esc(r.about)}</span>` : ""}</cite>` : ""}</figure>`).join("")}</div></section>`;
 }
 function pageServices(){
   const rows = SERVICES.map((s, k) => `
