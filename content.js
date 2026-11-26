@@ -70,6 +70,13 @@ window.SITE = {
   // text = English, textIT = Italian, name = who wrote it.
   reviews: [
     {
+      title:   "",
+      text:    "We had an amazing time with deniz! She was so professional she had the locations planned and made day of adjustments for rain. She did such a good job of giving helpful prompts for posing. We are so happy with our pictures! An absolute must if you want pictures on your travels. She is the best!",
+      name:    "McKayla",
+      about:   "Couple & family photoshoot · November 2026",
+      aboutIT: "Shooting di coppia e famiglia · Novembre 2026"
+    },
+    {
       title:   "My Memorable Experience in Bologna!",
       titleIT: "Un’esperienza indimenticabile a Bologna!",
       text:    "Deniz's photoshoot was a unique way to explore Bologna. After we met, she took time to understand our goals in the photoshoot. She was fun, professional and we ended up with a number of great photos to remember our first night in this new city. As a person who takes numerous pictures on trips, but is rarely represented in them, I appreciated her skill in capturing photos of me and my good memories in many different locations within Central Bologna. Highly recommended experience!",
