@@ -151,5 +151,37 @@ window.PHOTOS = [
 {
 "cat": "couples",
 "name": "18.jpg"
+},
+{
+"cat": "couples",
+"name": "19.jpg"
+},
+{
+"cat": "couples",
+"name": "20.jpg"
+},
+{
+"cat": "couples",
+"name": "21.jpg"
+},
+{
+"cat": "couples",
+"name": "22.jpg"
+},
+{
+"cat": "couples",
+"name": "23.jpg"
+},
+{
+"cat": "couples",
+"name": "24.jpg"
+},
+{
+"cat": "couples",
+"name": "25.jpg"
+},
+{
+"cat": "couples",
+"name": "26.jpg"
 }
 ];

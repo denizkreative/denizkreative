@@ -21,6 +21,8 @@ window.SITE = {
       photos: ["couples/04-cover.jpg", "couples/01.jpg", "couples/02.jpg", "couples/03.jpg", "couples/05.jpg", "couples/06.jpg", "couples/07.jpg", "couples/12.jpg", "couples/13.jpg", "couples/14.jpg", "couples/18.jpg"] },
     { name: "Tal & Gal", role: "Couple session", roleIT: "Servizio di coppia",
       photos: ["couples/08.jpg", "couples/09.jpg", "couples/10.jpg", "couples/11.jpg", "couples/15.jpg", "couples/16.jpg", "couples/17.jpg"] },
+    { name: "McKayla & Evan", role: "Couple session", roleIT: "Servizio di coppia",
+      photos: ["couples/19.jpg", "couples/20.jpg", "couples/21.jpg", "couples/22.jpg", "couples/23.jpg", "couples/24.jpg", "couples/25.jpg", "couples/26.jpg"] },
     { name: "Daria Ryzova", role: "Fashion designer & model", roleIT: "Stilista e modella",
       photos: ["editorial/01.jpg", "editorial/02-hero.jpg", "editorial/03.jpg", "editorial/04.jpg"] },
     { name: "Pepe", role: "Music artist", roleIT: "Artista musicale",
