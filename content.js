@@ -78,7 +78,6 @@ window.SITE = {
       name:    "McKayla",
       about:   "November 2026",
       aboutIT: "Novembre 2026",
-      source:  "Airbnb",
       stars:   5
     },
     {
@@ -86,7 +85,8 @@ window.SITE = {
       text:    "Deniz's photoshoot was a unique way to explore Bologna. After we met, she took time to understand our goals in the photoshoot. She was fun, professional and we ended up with a number of great photos to remember our first night in this new city. As a person who takes numerous pictures on trips, but is rarely represented in them, I appreciated her skill in capturing photos of me and my good memories in many different locations within Central Bologna. Highly recommended experience!",
       name:    "Patricia Hengel",
       about:   "Photoshoot in Bologna · October 2026",
-      aboutIT: "Shooting a Bologna · Ottobre 2026"
+      aboutIT: "Shooting a Bologna · Ottobre 2026",
+      stars:   5
     }
   ],
 
