@@ -69,7 +69,7 @@ window.SITE = {
   // Client reviews (shown on Couples & Elopements and Services). Leave text "" to hide.
   // text = English, textIT = Italian, name = who wrote it.
   // Link under the reviews ("" to hide)
-  reviewsLink: "https://www.airbnb.com/services/7310873",
+  reviewsLink: "",
 
   reviews: [
     {
